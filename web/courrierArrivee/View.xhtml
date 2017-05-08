@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CourrierArriveeViewDlg" widgetVar="CourrierArriveeViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCourrierArriveeTitle}">
+            <h:form id="CourrierArriveeViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{courrierArriveeController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_n_enregistrement}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.ViewCourrierArriveeTitle_n_enregistrement}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_dateEnregistrement}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.dateEnregistrement}" title="#{bundle.ViewCourrierArriveeTitle_dateEnregistrement}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_motsCle}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.motsCle}" title="#{bundle.ViewCourrierArriveeTitle_motsCle}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_objet}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.objet}" title="#{bundle.ViewCourrierArriveeTitle_objet}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_expediteurs}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.expediteurs}" title="#{bundle.ViewCourrierArriveeTitle_expediteurs}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_modeTraitement}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.modeTraitement}" title="#{bundle.ViewCourrierArriveeTitle_modeTraitement}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_codeA_V}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.codeA_V}" title="#{bundle.ViewCourrierArriveeTitle_codeA_V}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_detailCourrier}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.detailCourrier}" title="#{bundle.ViewCourrierArriveeTitle_detailCourrier}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_sousClasse}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.sousClasse}" title="#{bundle.ViewCourrierArriveeTitle_sousClasse}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="CourrierArriveeViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

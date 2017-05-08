@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CourrierProduitViewDlg" widgetVar="CourrierProduitViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCourrierProduitTitle}">
+            <h:form id="CourrierProduitViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{courrierProduitController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_n_dordre}"/>
+                        <h:outputText value="#{courrierProduitController.selected.n_dordre}" title="#{bundle.ViewCourrierProduitTitle_n_dordre}"/>
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_dateCreation}"/>
+                        <h:outputText value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.ViewCourrierProduitTitle_dateCreation}"/>
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_codeP_V}"/>
+                        <h:outputText value="#{courrierProduitController.selected.codeP_V}" title="#{bundle.ViewCourrierProduitTitle_codeP_V}"/>
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_objet}"/>
+                        <h:outputText value="#{courrierProduitController.selected.objet}" title="#{bundle.ViewCourrierProduitTitle_objet}"/>
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_finalite}"/>
+                        <h:outputText value="#{courrierProduitController.selected.finalite}" title="#{bundle.ViewCourrierProduitTitle_finalite}"/>
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_destinataiere}"/>
+                        <h:outputText value="#{courrierProduitController.selected.destinataiere}" title="#{bundle.ViewCourrierProduitTitle_destinataiere}"/>
+                        <h:outputText value="#{bundle.ViewCourrierProduitLabel_detailCourrier}"/>
+                        <h:outputText value="#{courrierProduitController.selected.detailCourrier}" title="#{bundle.ViewCourrierProduitTitle_detailCourrier}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="CourrierProduitViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SousClasseCreateDlg" widgetVar="SousClasseCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSousClasseTitle}">
+            <h:form id="SousClasseCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sousClasseController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSousClasseLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{sousClasseController.selected.id}" title="#{bundle.CreateSousClasseTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateSousClasseLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{sousClasseController.selected.nom}" title="#{bundle.CreateSousClasseTitle_nom}" />
+                        <p:outputLabel value="#{bundle.CreateSousClasseLabel_classe}" for="classe" />
+                        <p:selectOneMenu id="classe" value="#{sousClasseController.selected.classe}" >
+                            <f:selectItems value="#{classeController.itemsAvailableSelectOne}"
+                                           var="classeItem"
+                                           itemValue="#{classeItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sousClasseController.create}" value="#{bundle.Save}" update="display,:SousClasseListForm:datalist,:growl" oncomplete="handleSubmit(args,'SousClasseCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SousClasseCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
