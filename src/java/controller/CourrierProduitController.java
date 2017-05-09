@@ -1,11 +1,16 @@
 package controller;
 
 import bean.CourrierProduit;
+import bean.Destinataire;
+import bean.Finalite;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierProduitFacade;
+import service.FinaliteFacade;
+import service.DestinataireFacade;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,10 +32,63 @@ public class CourrierProduitController implements Serializable {
     private service.CourrierProduitFacade ejbFacade;
     private List<CourrierProduit> items = null;
     private CourrierProduit selected;
+    private Date dateMin;
+    private Date dateMax;
+    private String codeP_V;
+    private Finalite finalite;
+    private Destinataire destinataire;
+    
+    @EJB
+    private FinaliteFacade finaliteFacade;
+    @EJB
+    private DestinataireFacade destinataireFacade;
 
     public CourrierProduitController() {
     }
+      // getter & setter
+    
+    
+    public Destinataire getDestinataire() {
+        return destinataire;
+    }
 
+    public void setDestinataire(Destinataire destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    public Date getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(Date dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public Date getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(Date dateMax) {
+        this.dateMax = dateMax;
+    }
+
+    public String getCodeP_V() {
+        return codeP_V;
+    }
+
+    public void setCodeP_V(String codeP_V) {
+        this.codeP_V = codeP_V;
+    }
+
+    public Finalite getFinalite() {
+        return finalite;
+    }
+
+    public void setFinalite(Finalite finalite) {
+        this.finalite = finalite;
+    }
+
+    
     public CourrierProduit getSelected() {
         return selected;
     }
@@ -38,13 +96,45 @@ public class CourrierProduitController implements Serializable {
     public void setSelected(CourrierProduit selected) {
         this.selected = selected;
     }
-
+//  end getter & setter
+    
+    
     protected void setEmbeddableKeys() {
     }
 
     protected void initializeEmbeddableKey() {
     }
+    //methods 
+    
+    public List<Finalite> getFinalitesAvailableSelectOne() {
+        return finaliteFacade.findAll();
+    }
+    public List<Destinataire> getDestinatairesAvailableSelectOne() {
+        return destinataireFacade.findAll();
 
+    }
+    
+    private void findCourrierProduit(){
+        items = ejbFacade.findCourrierProduit(dateMin, dateMax, codeP_V,  finalite, destinataire);
+        if (items == null) {
+            JsfUtil.addSuccessMessage("No Data Found");
+        } else {
+            JsfUtil.addSuccessMessage("successe");
+        }
+    
+    }
+    
+//     public void prepareView() {
+//        selected = null;
+//        dateCreation = null;
+//        finalite = null;
+//        codeP_V = false;
+//        tauRetardFinished = false;
+//        tauxTaxeFinished = false;
+//        initializeEmbeddableKey();
+//    }
+//
+//    
     private CourrierProduitFacade getFacade() {
         return ejbFacade;
     }

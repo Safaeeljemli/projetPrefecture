@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCourrierProduitTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+                <p:tab title="Recherche">
+                    <div class="ui-grid">
+                        <div class="ui-grid-row">
+                            <p:fieldset legend="Recherche" style="margin-bottom:20px" >
+                                <h:form id="searchCourrierProduitForm">
+                                    <p:panelGrid>
+                                        <p:row>
+
+                                            <p:column styleClass="text-font">
+                                                <p:outputLabel value="Code P/V" for="code" />
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText id="code" value="#{courrierProduitController.codeP_V}" title="codeP/V" validatorMessage="Le numéro doit contenire que des Chiffres" />
+                                            </p:column>
+
+                                            <p:column styleClass="text-font">
+                                                <p:outputLabel value="Date Min:" for="dateMin" />
+                                            </p:column>
+                                            <p:column styleClass="text-font">
+                                                <p:calendar id="dateMin" value="#{courrierProduitController.dateMin}" navigator="true" pattern="dd/MM/yyyy " >
+                                                </p:calendar> 
+                                            </p:column>
+
+                                            <p:column styleClass="text-font">
+                                                <p:outputLabel value="Date Max:" for="dateMax" />
+                                            </p:column>
+                                            <p:column styleClass="text-font">
+                                                <p:calendar id="dateMax" value="#{courrierProduitController.dateMax}" navigator="true" pattern="dd/MM/yyyy " >
+                                                </p:calendar> 
+                                            </p:column>
+
+                                            <p:column styleClass="text-font">
+                                                <p:outputLabel value="Finalité" for="finalite" />
+                                            </p:column>
+                                            <p:column styleClass="text-font">
+                                                <p:selectOneMenu id="finalite"   value="#{courrierProduitController.finalite}" >
+                                                    <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                                    <f:selectItems value="#{courrierProduitController.finalitesAvailableSelectOne}" var="itemFinalite" itemValue="#{itemFinalite}" itemLabel="#{itemFinalite.nom}"/>
+                                                </p:selectOneMenu>
+                                            </p:column>
+
+                                            <p:column styleClass="text-font">
+                                                <p:outputLabel value="Destinataire" for="destinataire" />
+                                            </p:column>
+                                            <p:column styleClass="text-font">
+                                                <p:selectOneMenu id="destinataire"   value="#{courrierProduitController.destinataire}" >
+                                                    <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                                    <f:selectItems value="#{courrierProduitController.destinatairesAvailableSelectOne}" var="itemDestinataire" itemValue="#{itemDestinataire}" itemLabel="#{itemDestinataire.nom}"/>
+                                                </p:selectOneMenu>
+                                            </p:column>
+
+                                            <p:column styleClass="text-font">
+                                                <p:commandButton value="Search" actionListener="#{courrierProduitController.findCourrierProduit()}" update=":CourrierProduitListForm:datalist"></p:commandButton>
+                                            </p:column>
+
+                                        </p:row>
+                                    </p:panelGrid>
+                                </h:form>
+                            </p:fieldset>
+                        </div>
+                        <h:form id="CourrierProduitListForm">
+                            <p:panel header="#{bundle.ListCourrierProduitTitle}">
+                                <p:dataTable id="datalist" value="#{courrierProduitController.items}" var="item"
+                                             selectionMode="single" selection="#{courrierProduitController.selected}"
+                                             paginator="true"
+                                             rowKey="#{item.n_dordre}"
+                                             rows="10"
+                                             rowsPerPageTemplate="10,20,30,40,50"
+                                             >
+
+                                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_n_dordre}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.n_dordre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_dateCreation}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.dateCreation}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_codeP_V}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.codeP_V}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_objet}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.objet}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_finalite}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.finalite}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_destinataiere}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.destinataiere}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCourrierProduitTitle_detailCourrier}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.detailCourrier}"/>
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()"/>
+                                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" disabled="#{empty courrierProduitController.selected}"/>
+                                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CourrierProduitEditForm" oncomplete="PF('CourrierProduitEditDialog').show()" disabled="#{empty courrierProduitController.selected}"/>
+                                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{courrierProduitController.destroy}" update=":growl,datalist" disabled="#{empty courrierProduitController.selected}"/>
+                                    </f:facet>
+                                </p:dataTable>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                </p:tab>
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

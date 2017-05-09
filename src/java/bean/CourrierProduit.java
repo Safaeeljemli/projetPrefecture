@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -28,8 +29,10 @@ public class CourrierProduit implements Serializable {
     private Date dateCreation;
     private String codeP_V;
     private String objet;
-    private List<String> finalite;
-    private List<String> destinataiere;
+    @ManyToOne
+    private Finalite finalite;
+    @ManyToOne
+    private Destinataire destinataiere;
     @OneToOne
     private DetailCourrier detailCourrier;
 
@@ -65,21 +68,23 @@ public class CourrierProduit implements Serializable {
         this.objet = objet;
     }
 
-    public List<String> getFinalite() {
+    public Finalite getFinalite() {
         return finalite;
     }
 
-    public void setFinalite(List<String> finalite) {
+    public void setFinalite(Finalite finalite) {
         this.finalite = finalite;
     }
 
-    public List<String> getDestinataiere() {
+    public Destinataire getDestinataiere() {
         return destinataiere;
     }
 
-    public void setDestinataiere(List<String> destinataiere) {
+    public void setDestinataiere(Destinataire destinataiere) {
         this.destinataiere = destinataiere;
     }
+
+  
 
     public DetailCourrier getDetailCourrier() {
         return detailCourrier;

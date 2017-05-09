@@ -1,11 +1,16 @@
 package controller;
 
 import bean.CourrierArrivee;
+import bean.Expediteur;
+import bean.ModeTraitement;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierArriveeFacade;
+import service.ExpediteurFacade;
+import service.ModeTraitementFacade;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,10 +32,65 @@ public class CourrierArriveeController implements Serializable {
     private service.CourrierArriveeFacade ejbFacade;
     private List<CourrierArrivee> items = null;
     private CourrierArrivee selected;
-
+    
+    private Date dateMin;
+    private Date dateMax;
+    private String codeP_V;
+    private Expediteur expediteur;
+    private ModeTraitement modeTraitement;
+    
+    @EJB
+    private ExpediteurFacade expediteurFacade;
+    @EJB
+    private ModeTraitementFacade modeTraitementFacade;
+            
     public CourrierArriveeController() {
     }
+    
+    // getter & setter
 
+    public Date getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(Date dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public Date getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(Date dateMax) {
+        this.dateMax = dateMax;
+    }
+
+    public String getCodeP_V() {
+        return codeP_V;
+    }
+
+    public void setCodeP_V(String codeP_V) {
+        this.codeP_V = codeP_V;
+    }
+
+    public Expediteur getExpediteur() {
+        return expediteur;
+    }
+
+    public void setExpediteur(Expediteur expediteur) {
+        this.expediteur = expediteur;
+    }
+
+    public ModeTraitement getModeTraitement() {
+        return modeTraitement;
+    }
+
+    public void setModeTraitement(ModeTraitement modeTraitement) {
+        this.modeTraitement = modeTraitement;
+    }
+    
+    
+    
     public CourrierArrivee getSelected() {
         return selected;
     }
@@ -38,17 +98,38 @@ public class CourrierArriveeController implements Serializable {
     public void setSelected(CourrierArrivee selected) {
         this.selected = selected;
     }
-
+     // end getter & setter
     protected void setEmbeddableKeys() {
     }
 
     protected void initializeEmbeddableKey() {
     }
+    
+    //methods 
+    
+    public List<Expediteur> getExpediteursAvailableSelectOne() {
+        return expediteurFacade.findAll();
+    }
+    public List<ModeTraitement> getModeTraitementsAvailableSelectOne() {
+        return modeTraitementFacade.findAll();
 
+    }
+    
+    private void findCourrierArrivee(){
+        items = ejbFacade.findCourrierArrivee(dateMin, dateMax, codeP_V,  expediteur, modeTraitement);
+        if (items == null) {
+            JsfUtil.addSuccessMessage("No Data Found");
+        } else {
+            JsfUtil.addSuccessMessage("successe");
+        }
+    
+    }
+    
     private CourrierArriveeFacade getFacade() {
         return ejbFacade;
     }
-
+   
+    
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();

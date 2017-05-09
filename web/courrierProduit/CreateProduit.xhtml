@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:composition>
+            <ui:define name="title">
+                <h:outputText value="CReate"></h:outputText>
+            </ui:define>
+
+            <div class="ui-grid ui-grid-responsive margFields">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <p:fieldset legend="Courrier" style="height: 250px  !important"> 
+                            <h:form id="CourrierCreateProduitForm">
+                                <h:panelGroup id="display">
+                                    <p:panelGrid columns="2" >
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateCreation}" for="dateCreation" />
+                                        <p:inputText id="dateCreation" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.CreateCourrierProduitTitle_dateCreation}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_codeP_V}" for="codeP_V" />
+                                        <p:inputText id="codeP_V" value="#{courrierProduitController.selected.codeP_V}" title="#{bundle.CreateCourrierProduitTitle_codeP_V}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_objet}" for="objet" />
+                                        <p:inputText id="objet" value="#{courrierProduitController.selected.objet}" title="#{bundle.CreateCourrierProduitTitle_objet}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_finalite}" for="finalite" />
+                                        <p:inputText id="finalite" value="#{courrierProduitController.selected.finalite}" title="#{bundle.CreateCourrierProduitTitle_finalite}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_destinataiere}" for="destinataiere" />
+                                        <p:inputText id="destinataiere" value="#{courrierProduitController.selected.destinataiere}" title="#{bundle.CreateCourrierProduitTitle_destinataiere}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_detailCourrier}" for="detailCourrier" />
+                                        <p:selectOneMenu id="detailCourrier" value="#{courrierProduitController.selected.detailCourrier}" >
+                                            <f:selectItems value="#{detailCourrierController.itemsAvailableSelectOne}" var="detailCourrierItem" itemValue="#{detailCourrierItem}"/>
+                                        </p:selectOneMenu>
+                                    </p:panelGrid>
+                                    <p:commandButton  actionListener="#{courrierProduitController.create}" value="#{bundle.Save}" />
+                                </h:panelGroup>
+                            </h:form>
+                        </p:fieldset>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </ui:composition>
+    </ui:composition>
+</html>

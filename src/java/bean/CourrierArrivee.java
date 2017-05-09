@@ -30,13 +30,15 @@ public class CourrierArrivee implements Serializable {
     private String motsCle;
     private String codeA_V;
     private String objet;
-    private List<String> expediteurs;
-    private List<String> modeTraitement;
+    @ManyToOne
+    private Expediteur expediteurs;
+    @ManyToOne
+    private ModeTraitement modeTraitement;
     @OneToOne
     private DetailCourrier detailCourrier;
     @ManyToOne
     private SousClasse sousClasse;
-    
+
     public Long getN_enregistrement() {
         return n_enregistrement;
     }
@@ -69,20 +71,19 @@ public class CourrierArrivee implements Serializable {
         this.objet = objet;
     }
 
-
-    public List<String> getExpediteurs() {
+    public Expediteur getExpediteurs() {
         return expediteurs;
     }
 
-    public void setExpediteurs(List<String> expediteurs) {
+    public void setExpediteurs(Expediteur expediteurs) {
         this.expediteurs = expediteurs;
     }
 
-    public List<String> getModeTraitement() {
+    public ModeTraitement getModeTraitement() {
         return modeTraitement;
     }
 
-    public void setModeTraitement(List<String> modeTraitement) {
+    public void setModeTraitement(ModeTraitement modeTraitement) {
         this.modeTraitement = modeTraitement;
     }
 
@@ -109,7 +110,6 @@ public class CourrierArrivee implements Serializable {
     public void setSousClasse(SousClasse sousClasse) {
         this.sousClasse = sousClasse;
     }
-    
 
     @Override
     public int hashCode() {
