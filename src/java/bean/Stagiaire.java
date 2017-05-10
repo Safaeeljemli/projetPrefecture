@@ -6,12 +6,13 @@
 package bean;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -29,7 +30,9 @@ public class Stagiaire implements Serializable {
     private String cin;
     private String mail;
     private Long numTel;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebut;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFin;
     @ManyToOne
     private Ecole ecoleStagiaire;
@@ -56,6 +59,14 @@ public class Stagiaire implements Serializable {
 
     public void setPrenom(String prenom) {
         this.prenom = prenom;
+    }
+
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
     }
 
     public String getCin() {

@@ -1,11 +1,17 @@
 package controller;
 
+import bean.Departement;
+import bean.Ecole;
+import bean.Employee;
 import bean.Stagiaire;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import controller.util.SessionUtil;
+import java.io.IOException;
 import service.StagiaireFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,15 +24,30 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import net.sf.jasperreports.engine.JRException;
 
 @Named("stagiaireController")
 @SessionScoped
 public class StagiaireController implements Serializable {
 
-    @EJB
+   @EJB
     private service.StagiaireFacade ejbFacade;
-    private List<Stagiaire> items = null;
+    @EJB
+    private service.EcoleFacade ecoleFacade;
+    @EJB
+    private service.DepartementFacade depatementFacade;
+    @EJB
+    private service.EmployeeFacade employeeFacade;
+
+    private List<Stagiaire> items;
     private Stagiaire selected;
+    //recherche Stagiaire
+    private int typeStage;
+    private Ecole ecole;
+    private Date dateDebut;
+    private Date dateFin;
+    private Employee encadrant;
+    private Departement thisDepartement;
 
     public StagiaireController() {
     }
@@ -81,6 +102,61 @@ public class StagiaireController implements Serializable {
         return items;
     }
 
+   
+ public void refresh() {
+        selected = null;
+        items = null;
+    }
+    public int getTypeStage() {
+        return typeStage;
+    }
+
+    public void setTypeStage(int typeStage) {
+        this.typeStage = typeStage;
+    }
+
+    public Ecole getEcole() {
+        return ecole;
+    }
+
+    public void setEcole(Ecole ecole) {
+        this.ecole = ecole;
+    }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+   
+    public Employee getEncadrant() {
+        return encadrant;
+    }
+
+    public void setEncadrant(Employee encadrant) {
+        this.encadrant = encadrant;
+    }
+
+    public Departement getThisDepartement() {
+        return thisDepartement;
+    }
+
+    public void setThisDepartement(Departement thisDepartement) {
+        this.thisDepartement = thisDepartement;
+    }
+    
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -117,9 +193,44 @@ public class StagiaireController implements Serializable {
         return getFacade().findAll();
     }
 
-    public List<Stagiaire> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    public List<Ecole> getEcolesAvailableSelectOne() {
+        return ecoleFacade.findAll();
     }
+    
+
+    public void findEncadrentByDepartement() {
+        try {
+            getThisDepartement().setEmployees(employeeFacade.findEncadrentByDepartement(thisDepartement));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("veiller choisire une departement");
+        }
+    }
+    public List<Departement> findDepartement() {
+        return depatementFacade.findAll();
+    }
+
+
+    //recherche dial Stagiaire
+
+   public void findStagiaire() {
+        System.out.println(":: search :: ");
+items =getFacade().findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
+//items =ejbFacade.findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
+        if (items == null) {
+            JsfUtil.addSuccessMessage("No Data Found");
+            System.out.println("items null");
+        } else {
+            JsfUtil.addSuccessMessage("successe");
+            System.out.println("success");
+        }
+    }
+   ///pdf
+//    public void generatPdf(Stagiaire stagiaire) throws JRException, IOException {
+//        System.out.println("print pdf controller");
+//        ejbFacade.printPdf(stagiaire,SessionUtil.getConnectedUser());
+//        FacesContext.getCurrentInstance().responseComplete();
+//    }
+
 
     @FacesConverter(forClass = Stagiaire.class)
     public static class StagiaireControllerConverter implements Converter {

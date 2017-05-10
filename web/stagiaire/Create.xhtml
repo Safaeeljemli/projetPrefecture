@@ -4,14 +4,15 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition>
 
         <p:dialog id="StagiaireCreateDlg" widgetVar="StagiaireCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateStagiaireTitle}">
             <h:form id="StagiaireCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{stagiaireController.selected != null}">
+                    <b:panelGrid columns="2" rendered="#{stagiaireController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateStagiaireLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{stagiaireController.selected.nom}" title="#{bundle.CreateStagiaireTitle_nom}" />
                         <p:outputLabel value="#{bundle.CreateStagiaireLabel_prenom}" for="prenom" />
@@ -52,7 +53,7 @@
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateStagiaireLabel_id}" for="id" />
                         <p:inputText id="id" value="#{stagiaireController.selected.id}" title="#{bundle.CreateStagiaireTitle_id}" />
-                    </p:panelGrid>
+                    </b:panelGrid>
                     <p:commandButton actionListener="#{stagiaireController.create}" value="#{bundle.Save}" update="display,:StagiaireListForm:datalist,:growl" oncomplete="handleSubmit(args,'StagiaireCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="StagiaireCreateDialog.hide()"/>
                 </h:panelGroup>

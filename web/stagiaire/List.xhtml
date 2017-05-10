@@ -4,9 +4,11 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="/template.xhtml">
+
 
 
         <ui:define name="title">
@@ -15,98 +17,157 @@
 
         <ui:define name="body">
             <h:form id="StagiaireListForm">
-                <p:panel header="#{bundle.ListStagiaireTitle}">
-                    <p:dataTable id="datalist" value="#{stagiaireController.items}" var="item"
-                                 selectionMode="single" selection="#{stagiaireController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+
+                <b:panel title="Rechercher des Stagiaires par différents" class="panel-primary"  >
+                    <b:panelGrid columns="6" >
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Ecole" for="ecole" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="ecole"   value="#{stagiaireController.ecole}" >
+                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                <f:selectItems value="#{stagiaireController.ecolesAvailableSelectOne}" var="itemEcole" itemValue="#{itemEcole}" itemLabel="#{itemEcole.nom}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Type de Stage:" for="typeStage" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="typeStage" value="#{stagiaireController.typeStage}" >
+                                <f:selectItem itemValue="0" itemLabel="Tous"/>
+                                <f:selectItem itemValue="1" itemLabel="Normal"/>
+                                <f:selectItem itemValue="2" itemLabel="Alternée"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Debut" for="dateDebut" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateDebut" value="#{stagiaireController.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar>
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Fin:" for="dateFin" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateFin" value="#{stagiaireController.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Département" for="departement" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="departement"   value="#{stagiaireController.thisDepartement}" >
+                                <p:ajax listener="#{stagiaireController.findEncadrentByDepartement()}"  update="Encadrant" />
+                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                <f:selectItems value="#{stagiaireController.findDepartement()}" var="itemDepartement" itemValue="#{itemDepartement}" itemLabel="#{itemDepartement.nom}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Encadrant" for="Encadrant" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="Encadrant"   value="#{stagiaireController.encadrant}" >
+                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                <f:selectItems value="#{stagiaireController.thisDepartement.employees}" var="itemEmployee" itemValue="#{itemEmployee}" itemLabel="#{itemEmployee.nom}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        
+                        
+                    </b:panelGrid>
+                    <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
+                        <br></br>
+
+                      <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{stagiaireController.findStagiaire()}" update="datalist"></b:commandButton>
+                       <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{stagiaireController.refresh()}" update="StagiaireListForm"></b:commandButton>
+                    </div>
+                </b:panel>
+
+                <b:panel title=" Stagiaires " class="panel-primary"  >
+                    <div align="center">
+                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{stagiaireController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('StagiaireCreateDialog').show()" />
+                    </div>
+                    <b:dataTable id="datalist" value="#{stagiaireController.items}" var="item"
+                                 selectionMode="single" 
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <p:column>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListStagiaireTitle_nom}"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListStagiaireTitle_prenom}"/>
                             </f:facet>
                             <h:outputText value="#{item.prenom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_cin}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cin}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListStagiaireTitle_cin}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cin}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListStagiaireTitle_mail}"/>
                             </f:facet>
                             <h:outputText value="#{item.mail}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListStagiaireTitle_numTel}"/>
                             </f:facet>
                             <h:outputText value="#{item.numTel}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListStagiaireTitle_dateDebut}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateDebut}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_dateFin}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dateFin}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_ecoleStagiaire}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ecoleStagiaire}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_domaine}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.domaine}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_encadrant}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.encadrant}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_stage}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.stage}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStagiaireTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
+                            <h:outputText value="#{item.dateDebut}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListStagiaireTitle_dateFin}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateFin}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListStagiaireTitle_ecoleStagiaire}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.ecoleStagiaire}"/>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListStagiaireTitle_domaine}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.domaine}"/>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListStagiaireTitle_encadrant}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.encadrant}"/>
+
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListStagiaireTitle_stage}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.stage}"/>
+                                 <f:facet name="header">
+                                    <h:outputText value="Option"/>
+                                </f:facet>
+                               
+                                <p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="#{taxeAnnuelBoissonController.generatPdf(item)}" ajax="false"/>
+             
+                        </b:dataTableColumn>
+
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{stagiaireController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('StagiaireCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":StagiaireViewForm" oncomplete="PF('StagiaireViewDialog').show()" disabled="#{empty stagiaireController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":StagiaireEditForm" oncomplete="PF('StagiaireEditDialog').show()" disabled="#{empty stagiaireController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{stagiaireController.destroy}" update=":growl,datalist" disabled="#{empty stagiaireController.selected}"/>
                         </f:facet>
-                    </p:dataTable>
-                </p:panel>
+
+                    </b:dataTable>
+                </b:panel>
+
             </h:form>
 
             <ui:include src="Create.xhtml"/>

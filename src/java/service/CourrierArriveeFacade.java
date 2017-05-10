@@ -6,7 +6,6 @@
 package service;
 
 import bean.CourrierArrivee;
-import static bean.CourrierProduit_.finalite;
 import bean.Expediteur;
 import bean.ModeTraitement;
 import controller.util.SearchUtil;
