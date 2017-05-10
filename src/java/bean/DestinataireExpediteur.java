@@ -18,15 +18,29 @@ import javax.persistence.OneToMany;
  * @author safa
  */
 @Entity
-public class Expediteur implements Serializable {
+public class DestinataireExpediteur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nom;
-    @OneToMany(mappedBy = "expediteurs")
+    @OneToMany(mappedBy = "destinataireExpediteur")
     private List<CourrierArrivee> courrierArrivees;
+    @OneToMany(mappedBy = "destinataireExpediteur")
+    private List<CourrierProduit> courrierProduits;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public List<CourrierProduit> getCourrierProduits() {
+        return courrierProduits;
+    }
+
+    public void setCourrierProduits(List<CourrierProduit> courrierProduits) {
+        this.courrierProduits = courrierProduits;
+    }
 
     public List<CourrierArrivee> getCourrierArrivees() {
         return courrierArrivees;
@@ -34,10 +48,6 @@ public class Expediteur implements Serializable {
 
     public void setCourrierArrivees(List<CourrierArrivee> courrierArrivees) {
         this.courrierArrivees = courrierArrivees;
-    }
-
-    public String getNom() {
-        return nom;
     }
 
     public void setNom(String nom) {
@@ -62,10 +72,10 @@ public class Expediteur implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Expediteur)) {
+        if (!(object instanceof DestinataireExpediteur)) {
             return false;
         }
-        Expediteur other = (Expediteur) object;
+        DestinataireExpediteur other = (DestinataireExpediteur) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -74,7 +84,7 @@ public class Expediteur implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Expediteur[ id=" + id + " ]";
+        return "bean.Destinataire[ id=" + id + " ]";
     }
 
 }

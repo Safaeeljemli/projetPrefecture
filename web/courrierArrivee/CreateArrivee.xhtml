@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCourrierArriveeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <div class="ui-grid">
+                <div class="ui-grid-row">
+                    <p:fieldset legend="Recherche" style="margin-bottom:20px" >
+                        <h:form id="searchCourrierProduitForm">
+                            <p:panelGrid  >
+                                <p:row>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="Code A/V" for="codeA" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="codeA" value="#{courrierArriveeController.selected.codeA_V}" title="codeA/V" />
+                                    </p:column>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="Objet" for="objet" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="objet" value="#{courrierArriveeController.selected.objet}" title="Objet"  />
+                                    </p:column>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="N°Enregistrement DRHMG" for="nDRHMG" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nDRHMG" value="#{courrierArriveeController.selected.n_enregistrementDRHMG}" title="N°Enregistrement DRHMG"  />
+                                    </p:column>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="N°Enregistrement BWO/TRANS/RLAN" for="nBTR" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nBTR" value="#{courrierArriveeController.selected.n_enregistrementBOW_TRANS_RLAN}" title="N°Enregistrement BWO/TRANS/RLAN"  />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="Date d'Enregistrement:" for="dateEnregistrement" />
+                                    </p:column>
+                                    <p:column styleClass="text-font">
+                                        <p:calendar id="dateEnregistrement" value="#{courrierArriveeController.selected.dateEnregistrement}" navigator="true" pattern="dd/MM/yyyy " >
+                                        </p:calendar> 
+                                    </p:column>
+
+
+                                    <p:column>
+                                        <p:outputLabel value="Date d'Enregistrement DRHMG:" for="dateDRHMG" />
+                                    </p:column>
+                                    <p:column styleClass="text-font">
+                                        <p:calendar id="dateDRHMG" value="#{courrierArriveeController.selected.dateEnregistrementDRHMG}" navigator="true" pattern="dd/MM/yyyy " >
+                                        </p:calendar> 
+                                    </p:column>
+
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="DateEnregistrementBOW_TRANS_RLAN:" for="dateBTR" />
+                                    </p:column>
+                                    <p:column styleClass="text-font">
+                                        <p:calendar id="dateBTR" value="#{courrierArriveeController.selected.dateEnregistrementBOW_TRANS_RLAN}" navigator="true" pattern="dd/MM/yyyy " >
+                                        </p:calendar> 
+                                    </p:column>
+
+                                </p:row>
+                                <p:row>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="Expediteur" for="expediteur" />
+                                    </p:column>
+                                    <p:column styleClass="text-font">
+                                        <p:selectOneMenu id="expediteur"   value="#{courrierArriveeController.expediteur}" >
+                                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                            <f:selectItems value="#{courrierArriveeController.expediteursAvailableSelectOne}" var="itemFinalite" itemValue="#{itemFinalite}" itemLabel="#{itemFinalite.nom}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+
+                                    <p:column styleClass="text-font">
+                                        <p:outputLabel value="Mode Traitement" for="modeTraitement" />
+                                    </p:column>
+                                    <p:column styleClass="text-font">
+                                        <p:selectOneMenu id="modeTraitement"   value="#{courrierArriveeController.modeTraitement}" >
+                                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                            <f:selectItems value="#{courrierArriveeController.modeTraitementsAvailableSelectOne}" var="itemDestinataire" itemValue="#{itemDestinataire}" itemLabel="#{itemDestinataire.nom}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column styleClass="text-font">
+                                        <p:commandButton id="saveButton"   actionListener="#{courrierArriveeController.create()}" update="searchCourrierProduitForm" value="Save" icon="ui-icon-disk"   />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:fieldset>
+                </div>
+            </div>
+
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>

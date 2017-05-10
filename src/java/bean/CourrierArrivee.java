@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -30,14 +30,66 @@ public class CourrierArrivee implements Serializable {
     private String motsCle;
     private String codeA_V;
     private String objet;
+    private int n_enregistrementDRHMG;
+    private int n_enregistrementBOW_TRANS_RLAN;
+    private Date dateEnregistrementDRHMG;
+    private Date dateEnregistrementBOW_TRANS_RLAN;
     @ManyToOne
-    private Expediteur expediteurs;
+    private DestinataireExpediteur destinataireExpediteur;
     @ManyToOne
     private ModeTraitement modeTraitement;
-    @OneToOne
-    private DetailCourrier detailCourrier;
     @ManyToOne
     private SousClasse sousClasse;
+    @OneToMany(mappedBy = "courrierArrivee")
+    private List<CourrierProduit> courrierProduits;
+
+    public List<CourrierProduit> getCourrierProduits() {
+        return courrierProduits;
+    }
+
+    public void setCourrierProduits(List<CourrierProduit> courrierProduits) {
+        this.courrierProduits = courrierProduits;
+    }
+
+    public int getN_enregistrementDRHMG() {
+        return n_enregistrementDRHMG;
+    }
+
+    public void setN_enregistrementDRHMG(int n_enregistrementDRHMG) {
+        this.n_enregistrementDRHMG = n_enregistrementDRHMG;
+    }
+
+    public int getN_enregistrementBOW_TRANS_RLAN() {
+        return n_enregistrementBOW_TRANS_RLAN;
+    }
+
+    public void setN_enregistrementBOW_TRANS_RLAN(int n_enregistrementBOW_TRANS_RLAN) {
+        this.n_enregistrementBOW_TRANS_RLAN = n_enregistrementBOW_TRANS_RLAN;
+    }
+
+    public Date getDateEnregistrementDRHMG() {
+        return dateEnregistrementDRHMG;
+    }
+
+    public void setDateEnregistrementDRHMG(Date dateEnregistrementDRHMG) {
+        this.dateEnregistrementDRHMG = dateEnregistrementDRHMG;
+    }
+
+    public Date getDateEnregistrementBOW_TRANS_RLAN() {
+        return dateEnregistrementBOW_TRANS_RLAN;
+    }
+
+    public void setDateEnregistrementBOW_TRANS_RLAN(Date dateEnregistrementBOW_TRANS_RLAN) {
+        this.dateEnregistrementBOW_TRANS_RLAN = dateEnregistrementBOW_TRANS_RLAN;
+    }
+
+    public DestinataireExpediteur getDestinataireExpediteur() {
+        return destinataireExpediteur;
+    }
+
+    public void setDestinataireExpediteur(DestinataireExpediteur destinataireExpediteur) {
+        this.destinataireExpediteur = destinataireExpediteur;
+    }
 
     public Long getN_enregistrement() {
         return n_enregistrement;
@@ -71,14 +123,6 @@ public class CourrierArrivee implements Serializable {
         this.objet = objet;
     }
 
-    public Expediteur getExpediteurs() {
-        return expediteurs;
-    }
-
-    public void setExpediteurs(Expediteur expediteurs) {
-        this.expediteurs = expediteurs;
-    }
-
     public ModeTraitement getModeTraitement() {
         return modeTraitement;
     }
@@ -93,14 +137,6 @@ public class CourrierArrivee implements Serializable {
 
     public void setCodeA_V(String codeA_V) {
         this.codeA_V = codeA_V;
-    }
-
-    public DetailCourrier getDetailCourrier() {
-        return detailCourrier;
-    }
-
-    public void setDetailCourrier(DetailCourrier detailCourrier) {
-        this.detailCourrier = detailCourrier;
     }
 
     public SousClasse getSousClasse() {

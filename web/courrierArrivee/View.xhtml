@@ -12,6 +12,16 @@
             <h:form id="CourrierArriveeViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{courrierArriveeController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_n_enregistrementDRHMG}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.n_enregistrementDRHMG}" title="#{bundle.ViewCourrierArriveeTitle_n_enregistrementDRHMG}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_n_enregistrementBOW_TRANS_RLAN}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.n_enregistrementBOW_TRANS_RLAN}" title="#{bundle.ViewCourrierArriveeTitle_n_enregistrementBOW_TRANS_RLAN}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_dateEnregistrementDRHMG}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.dateEnregistrementDRHMG}" title="#{bundle.ViewCourrierArriveeTitle_dateEnregistrementDRHMG}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_dateEnregistrementBOW_TRANS_RLAN}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.dateEnregistrementBOW_TRANS_RLAN}" title="#{bundle.ViewCourrierArriveeTitle_dateEnregistrementBOW_TRANS_RLAN}"/>
+                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_destinataireExpediteur}"/>
+                        <h:outputText value="#{courrierArriveeController.selected.destinataireExpediteur}" title="#{bundle.ViewCourrierArriveeTitle_destinataireExpediteur}"/>
                         <h:outputText value="#{bundle.ViewCourrierArriveeLabel_n_enregistrement}"/>
                         <h:outputText value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.ViewCourrierArriveeTitle_n_enregistrement}"/>
                         <h:outputText value="#{bundle.ViewCourrierArriveeLabel_dateEnregistrement}"/>
@@ -20,14 +30,10 @@
                         <h:outputText value="#{courrierArriveeController.selected.motsCle}" title="#{bundle.ViewCourrierArriveeTitle_motsCle}"/>
                         <h:outputText value="#{bundle.ViewCourrierArriveeLabel_objet}"/>
                         <h:outputText value="#{courrierArriveeController.selected.objet}" title="#{bundle.ViewCourrierArriveeTitle_objet}"/>
-                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_expediteurs}"/>
-                        <h:outputText value="#{courrierArriveeController.selected.expediteurs}" title="#{bundle.ViewCourrierArriveeTitle_expediteurs}"/>
                         <h:outputText value="#{bundle.ViewCourrierArriveeLabel_modeTraitement}"/>
                         <h:outputText value="#{courrierArriveeController.selected.modeTraitement}" title="#{bundle.ViewCourrierArriveeTitle_modeTraitement}"/>
                         <h:outputText value="#{bundle.ViewCourrierArriveeLabel_codeA_V}"/>
                         <h:outputText value="#{courrierArriveeController.selected.codeA_V}" title="#{bundle.ViewCourrierArriveeTitle_codeA_V}"/>
-                        <h:outputText value="#{bundle.ViewCourrierArriveeLabel_detailCourrier}"/>
-                        <h:outputText value="#{courrierArriveeController.selected.detailCourrier}" title="#{bundle.ViewCourrierArriveeTitle_detailCourrier}"/>
                         <h:outputText value="#{bundle.ViewCourrierArriveeLabel_sousClasse}"/>
                         <h:outputText value="#{courrierArriveeController.selected.sousClasse}" title="#{bundle.ViewCourrierArriveeTitle_sousClasse}"/>
                     </p:panelGrid>

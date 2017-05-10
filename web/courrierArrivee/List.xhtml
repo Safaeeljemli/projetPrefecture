@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="/template.xhtml">
 
@@ -14,84 +15,210 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="CourrierArriveeListForm">
-                <p:panel header="#{bundle.ListCourrierArriveeTitle}">
-                    <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item"
-                                 selectionMode="single" selection="#{courrierArriveeController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.n_enregistrement}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+            <h:form id="searchCourrierProduitForm">
+                <b:panel title="Recherche" class="panel-primary">
+                    <b:panelGrid columns="6">
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Code A/V" for="codeA" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="codeA" value="#{courrierArriveeController.codeA_V}" title="codeP/V" validatorMessage="Le numéro doit contenire que des Chiffres" />
+                        </p:column>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_n_enregistrement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.n_enregistrement}"/>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Code P/V" for="codeP" />
                         </p:column>
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dateEnregistrement}"/>
+                            <p:inputText id="codeP" value="#{courrierArriveeController.courrierProduit.codeP_V}" title="codeP/V" validatorMessage="Le numéro doit contenire que des Chiffres" />
                         </p:column>
+
+                        <!--date de Creation-->
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_motsCle}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.motsCle}"/>
+                            <p:outputLabel value="Date Creation:" />
                         </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Min:" for="dateMinC" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateMinC" value="#{courrierArriveeController.dateMinC}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
+                        </p:column>
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Max:" for="dateMaxC" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateMaxC" value="#{courrierArriveeController.dateMaxC}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
+                        </p:column>
+
+                        <!--date d'enregistrement DRHMG-->
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_objet}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.objet}"/>
+                            <p:outputLabel value="Date Enregistrement DRHMG:" />
                         </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Min:" for="dateMinDRHMG" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateMinDRHMG" value="#{courrierArriveeController.dateMinC}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
+                        </p:column>
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Max:" for="dateMaxDRHMG" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateMaxDRHMG" value="#{courrierArriveeController.dateMaxC}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
+                        </p:column>
+
+                        <!--date d'enregistrement BOW_TRANS_RLAN-->
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_expediteurs}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.expediteurs}"/>
+                            <p:outputLabel value="Date Enregistrement BTR:" />
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_modeTraitement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.modeTraitement}"/>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Min:" for="dateMinBTR" />
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_codeA_V}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.codeA_V}"/>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateMinBTR" value="#{courrierArriveeController.dateMinBTR}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_detailCourrier}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.detailCourrier}"/>
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Max:" for="dateMaxBTR" />
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_sousClasse}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sousClasse}"/>
+                        <p:column styleClass="text-font">
+                            <p:calendar id="dateMaxBTR" value="#{courrierArriveeController.dateMaxBTR}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
                         </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCreateForm" oncomplete="PF('CourrierArriveeCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{courrierArriveeController.destroy}" update=":growl,datalist" disabled="#{empty courrierArriveeController.selected}"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Expediteur" for="expediteur" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="expediteur"   value="#{courrierArriveeController.expediteur}" >
+                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                <f:selectItems value="#{courrierArriveeController.expediteursAvailableSelectOne}" var="itemFinalite" itemValue="#{itemFinalite}" itemLabel="#{itemFinalite.nom}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Mode Traitement" for="modeTraitement" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="modeTraitement"   value="#{courrierArriveeController.modeTraitement}" >
+                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                <f:selectItems value="#{courrierArriveeController.modeTraitementsAvailableSelectOne}" var="itemDestinataire" itemValue="#{itemDestinataire}" itemLabel="#{itemDestinataire.nom}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </b:panelGrid>
+
+                    <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
+                        <br></br>
+                        <p:column styleClass="text-font">
+                            <p:commandButton value="Search" actionListener="#{courrierArriveeController.findCourrierArrivee()}" update=":CourrierArriveeListForm:datalist"></p:commandButton>
+                        </p:column>
+                    </div>
+                </b:panel>
             </h:form>
+            <b:panel title=" Stagiaires " class="panel-primary"  >
+                <h:form id="CourrierArriveeListForm">
+                    
+                        <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item"
+                                     selectionMode="single" selection="#{courrierArriveeController.selected}"
+                                     paginator="true"
+                                     rowKey="#{item.n_enregistrement}"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     >
 
+                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                            <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_n_enregistrementDRHMG}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.n_enregistrementDRHMG}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_n_enregistrementBOW_TRANS_RLAN}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.n_enregistrementBOW_TRANS_RLAN}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrementDRHMG}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateEnregistrementDRHMG}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrementBOW_TRANS_RLAN}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateEnregistrementBOW_TRANS_RLAN}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_destinataireExpediteur}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.destinataireExpediteur}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_n_enregistrement}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.n_enregistrement}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrement}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateEnregistrement}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_motsCle}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.motsCle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_objet}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.objet}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_modeTraitement}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.modeTraitement}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_codeA_V}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.codeA_V}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListCourrierArriveeTitle_sousClasse}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.sousClasse}"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCreate1Form" oncomplete="PF('CourrierArriveeCreate1Dialog').show()"/>
+                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
+                                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
+                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{courrierArriveeController.destroy}" update=":growl,datalist" disabled="#{empty courrierArriveeController.selected}"/>
+                            </f:facet>
+                        </p:dataTable>
+                </h:form>
+            </b:panel>
             <ui:include src="Create.xhtml"/>
+            <ui:include src="courrierArrivee.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
         </ui:define>

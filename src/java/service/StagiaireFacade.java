@@ -9,18 +9,12 @@ import bean.Departement;
 import bean.Ecole;
 import bean.Employee;
 import bean.Stagiaire;
-import bean.User;
-import controller.util.PdfUtil;
 import controller.util.SearchUtil;
-import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import net.sf.jasperreports.engine.JRException;
 
 /**
  *

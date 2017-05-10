@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -22,6 +21,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class CourrierProduit implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,12 +29,23 @@ public class CourrierProduit implements Serializable {
     private Date dateCreation;
     private String codeP_V;
     private String objet;
+
+    private Date dateEnvoiePourValidation;
+    private Date dateRetourDocument;
+    private int etat; //1-signee 2-pas_signee
+    private String raisonSignature;
+    private Date dateEnvoiAuBOW_TRANS;
+    private Date dateEnvoiParBOW_TRANS;
+    private Date dateRetourDeLaMinuteDuOW_TRANS;
+    private int n_EnvoiParBOW_TRANS;
+    @ManyToOne
+    private SousClasse sousClasse;
     @ManyToOne
     private Finalite finalite;
     @ManyToOne
-    private Destinataire destinataiere;
-    @OneToOne
-    private DetailCourrier detailCourrier;
+    private CourrierArrivee courrierArrivee;
+    @ManyToOne
+    private DestinataireExpediteur destinataireExpediteur;
 
     public Long getN_dordre() {
         return n_dordre;
@@ -42,6 +53,14 @@ public class CourrierProduit implements Serializable {
 
     public void setN_dordre(Long n_dordre) {
         this.n_dordre = n_dordre;
+    }
+
+    public CourrierArrivee getCourrierArrivee() {
+        return courrierArrivee;
+    }
+
+    public void setCourrierArrivee(CourrierArrivee courrierArrivee) {
+        this.courrierArrivee = courrierArrivee;
     }
 
     public Date getDateCreation() {
@@ -76,22 +95,76 @@ public class CourrierProduit implements Serializable {
         this.finalite = finalite;
     }
 
-    public Destinataire getDestinataiere() {
-        return destinataiere;
+    public Date getDateEnvoiePourValidation() {
+        return dateEnvoiePourValidation;
     }
 
-    public void setDestinataiere(Destinataire destinataiere) {
-        this.destinataiere = destinataiere;
+    public void setDateEnvoiePourValidation(Date dateEnvoiePourValidation) {
+        this.dateEnvoiePourValidation = dateEnvoiePourValidation;
     }
 
-  
-
-    public DetailCourrier getDetailCourrier() {
-        return detailCourrier;
+    public Date getDateRetourDocument() {
+        return dateRetourDocument;
     }
 
-    public void setDetailCourrier(DetailCourrier detailCourrier) {
-        this.detailCourrier = detailCourrier;
+    public void setDateRetourDocument(Date dateRetourDocument) {
+        this.dateRetourDocument = dateRetourDocument;
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
+    public String getRaisonSignature() {
+        return raisonSignature;
+    }
+
+    public void setRaisonSignature(String raisonSignature) {
+        this.raisonSignature = raisonSignature;
+    }
+
+    public Date getDateEnvoiAuBOW_TRANS() {
+        return dateEnvoiAuBOW_TRANS;
+    }
+
+    public void setDateEnvoiAuBOW_TRANS(Date dateEnvoiAuBOW_TRANS) {
+        this.dateEnvoiAuBOW_TRANS = dateEnvoiAuBOW_TRANS;
+    }
+
+    public Date getDateEnvoiParBOW_TRANS() {
+        return dateEnvoiParBOW_TRANS;
+    }
+
+    public void setDateEnvoiParBOW_TRANS(Date dateEnvoiParBOW_TRANS) {
+        this.dateEnvoiParBOW_TRANS = dateEnvoiParBOW_TRANS;
+    }
+
+    public Date getDateRetourDeLaMinuteDuOW_TRANS() {
+        return dateRetourDeLaMinuteDuOW_TRANS;
+    }
+
+    public void setDateRetourDeLaMinuteDuOW_TRANS(Date dateRetourDeLaMinuteDuOW_TRANS) {
+        this.dateRetourDeLaMinuteDuOW_TRANS = dateRetourDeLaMinuteDuOW_TRANS;
+    }
+
+    public int getN_EnvoiParBOW_TRANS() {
+        return n_EnvoiParBOW_TRANS;
+    }
+
+    public void setN_EnvoiParBOW_TRANS(int n_EnvoiParBOW_TRANS) {
+        this.n_EnvoiParBOW_TRANS = n_EnvoiParBOW_TRANS;
+    }
+
+    public SousClasse getSousClasse() {
+        return sousClasse;
+    }
+
+    public void setSousClasse(SousClasse sousClasse) {
+        this.sousClasse = sousClasse;
     }
 
     @Override

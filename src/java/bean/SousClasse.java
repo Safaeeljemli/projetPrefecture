@@ -30,6 +30,8 @@ public class SousClasse implements Serializable {
     private Classe classe;
     @OneToMany(mappedBy = "sousClasse")
     private List<CourrierArrivee> courrierArrivees;
+    @OneToMany(mappedBy = "sousClasse")
+    private List<CourrierProduit> courrierProduits;
 
     public Long getId() {
         return id;
@@ -37,6 +39,14 @@ public class SousClasse implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<CourrierProduit> getCourrierProduits() {
+        return courrierProduits;
+    }
+
+    public void setCourrierProduits(List<CourrierProduit> courrierProduits) {
+        this.courrierProduits = courrierProduits;
     }
 
     public String getNom() {

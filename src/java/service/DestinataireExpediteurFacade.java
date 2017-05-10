@@ -5,7 +5,7 @@
  */
 package service;
 
-import bean.Expediteur;
+import bean.DestinataireExpediteur;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author safa
  */
 @Stateless
-public class ExpediteurFacade extends AbstractFacade<Expediteur> {
+public class DestinataireExpediteurFacade extends AbstractFacade<DestinataireExpediteur> {
 
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class ExpediteurFacade extends AbstractFacade<Expediteur> {
         return em;
     }
 
-    public ExpediteurFacade() {
-        super(Expediteur.class);
+    public DestinataireExpediteurFacade() {
+        super(DestinataireExpediteur.class);
     }
     
 }

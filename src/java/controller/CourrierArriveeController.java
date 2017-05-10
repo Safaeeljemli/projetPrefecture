@@ -1,13 +1,13 @@
 package controller;
 
 import bean.CourrierArrivee;
-import bean.Expediteur;
+import bean.CourrierProduit;
+import static bean.CourrierProduit_.courrierArrivee;
+import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierArriveeFacade;
-import service.ExpediteurFacade;
-import service.ModeTraitementFacade;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -23,6 +23,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.DestinataireExpediteurFacade;
+import service.ModeTraitementFacade;
 
 @Named("courrierArriveeController")
 @SessionScoped
@@ -32,52 +34,96 @@ public class CourrierArriveeController implements Serializable {
     private service.CourrierArriveeFacade ejbFacade;
     private List<CourrierArrivee> items = null;
     private CourrierArrivee selected;
-    
-    private Date dateMin;
-    private Date dateMax;
-    private String codeP_V;
-    private Expediteur expediteur;
+
+    private Date dateMinC;
+    private Date dateMaxC;
+    private Date dateMinDRHMG;
+    private Date dateMaxDRHMG;
+    private Date dateMinBTR;
+    private Date dateMaxBTR;
+    private String codeA_V;
+    private DestinataireExpediteur expediteur;
     private ModeTraitement modeTraitement;
-    
+    private CourrierProduit courrierProduit;
+
     @EJB
-    private ExpediteurFacade expediteurFacade;
+    private DestinataireExpediteurFacade destinataireExpediteurFacade;
     @EJB
     private ModeTraitementFacade modeTraitementFacade;
-            
+
     public CourrierArriveeController() {
     }
-    
+
     // getter & setter
-
-    public Date getDateMin() {
-        return dateMin;
+    public CourrierProduit getCourrierProduit() {
+        return courrierProduit;
     }
 
-    public void setDateMin(Date dateMin) {
-        this.dateMin = dateMin;
+    public void setCourrierProduit(CourrierProduit courrierProduit) {
+        this.courrierProduit = courrierProduit;
     }
 
-    public Date getDateMax() {
-        return dateMax;
+    public Date getDateMinC() {
+        return dateMinC;
     }
 
-    public void setDateMax(Date dateMax) {
-        this.dateMax = dateMax;
+    public void setDateMinC(Date dateMinC) {
+        this.dateMinC = dateMinC;
     }
 
-    public String getCodeP_V() {
-        return codeP_V;
+    public Date getDateMaxC() {
+        return dateMaxC;
     }
 
-    public void setCodeP_V(String codeP_V) {
-        this.codeP_V = codeP_V;
+    public void setDateMaxC(Date dateMaxC) {
+        this.dateMaxC = dateMaxC;
     }
 
-    public Expediteur getExpediteur() {
+    public Date getDateMinDRHMG() {
+        return dateMinDRHMG;
+    }
+
+    public void setDateMinDRHMG(Date dateMinDRHMG) {
+        this.dateMinDRHMG = dateMinDRHMG;
+    }
+
+    public Date getDateMaxDRHMG() {
+        return dateMaxDRHMG;
+    }
+
+    public void setDateMaxDRHMG(Date dateMaxDRHMG) {
+        this.dateMaxDRHMG = dateMaxDRHMG;
+    }
+
+    public Date getDateMinBTR() {
+        return dateMinBTR;
+    }
+
+    public void setDateMinBTR(Date dateMinBTR) {
+        this.dateMinBTR = dateMinBTR;
+    }
+
+    public Date getDateMaxBTR() {
+        return dateMaxBTR;
+    }
+
+    public void setDateMaxBTR(Date dateMaxBTR) {
+        this.dateMaxBTR = dateMaxBTR;
+    }
+
+    public String getCodeA_V() {
+        return codeA_V;
+    }
+
+    public void setCodeA_V(String codeA_V) {
+        this.codeA_V = codeA_V;
+    }
+
+    public DestinataireExpediteur getExpediteur() {
         return expediteur;
     }
 
-    public void setExpediteur(Expediteur expediteur) {
+    public void setExpediteur(DestinataireExpediteur expediteur) {
         this.expediteur = expediteur;
     }
 
@@ -88,9 +134,8 @@ public class CourrierArriveeController implements Serializable {
     public void setModeTraitement(ModeTraitement modeTraitement) {
         this.modeTraitement = modeTraitement;
     }
-    
-    
-    
+
+   
     public CourrierArrivee getSelected() {
         return selected;
     }
@@ -98,48 +143,48 @@ public class CourrierArriveeController implements Serializable {
     public void setSelected(CourrierArrivee selected) {
         this.selected = selected;
     }
-     // end getter & setter
-    protected void setEmbeddableKeys() {
+
+    //methods 
+    public List<DestinataireExpediteur> getExpediteursAvailableSelectOne() {
+        return destinataireExpediteurFacade.findAll();
     }
 
-    protected void initializeEmbeddableKey() {
-    }
-    
-    //methods 
-    
-    public List<Expediteur> getExpediteursAvailableSelectOne() {
-        return expediteurFacade.findAll();
-    }
     public List<ModeTraitement> getModeTraitementsAvailableSelectOne() {
         return modeTraitementFacade.findAll();
 
     }
-    
-    private void findCourrierArrivee(){
-        items = ejbFacade.findCourrierArrivee(dateMin, dateMax, codeP_V,  expediteur, modeTraitement);
+
+    private void findCourrierArrivee() {
+        items = ejbFacade.findCourrierArrivee(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeA_V, expediteur, modeTraitement);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
             JsfUtil.addSuccessMessage("successe");
         }
-    
+
     }
-    
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
     private CourrierArriveeFacade getFacade() {
         return ejbFacade;
     }
-   
-    
+
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
         return selected;
     }
-
+     
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            getItems().add(ejbFacade.clone(selected));
+            prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }
 

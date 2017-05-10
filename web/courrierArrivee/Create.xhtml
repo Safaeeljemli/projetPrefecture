@@ -12,6 +12,20 @@
             <h:form id="CourrierArriveeCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{courrierArriveeController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementDRHMG}" for="n_enregistrementDRHMG" />
+                        <p:inputText id="n_enregistrementDRHMG" value="#{courrierArriveeController.selected.n_enregistrementDRHMG}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementDRHMG}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementBOW_TRANS_RLAN}" for="n_enregistrementBOW_TRANS_RLAN" />
+                        <p:inputText id="n_enregistrementBOW_TRANS_RLAN" value="#{courrierArriveeController.selected.n_enregistrementBOW_TRANS_RLAN}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementBOW_TRANS_RLAN}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementDRHMG}" for="dateEnregistrementDRHMG" />
+                        <p:inputText id="dateEnregistrementDRHMG" value="#{courrierArriveeController.selected.dateEnregistrementDRHMG}" title="#{bundle.CreateCourrierArriveeTitle_dateEnregistrementDRHMG}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementBOW_TRANS_RLAN}" for="dateEnregistrementBOW_TRANS_RLAN" />
+                        <p:inputText id="dateEnregistrementBOW_TRANS_RLAN" value="#{courrierArriveeController.selected.dateEnregistrementBOW_TRANS_RLAN}" title="#{bundle.CreateCourrierArriveeTitle_dateEnregistrementBOW_TRANS_RLAN}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_destinataireExpediteur}" for="destinataireExpediteur" />
+                        <p:selectOneMenu id="destinataireExpediteur" value="#{courrierArriveeController.selected.destinataireExpediteur}" >
+                            <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
+                                           var="destinataireExpediteurItem"
+                                           itemValue="#{destinataireExpediteurItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrement}" for="n_enregistrement" />
                         <p:inputText id="n_enregistrement" value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrement}" />
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrement}" for="dateEnregistrement" />
@@ -20,18 +34,14 @@
                         <p:inputText id="motsCle" value="#{courrierArriveeController.selected.motsCle}" title="#{bundle.CreateCourrierArriveeTitle_motsCle}" />
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_objet}" for="objet" />
                         <p:inputText id="objet" value="#{courrierArriveeController.selected.objet}" title="#{bundle.CreateCourrierArriveeTitle_objet}" />
-                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_expediteurs}" for="expediteurs" />
-                        <p:inputText id="expediteurs" value="#{courrierArriveeController.selected.expediteurs}" title="#{bundle.CreateCourrierArriveeTitle_expediteurs}" />
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_modeTraitement}" for="modeTraitement" />
-                        <p:inputText id="modeTraitement" value="#{courrierArriveeController.selected.modeTraitement}" title="#{bundle.CreateCourrierArriveeTitle_modeTraitement}" />
+                        <p:selectOneMenu id="modeTraitement" value="#{courrierArriveeController.selected.modeTraitement}" >
+                            <f:selectItems value="#{modeTraitementController.itemsAvailableSelectOne}"
+                                           var="modeTraitementItem"
+                                           itemValue="#{modeTraitementItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_codeA_V}" for="codeA_V" />
                         <p:inputText id="codeA_V" value="#{courrierArriveeController.selected.codeA_V}" title="#{bundle.CreateCourrierArriveeTitle_codeA_V}" />
-                        <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_detailCourrier}" for="detailCourrier" />
-                        <p:selectOneMenu id="detailCourrier" value="#{courrierArriveeController.selected.detailCourrier}" >
-                            <f:selectItems value="#{detailCourrierController.itemsAvailableSelectOne}"
-                                           var="detailCourrierItem"
-                                           itemValue="#{detailCourrierItem}"/>
-                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_sousClasse}" for="sousClasse" />
                         <p:selectOneMenu id="sousClasse" value="#{courrierArriveeController.selected.sousClasse}" >
                             <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"

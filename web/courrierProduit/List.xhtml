@@ -35,6 +35,12 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_courrierArrivee}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.courrierArrivee}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateCreation}"/>
                             </f:facet>
                             <h:outputText value="#{item.dateCreation}"/>
@@ -59,15 +65,57 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_destinataiere}"/>
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiePourValidation}"/>
                             </f:facet>
-                            <h:outputText value="#{item.destinataiere}"/>
+                            <h:outputText value="#{item.dateEnvoiePourValidation}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_detailCourrier}"/>
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDocument}"/>
                             </f:facet>
-                            <h:outputText value="#{item.detailCourrier}"/>
+                            <h:outputText value="#{item.dateRetourDocument}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_etat}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.etat}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_raisonSignature}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.raisonSignature}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiAuBOW_TRANS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnvoiAuBOW_TRANS}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiParBOW_TRANS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnvoiParBOW_TRANS}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDeLaMinuteDuOW_TRANS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateRetourDeLaMinuteDuOW_TRANS}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_n_EnvoiParBOW_TRANS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_EnvoiParBOW_TRANS}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_sousClasse}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sousClasse}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()"/>

@@ -14,6 +14,12 @@
                     <p:panelGrid columns="2" rendered="#{courrierProduitController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_n_dordre}" for="n_dordre" />
                         <p:inputText id="n_dordre" value="#{courrierProduitController.selected.n_dordre}" title="#{bundle.CreateCourrierProduitTitle_n_dordre}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_courrierArrivee}" for="courrierArrivee" />
+                        <p:selectOneMenu id="courrierArrivee" value="#{courrierProduitController.selected.courrierArrivee}" >
+                            <f:selectItems value="#{courrierArriveeController.itemsAvailableSelectOne}"
+                                           var="courrierArriveeItem"
+                                           itemValue="#{courrierArriveeItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateCreation}" for="dateCreation" />
                         <p:inputText id="dateCreation" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.CreateCourrierProduitTitle_dateCreation}" />
                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_codeP_V}" for="codeP_V" />
@@ -21,14 +27,32 @@
                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_objet}" for="objet" />
                         <p:inputText id="objet" value="#{courrierProduitController.selected.objet}" title="#{bundle.CreateCourrierProduitTitle_objet}" />
                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_finalite}" for="finalite" />
-                        <p:inputText id="finalite" value="#{courrierProduitController.selected.finalite}" title="#{bundle.CreateCourrierProduitTitle_finalite}" />
-                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_destinataiere}" for="destinataiere" />
-                        <p:inputText id="destinataiere" value="#{courrierProduitController.selected.destinataiere}" title="#{bundle.CreateCourrierProduitTitle_destinataiere}" />
-                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_detailCourrier}" for="detailCourrier" />
-                        <p:selectOneMenu id="detailCourrier" value="#{courrierProduitController.selected.detailCourrier}" >
-                            <f:selectItems value="#{detailCourrierController.itemsAvailableSelectOne}"
-                                           var="detailCourrierItem"
-                                           itemValue="#{detailCourrierItem}"/>
+                        <p:selectOneMenu id="finalite" value="#{courrierProduitController.selected.finalite}" >
+                            <f:selectItems value="#{finaliteController.itemsAvailableSelectOne}"
+                                           var="finaliteItem"
+                                           itemValue="#{finaliteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiePourValidation}" for="dateEnvoiePourValidation" />
+                        <p:inputText id="dateEnvoiePourValidation" value="#{courrierProduitController.selected.dateEnvoiePourValidation}" title="#{bundle.CreateCourrierProduitTitle_dateEnvoiePourValidation}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateRetourDocument}" for="dateRetourDocument" />
+                        <p:inputText id="dateRetourDocument" value="#{courrierProduitController.selected.dateRetourDocument}" title="#{bundle.CreateCourrierProduitTitle_dateRetourDocument}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_etat}" for="etat" />
+                        <p:inputText id="etat" value="#{courrierProduitController.selected.etat}" title="#{bundle.CreateCourrierProduitTitle_etat}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_raisonSignature}" for="raisonSignature" />
+                        <p:inputText id="raisonSignature" value="#{courrierProduitController.selected.raisonSignature}" title="#{bundle.CreateCourrierProduitTitle_raisonSignature}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiAuBOW_TRANS}" for="dateEnvoiAuBOW_TRANS" />
+                        <p:inputText id="dateEnvoiAuBOW_TRANS" value="#{courrierProduitController.selected.dateEnvoiAuBOW_TRANS}" title="#{bundle.CreateCourrierProduitTitle_dateEnvoiAuBOW_TRANS}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiParBOW_TRANS}" for="dateEnvoiParBOW_TRANS" />
+                        <p:inputText id="dateEnvoiParBOW_TRANS" value="#{courrierProduitController.selected.dateEnvoiParBOW_TRANS}" title="#{bundle.CreateCourrierProduitTitle_dateEnvoiParBOW_TRANS}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateRetourDeLaMinuteDuOW_TRANS}" for="dateRetourDeLaMinuteDuOW_TRANS" />
+                        <p:inputText id="dateRetourDeLaMinuteDuOW_TRANS" value="#{courrierProduitController.selected.dateRetourDeLaMinuteDuOW_TRANS}" title="#{bundle.CreateCourrierProduitTitle_dateRetourDeLaMinuteDuOW_TRANS}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_n_EnvoiParBOW_TRANS}" for="n_EnvoiParBOW_TRANS" />
+                        <p:inputText id="n_EnvoiParBOW_TRANS" value="#{courrierProduitController.selected.n_EnvoiParBOW_TRANS}" title="#{bundle.CreateCourrierProduitTitle_n_EnvoiParBOW_TRANS}" />
+                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_sousClasse}" for="sousClasse" />
+                        <p:selectOneMenu id="sousClasse" value="#{courrierProduitController.selected.sousClasse}" >
+                            <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"
+                                           var="sousClasseItem"
+                                           itemValue="#{sousClasseItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{courrierProduitController.create}" value="#{bundle.Save}" update="display,:CourrierProduitListForm:datalist,:growl" oncomplete="handleSubmit(args,'CourrierProduitCreateDialog');"/>

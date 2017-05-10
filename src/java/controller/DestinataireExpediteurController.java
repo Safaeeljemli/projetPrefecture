@@ -1,9 +1,9 @@
 package controller;
 
-import bean.DetailCourrier;
+import bean.DestinataireExpediteur;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
-import service.DetailCourrierFacade;
+import service.DestinataireExpediteurFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("detailCourrierController")
+@Named("destinataireExpediteurController")
 @SessionScoped
-public class DetailCourrierController implements Serializable {
+public class DestinataireExpediteurController implements Serializable {
 
     @EJB
-    private service.DetailCourrierFacade ejbFacade;
-    private List<DetailCourrier> items = null;
-    private DetailCourrier selected;
+    private service.DestinataireExpediteurFacade ejbFacade;
+    private List<DestinataireExpediteur> items = null;
+    private DestinataireExpediteur selected;
 
-    public DetailCourrierController() {
+    public DestinataireExpediteurController() {
     }
 
-    public DetailCourrier getSelected() {
+    public DestinataireExpediteur getSelected() {
         return selected;
     }
 
-    public void setSelected(DetailCourrier selected) {
+    public void setSelected(DestinataireExpediteur selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class DetailCourrierController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private DetailCourrierFacade getFacade() {
+    private DestinataireExpediteurFacade getFacade() {
         return ejbFacade;
     }
 
-    public DetailCourrier prepareCreate() {
-        selected = new DetailCourrier();
+    public DestinataireExpediteur prepareCreate() {
+        selected = new DestinataireExpediteur();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DetailCourrierCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DestinataireExpediteurCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("DetailCourrierUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("DestinataireExpediteurUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("DetailCourrierDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("DestinataireExpediteurDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<DetailCourrier> getItems() {
+    public List<DestinataireExpediteur> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,38 +109,38 @@ public class DetailCourrierController implements Serializable {
         }
     }
 
-    public DetailCourrier getDetailCourrier(java.lang.String id) {
+    public DestinataireExpediteur getDestinataireExpediteur(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<DetailCourrier> getItemsAvailableSelectMany() {
+    public List<DestinataireExpediteur> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<DetailCourrier> getItemsAvailableSelectOne() {
+    public List<DestinataireExpediteur> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = DetailCourrier.class)
-    public static class DetailCourrierControllerConverter implements Converter {
+    @FacesConverter(forClass = DestinataireExpediteur.class)
+    public static class DestinataireExpediteurControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            DetailCourrierController controller = (DetailCourrierController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "detailCourrierController");
-            return controller.getDetailCourrier(getKey(value));
+            DestinataireExpediteurController controller = (DestinataireExpediteurController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "destinataireExpediteurController");
+            return controller.getDestinataireExpediteur(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Long getKey(String value) {
+            java.lang.Long key;
+            key = Long.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -151,11 +151,11 @@ public class DetailCourrierController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof DetailCourrier) {
-                DetailCourrier o = (DetailCourrier) object;
+            if (object instanceof DestinataireExpediteur) {
+                DestinataireExpediteur o = (DestinataireExpediteur) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), DetailCourrier.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), DestinataireExpediteur.class.getName()});
                 return null;
             }
         }
