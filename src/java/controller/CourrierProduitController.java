@@ -154,7 +154,7 @@ public class CourrierProduitController implements Serializable {
     }
 
     public void findCourrierProduit() {
-        items = ejbFacade.findCourrierProduit(dateMinC, dateMaxC, codeP_V, finalite, destinataire);
+        items = ejbFacade.findCourrierProduit(dateMinC, dateMaxC,dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeP_V, finalite, destinataire);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
