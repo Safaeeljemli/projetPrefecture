@@ -9,7 +9,7 @@ import bean.CourrierArrivee;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import controller.util.SearchUtil;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -46,7 +46,7 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         courrierDestination.setN_enregistrementBOW_TRANS_RLAN(courrierSource.getN_enregistrementBOW_TRANS_RLAN());
         courrierDestination.setN_enregistrementDRHMG(courrierSource.getN_enregistrementDRHMG());
         courrierDestination.setSousClasse(courrierSource.getSousClasse());
-        
+
     }
 
     public CourrierArrivee clone(CourrierArrivee courrierArrivee) {
@@ -56,24 +56,27 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
     }
 
     public List<CourrierArrivee> findCourrierArrivee(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeA_V, DestinataireExpediteur expediteur, ModeTraitement modeTraitement) {
+        System.out.println("facaaade");
         String query = "Select ca FROM CourrierArrivee ca WHERE 1=1";
         if (dateMinC != null) {
-            query += " AND ca.dateCreation >= :dateMinC";
+            System.out.println("date test " + dateMinC);
+            query += " AND ca.dateCreation >= " + dateMinC;
         }
         if (dateMaxC != null) {
-            query += " AND ca.dateCreation <= :dateMaxC";
+            System.out.println("date test " + dateMaxC);
+            query += " AND ca.dateCreation <= " + dateMaxC;
         }
         if (dateMinDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG >= :dateMinDRHMG";
+            query += " AND ca.dateEnregistrementDRHMG >= " + dateMinDRHMG;
         }
         if (dateMaxDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG <= :dateMaxDRHMG";
+            query += " AND ca.dateEnregistrementDRHMG <= " + dateMaxDRHMG;
         }
         if (dateMinBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >= :dateMinBTR";
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >= " + dateMinBTR;
         }
         if (dateMaxBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <= :dateMaxBTR";
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <= " + dateMaxBTR;
         }
         if (codeA_V != null) {
             query += SearchUtil.addConstraint("ca", "codeA_V", "=", codeA_V);

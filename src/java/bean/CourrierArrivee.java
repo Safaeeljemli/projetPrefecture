@@ -6,7 +6,7 @@
 package bean;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -26,13 +27,16 @@ public class CourrierArrivee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long n_enregistrement;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnregistrement;
     private String motsCle;
     private String codeA_V;
     private String objet;
     private int n_enregistrementDRHMG;
     private int n_enregistrementBOW_TRANS_RLAN;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnregistrementDRHMG;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnregistrementBOW_TRANS_RLAN;
     @ManyToOne
     private DestinataireExpediteur destinataireExpediteur;

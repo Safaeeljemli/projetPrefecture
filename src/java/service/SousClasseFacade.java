@@ -5,7 +5,9 @@
  */
 package service;
 
+import bean.Classe;
 import bean.SousClasse;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,8 @@ public class SousClasseFacade extends AbstractFacade<SousClasse> {
     public SousClasseFacade() {
         super(SousClasse.class);
     }
-    
+
+    public List<SousClasse> findSousClasseByClasse(Classe classe) {
+        return em.createQuery("SELECT sc FROM SousClasse sc WHERE sc.classe.id='" + classe.getId() + "'").getResultList();
+    }
 }

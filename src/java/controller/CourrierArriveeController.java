@@ -1,16 +1,18 @@
 package controller;
 
+import bean.Classe;
 import bean.CourrierArrivee;
 import bean.CourrierProduit;
-import static bean.CourrierProduit_.courrierArrivee;
+//import static bean.CourrierProduit_.courrierArrivee;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
+import bean.SousClasse;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierArriveeFacade;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,8 +25,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.ModeTraitementFacade;
+import service.SousClasseFacade;
 
 @Named("courrierArriveeController")
 @SessionScoped
@@ -45,16 +49,38 @@ public class CourrierArriveeController implements Serializable {
     private DestinataireExpediteur expediteur;
     private ModeTraitement modeTraitement;
     private CourrierProduit courrierProduit;
+    private Classe classe;
+    private SousClasse sousClasse;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
     @EJB
     private ModeTraitementFacade modeTraitementFacade;
+    @EJB
+    private ClasseFacade classeFacade;
+    @EJB
+    private SousClasseFacade sousClasseFacade;
 
     public CourrierArriveeController() {
     }
 
     // getter & setter
+    public SousClasse getSousClasse() {
+        return sousClasse;
+    }
+
+    public void setSousClasse(SousClasse sousClasse) {
+        this.sousClasse = sousClasse;
+    }
+
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
+
     public CourrierProduit getCourrierProduit() {
         return courrierProduit;
     }
@@ -135,7 +161,6 @@ public class CourrierArriveeController implements Serializable {
         this.modeTraitement = modeTraitement;
     }
 
-   
     public CourrierArrivee getSelected() {
         return selected;
     }
@@ -145,23 +170,40 @@ public class CourrierArriveeController implements Serializable {
     }
 
     //methods 
+    public void refresh() {
+        selected = null;
+        items = null;
+    }
+
     public List<DestinataireExpediteur> getExpediteursAvailableSelectOne() {
         return destinataireExpediteurFacade.findAll();
     }
 
     public List<ModeTraitement> getModeTraitementsAvailableSelectOne() {
         return modeTraitementFacade.findAll();
-
     }
 
-    private void findCourrierArrivee() {
+    public List<Classe> getClassesAvailableSelectOne() {
+        return classeFacade.findAll();
+    }
+
+    public void findSousClasseByClasse() {
+        try {
+            getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
+        } catch (Exception sc) {
+            JsfUtil.addErrorMessage("veiller choisire une departement");
+        }
+    }
+
+    public void findCourrierArrivee() {
+        System.out.println("haaaa");
         items = ejbFacade.findCourrierArrivee(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeA_V, expediteur, modeTraitement);
         if (items == null) {
+            System.out.println(" item ! null ");
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
             JsfUtil.addSuccessMessage("successe");
         }
-
     }
 
     protected void setEmbeddableKeys() {
@@ -179,7 +221,7 @@ public class CourrierArriveeController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
-     
+
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {

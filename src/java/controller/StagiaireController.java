@@ -29,7 +29,7 @@ import javax.faces.convert.FacesConverter;
 @SessionScoped
 public class StagiaireController implements Serializable {
 
-   @EJB
+    @EJB
     private service.StagiaireFacade ejbFacade;
     @EJB
     private service.EcoleFacade ecoleFacade;
@@ -101,11 +101,11 @@ public class StagiaireController implements Serializable {
         return items;
     }
 
-   
- public void refresh() {
+    public void refresh() {
         selected = null;
         items = null;
     }
+
     public int getTypeStage() {
         return typeStage;
     }
@@ -138,7 +138,6 @@ public class StagiaireController implements Serializable {
         this.dateFin = dateFin;
     }
 
-   
     public Employee getEncadrant() {
         return encadrant;
     }
@@ -154,7 +153,6 @@ public class StagiaireController implements Serializable {
     public void setThisDepartement(Departement thisDepartement) {
         this.thisDepartement = thisDepartement;
     }
-    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -195,7 +193,6 @@ public class StagiaireController implements Serializable {
     public List<Ecole> getEcolesAvailableSelectOne() {
         return ecoleFacade.findAll();
     }
-    
 
     public void findEncadrentByDepartement() {
         try {
@@ -204,16 +201,15 @@ public class StagiaireController implements Serializable {
             JsfUtil.addErrorMessage("veiller choisire une departement");
         }
     }
+
     public List<Departement> findDepartement() {
         return depatementFacade.findAll();
     }
 
-
     //recherche dial Stagiaire
-
-   public void findStagiaire() {
+    public void findStagiaire() {
         System.out.println(":: search :: ");
-items =getFacade().findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
+        items = getFacade().findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
 //items =ejbFacade.findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
@@ -223,13 +219,12 @@ items =getFacade().findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepar
             System.out.println("success");
         }
     }
-   ///pdf
+    ///pdf
 //    public void generatPdf(Stagiaire stagiaire) throws JRException, IOException {
 //        System.out.println("print pdf controller");
 //        ejbFacade.printPdf(stagiaire,SessionUtil.getConnectedUser());
 //        FacesContext.getCurrentInstance().responseComplete();
 //    }
-
 
     @FacesConverter(forClass = Stagiaire.class)
     public static class StagiaireControllerConverter implements Converter {

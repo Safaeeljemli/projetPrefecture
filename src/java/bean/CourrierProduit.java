@@ -6,13 +6,14 @@
 package bean;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -21,22 +22,27 @@ import javax.persistence.ManyToOne;
 @Entity
 public class CourrierProduit implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long n_dordre;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreation;
     private String codeP_V;
     private String objet;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnvoiePourValidation;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateRetourDocument;
     private int etat; //1-signee 2-pas_signee
     private String raisonSignature;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnvoiAuBOW_TRANS;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnvoiParBOW_TRANS;
-    private Date dateRetourDeLaMinuteDuOW_TRANS;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateRetourDeLaMinuteDuBOW_TRANS;
     private int n_EnvoiParBOW_TRANS;
     @ManyToOne
     private SousClasse sousClasse;
@@ -53,6 +59,14 @@ public class CourrierProduit implements Serializable {
 
     public void setN_dordre(Long n_dordre) {
         this.n_dordre = n_dordre;
+    }
+
+    public DestinataireExpediteur getDestinataireExpediteur() {
+        return destinataireExpediteur;
+    }
+
+    public void setDestinataireExpediteur(DestinataireExpediteur destinataireExpediteur) {
+        this.destinataireExpediteur = destinataireExpediteur;
     }
 
     public CourrierArrivee getCourrierArrivee() {
@@ -143,12 +157,12 @@ public class CourrierProduit implements Serializable {
         this.dateEnvoiParBOW_TRANS = dateEnvoiParBOW_TRANS;
     }
 
-    public Date getDateRetourDeLaMinuteDuOW_TRANS() {
-        return dateRetourDeLaMinuteDuOW_TRANS;
+    public Date getDateRetourDeLaMinuteDuBOW_TRANS() {
+        return dateRetourDeLaMinuteDuBOW_TRANS;
     }
 
-    public void setDateRetourDeLaMinuteDuOW_TRANS(Date dateRetourDeLaMinuteDuOW_TRANS) {
-        this.dateRetourDeLaMinuteDuOW_TRANS = dateRetourDeLaMinuteDuOW_TRANS;
+    public void setDateRetourDeLaMinuteDuBOW_TRANS(Date dateRetourDeLaMinuteDuBOW_TRANS) {
+        this.dateRetourDeLaMinuteDuBOW_TRANS = dateRetourDeLaMinuteDuBOW_TRANS;
     }
 
     public int getN_EnvoiParBOW_TRANS() {

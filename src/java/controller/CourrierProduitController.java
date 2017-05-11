@@ -1,12 +1,15 @@
 package controller;
 
 import bean.CourrierProduit;
+import bean.DestinataireExpediteur;
+import bean.Finalite;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierProduitFacade;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +21,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.DestinataireExpediteurFacade;
+import service.FinaliteFacade;
 
 @Named("courrierProduitController")
 @SessionScoped
@@ -27,8 +32,79 @@ public class CourrierProduitController implements Serializable {
     private service.CourrierProduitFacade ejbFacade;
     private List<CourrierProduit> items = null;
     private CourrierProduit selected;
+    private Date dateMinC;
+    private Date dateMaxC;
+    private Date dateMinDRHMG;
+    private Date dateMaxDRHMG;
+    private Date dateMinBTR;
+    private Date dateMaxBTR;
+    private int etat;
+    private Finalite finalite;
+    private String codeP_V;
+    private DestinataireExpediteur destinataire;
+
+    @EJB
+    private FinaliteFacade finaliteFacade;
+    @EJB
+    private DestinataireExpediteurFacade destinataireFacade;
 
     public CourrierProduitController() {
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
+    public Date getDateMinC() {
+        return dateMinC;
+    }
+
+    public void setDateMinC(Date dateMinC) {
+        this.dateMinC = dateMinC;
+    }
+
+    public Date getDateMaxC() {
+        return dateMaxC;
+    }
+
+    public void setDateMaxC(Date dateMaxC) {
+        this.dateMaxC = dateMaxC;
+    }
+
+    public Date getDateMinDRHMG() {
+        return dateMinDRHMG;
+    }
+
+    public void setDateMinDRHMG(Date dateMinDRHMG) {
+        this.dateMinDRHMG = dateMinDRHMG;
+    }
+
+    public Date getDateMaxDRHMG() {
+        return dateMaxDRHMG;
+    }
+
+    public void setDateMaxDRHMG(Date dateMaxDRHMG) {
+        this.dateMaxDRHMG = dateMaxDRHMG;
+    }
+
+    public Date getDateMinBTR() {
+        return dateMinBTR;
+    }
+
+    public void setDateMinBTR(Date dateMinBTR) {
+        this.dateMinBTR = dateMinBTR;
+    }
+
+    public Date getDateMaxBTR() {
+        return dateMaxBTR;
+    }
+
+    public void setDateMaxBTR(Date dateMaxBTR) {
+        this.dateMaxBTR = dateMaxBTR;
     }
 
     public CourrierProduit getSelected() {
@@ -39,12 +115,65 @@ public class CourrierProduitController implements Serializable {
         this.selected = selected;
     }
 
+    public Finalite getFinalite() {
+        return finalite;
+    }
+
+    public void setFinalite(Finalite finalite) {
+        this.finalite = finalite;
+    }
+
+    public String getCodeP_V() {
+        return codeP_V;
+    }
+
+    public void setCodeP_V(String codeP_V) {
+        this.codeP_V = codeP_V;
+    }
+
+    public DestinataireExpediteur getDestinataire() {
+        return destinataire;
+    }
+
+    public void setDestinataire(DestinataireExpediteur destinataire) {
+        this.destinataire = destinataire;
+    }
+
     protected void setEmbeddableKeys() {
     }
 
     protected void initializeEmbeddableKey() {
     }
 
+    public List<DestinataireExpediteur> getDestinatairesAvailableSelectOne() {
+        return destinataireFacade.findAll();
+    }
+
+    public List<Finalite> getFinalitesAvailableSelectOne() {
+        return finaliteFacade.findAll();
+    }
+
+    public void findCourrierProduit() {
+        items = ejbFacade.findCourrierProduit(dateMinC, dateMaxC, codeP_V, finalite, destinataire);
+        if (items == null) {
+            JsfUtil.addSuccessMessage("No Data Found");
+        } else {
+            JsfUtil.addSuccessMessage("successe");
+        }
+
+    }
+
+//     public void prepareView() {
+//        selected = null;
+//        dateCreation = null;
+//        finalite = null;
+//        codeP_V = false;
+//        tauRetardFinished = false;
+//        tauxTaxeFinished = false;
+//        initializeEmbeddableKey();
+//    }
+//
+//    
     private CourrierProduitFacade getFacade() {
         return ejbFacade;
     }
