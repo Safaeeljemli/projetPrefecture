@@ -34,13 +34,25 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         super(CourrierProduit.class);
     }
 
-    public List<CourrierProduit> findCourrierProduit(Date dateMin, Date dateMax, String codeP_V, Finalite finalite, DestinataireExpediteur destinataire) {
+    public List<CourrierProduit> findCourrierProduit(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeP_V, Finalite finalite, DestinataireExpediteur destinataire) {
         String query = "Select cp FROM CourrierProduit cp WHERE 1=1";
-        if (dateMin != null) {
-            query += " AND cp.dateCreation >= :dateMin";
+        if (dateMinC != null) {
+            query += " AND cp.dateCreation >=" + dateMinC;
         }
-        if (dateMax != null) {
-            query += " AND cp.dateCreation <= :dateMax";
+        if (dateMaxC != null) {
+            query += " AND cp.dateCreation <=" + dateMaxC;
+        }
+        if (dateMinDRHMG != null) {
+            query += " AND cp.dateEnregistrementDRHMG >= " + dateMinDRHMG;
+        }
+        if (dateMaxDRHMG != null) {
+            query += " AND cp.dateEnregistrementDRHMG <= " + dateMaxDRHMG;
+        }
+        if (dateMinBTR != null) {
+            query += " AND cp.dateEnregistrementBOW_TRANS_RLAN >= " + dateMinBTR;
+        }
+        if (dateMaxBTR != null) {
+            query += " AND cp.dateEnregistrementBOW_TRANS_RLAN <= " + dateMaxBTR;
         }
         if (codeP_V != null) {
             query += SearchUtil.addConstraint("cp", "codeP_V", "=", codeP_V);
@@ -56,5 +68,4 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
 
     }
 
-   
 }
