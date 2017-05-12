@@ -17,9 +17,9 @@
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementBOW_TRANS_RLAN}" for="n_enregistrementBOW_TRANS_RLAN" />
                         <p:inputText id="n_enregistrementBOW_TRANS_RLAN" value="#{courrierArriveeController.selected.n_enregistrementBOW_TRANS_RLAN}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementBOW_TRANS_RLAN}" />
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementDRHMG}" for="dateEnregistrementDRHMG" />
-                        <p:inputText id="dateEnregistrementDRHMG" value="#{courrierArriveeController.selected.dateEnregistrementDRHMG}" title="#{bundle.CreateCourrierArriveeTitle_dateEnregistrementDRHMG}" />
+                        <p:calendar id="dateEnregistrementDRHMG" pattern="MM/dd/yyyy" value="#{courrierArriveeController.selected.dateEnregistrementDRHMG}" title="#{bundle.EditCourrierArriveeTitle_dateEnregistrementDRHMG}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementBOW_TRANS_RLAN}" for="dateEnregistrementBOW_TRANS_RLAN" />
-                        <p:inputText id="dateEnregistrementBOW_TRANS_RLAN" value="#{courrierArriveeController.selected.dateEnregistrementBOW_TRANS_RLAN}" title="#{bundle.CreateCourrierArriveeTitle_dateEnregistrementBOW_TRANS_RLAN}" />
+                        <p:calendar id="dateEnregistrementBOW_TRANS_RLAN" pattern="MM/dd/yyyy" value="#{courrierArriveeController.selected.dateEnregistrementBOW_TRANS_RLAN}" title="#{bundle.EditCourrierArriveeTitle_dateEnregistrementBOW_TRANS_RLAN}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_destinataireExpediteur}" for="destinataireExpediteur" />
                         <p:selectOneMenu id="destinataireExpediteur" value="#{courrierArriveeController.selected.destinataireExpediteur}" >
                             <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
@@ -29,7 +29,7 @@
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrement}" for="n_enregistrement" />
                         <p:inputText id="n_enregistrement" value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrement}" />
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrement}" for="dateEnregistrement" />
-                        <p:inputText id="dateEnregistrement" value="#{courrierArriveeController.selected.dateEnregistrement}" title="#{bundle.CreateCourrierArriveeTitle_dateEnregistrement}" />
+                        <p:calendar id="dateEnregistrement" pattern="MM/dd/yyyy" value="#{courrierArriveeController.selected.dateEnregistrement}" title="#{bundle.EditCourrierArriveeTitle_dateEnregistrement}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_motsCle}" for="motsCle" />
                         <p:inputText id="motsCle" value="#{courrierArriveeController.selected.motsCle}" title="#{bundle.CreateCourrierArriveeTitle_motsCle}" />
                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_objet}" for="objet" />

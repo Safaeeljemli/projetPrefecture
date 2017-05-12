@@ -38,6 +38,7 @@ public class CourrierArriveeController implements Serializable {
     private service.CourrierArriveeFacade ejbFacade;
     private List<CourrierArrivee> items = null;
     private CourrierArrivee selected;
+    private CourrierArrivee item;
 
     private Date dateMinC;
     private Date dateMaxC;
@@ -46,11 +47,11 @@ public class CourrierArriveeController implements Serializable {
     private Date dateMinBTR;
     private Date dateMaxBTR;
     private String codeA_V;
-    private DestinataireExpediteur expediteur;
-    private ModeTraitement modeTraitement;
-    private CourrierProduit courrierProduit;
-    private Classe classe;
-    private SousClasse sousClasse;
+    private DestinataireExpediteur expediteur = null;
+    private ModeTraitement modeTraitement = null;
+    private CourrierProduit courrierProduit = null;
+    private Classe classe = null;
+    private SousClasse sousClasse = null;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
@@ -65,6 +66,14 @@ public class CourrierArriveeController implements Serializable {
     }
 
     // getter & setter
+    public CourrierArrivee getItem() {
+        return item;
+    }
+
+    public void setItem(CourrierArrivee item) {
+        this.item = item;
+    }
+
     public SousClasse getSousClasse() {
         return sousClasse;
     }
@@ -169,12 +178,6 @@ public class CourrierArriveeController implements Serializable {
         this.selected = selected;
     }
 
-    //methods 
-    public void refresh() {
-        selected = null;
-        items = null;
-    }
-
     public List<DestinataireExpediteur> getExpediteursAvailableSelectOne() {
         return destinataireExpediteurFacade.findAll();
     }
@@ -186,22 +189,31 @@ public class CourrierArriveeController implements Serializable {
     public List<Classe> getClassesAvailableSelectOne() {
         return classeFacade.findAll();
     }
+    //methods 
+
+    public void refresh() {
+        selected = null;
+        items = null;
+    }
 
     public void findSousClasseByClasse() {
         try {
             getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
-        } catch (Exception sc) {
+        } catch (Exception e) {
             JsfUtil.addErrorMessage("veiller choisire une departement");
         }
     }
 
     public void findCourrierArrivee() {
         System.out.println("haaaa");
-        items = ejbFacade.findCourrierArrivee(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeA_V, expediteur, modeTraitement);
+        refresh();
+        items = ejbFacade.findCourrierArrivee(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeA_V, sousClasse, expediteur, modeTraitement);
         if (items == null) {
-            System.out.println(" item ! null ");
+            items = ejbFacade.findAll();
+
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
+            System.out.println(" items ! null ");
             JsfUtil.addSuccessMessage("successe");
         }
     }
@@ -219,13 +231,48 @@ public class CourrierArriveeController implements Serializable {
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
+        dateMinC = null;
+        dateMaxC = null;
+        dateMinDRHMG = null;
+        dateMinDRHMG = null;
+        dateMaxBTR = null;
+        dateMaxBTR = null;
+        codeA_V = null;
+        expediteur = null;
+        modeTraitement = null;
         return selected;
+    }
+//    public void prepareCreate() {
+//        dateMinC = null;
+//        dateMaxC = null;
+//        dateMinDRHMG = null;
+//        dateMinDRHMG = null;
+//        dateMaxBTR = null;
+//        dateMaxBTR = null;
+//        codeA_V = null;
+//        expediteur = null;
+//        modeTraitement = null;
+//    }
+
+    public void prepareView() {
+        selected = null;
+        dateMinC = null;
+        dateMaxC = null;
+        dateMinDRHMG = null;
+        dateMinDRHMG = null;
+        dateMaxBTR = null;
+        dateMaxBTR = null;
+        codeA_V = null;
+        expediteur = null;
+        modeTraitement = null;
+        initializeEmbeddableKey();
     }
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));
+            //ystem.out.println("***" + selected.getModeTraitement().getNom());
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }

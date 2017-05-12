@@ -18,7 +18,7 @@
             <h:form id="CourrierProduitListForm">
                 <b:panel title="Rechercher des Courrier Produit " class="panel-primary"  >
                     <b:panelGrid columns="6" >
-                        
+
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Code P/V" for="codeP" />
                         </p:column>
@@ -126,7 +126,7 @@
                                 <f:selectItems value="#{courrierArriveeController.classe.sousClasses}" var="itemSousClasse" itemValue="#{itemSousClasse}" itemLabel="#{itemSousClasse.nom}"/>
                             </p:selectOneMenu>
                         </p:column>
-                        
+
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Etat:" for="etat" />
                         </p:column>
@@ -137,114 +137,123 @@
                                 <f:selectItem itemValue="2" itemLabel="Non Signée"/>
                             </p:selectOneMenu>
                         </p:column>
-                        
-                        
+
+
                     </b:panelGrid>
                     <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
                         <br></br>
 
-                       <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{stagiaireController.findStagiaire()}" ></b:commandButton>
-                       <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{stagiaireController.refresh()}" ></b:commandButton>
+                        <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierProduitController.findCourrierProduit()}" ></b:commandButton>
+                        <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierProduitController.refresh()}" ></b:commandButton>
                     </div>
                 </b:panel>
 
                 <b:panel title=" Courrier Produit " class="panel-primary"  >
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   />
+                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
                     </div>
-                    <b:dataTable  id="datalist" value="#{courrierProduitController.items}" var="item"
-                                 >
+                    <b:dataTable  id="datalist" value="#{courrierProduitController.items}" var="item" >
 
-                        <p:column>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_n_dordre}"/>
                             </f:facet>
                             <h:outputText value="#{item.n_dordre}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_courrierArrivee}"/>
                             </f:facet>
                             <h:outputText value="#{item.courrierArrivee}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateCreation}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateCreation}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.dateCreation}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_codeP_V}"/>
                             </f:facet>
                             <h:outputText value="#{item.codeP_V}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_objet}"/>
                             </f:facet>
                             <h:outputText value="#{item.objet}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_finalite}"/>
                             </f:facet>
                             <h:outputText value="#{item.finalite}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiePourValidation}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateEnvoiePourValidation}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.dateEnvoiePourValidation}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDocument}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateRetourDocument}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.dateRetourDocument}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_etat}"/>
                             </f:facet>
                             <h:outputText value="#{item.etat}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_raisonSignature}"/>
                             </f:facet>
                             <h:outputText value="#{item.raisonSignature}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiAuBOW_TRANS}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateEnvoiAuBOW_TRANS}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.dateEnvoiAuBOW_TRANS}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiParBOW_TRANS}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateEnvoiParBOW_TRANS}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.dateEnvoiParBOW_TRANS}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDeLaMinuteDuOW_TRANS}"/>
+                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDeLaMinuteDuBOW_TRANS}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateRetourDeLaMinuteDuOW_TRANS}"/>
-                        </p:column>
-                        <p:column>
+                            <h:outputText value="#{item.dateRetourDeLaMinuteDuBOW_TRANS}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_n_EnvoiParBOW_TRANS}"/>
                             </f:facet>
                             <h:outputText value="#{item.n_EnvoiParBOW_TRANS}"/>
-                        </p:column>
-                        <p:column>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_sousClasse}"/>
                             </f:facet>
                             <h:outputText value="#{item.sousClasse}"/>
-                        </p:column>
+                        </b:dataTableColumn>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" disabled="#{empty courrierProduitController.selected}"/>

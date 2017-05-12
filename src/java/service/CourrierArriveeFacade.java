@@ -8,6 +8,8 @@ package service;
 import bean.CourrierArrivee;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
+import bean.SousClasse;
+import controller.util.DateUtil;
 import controller.util.SearchUtil;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +36,10 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         super(CourrierArrivee.class);
     }
 
+    
+
     public void clone(CourrierArrivee courrierSource, CourrierArrivee courrierDestination) {
+        courrierDestination.setObjet(courrierSource.getObjet());
         courrierDestination.setCodeA_V(courrierSource.getCodeA_V());
         courrierDestination.setDateEnregistrement(courrierSource.getDateEnregistrement());
         courrierDestination.setDateEnregistrementBOW_TRANS_RLAN(courrierSource.getDateEnregistrementBOW_TRANS_RLAN());
@@ -46,7 +51,6 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         courrierDestination.setN_enregistrementBOW_TRANS_RLAN(courrierSource.getN_enregistrementBOW_TRANS_RLAN());
         courrierDestination.setN_enregistrementDRHMG(courrierSource.getN_enregistrementDRHMG());
         courrierDestination.setSousClasse(courrierSource.getSousClasse());
-
     }
 
     public CourrierArrivee clone(CourrierArrivee courrierArrivee) {
@@ -55,31 +59,34 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         return cloned;
     }
 
-    public List<CourrierArrivee> findCourrierArrivee(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeA_V, DestinataireExpediteur expediteur, ModeTraitement modeTraitement) {
+    public List<CourrierArrivee> findCourrierArrivee(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeA_V,SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement) {
         System.out.println("facaaade");
         String query = "Select ca FROM CourrierArrivee ca WHERE 1=1";
         if (dateMinC != null) {
             System.out.println("date test " + dateMinC);
-            query += " AND ca.dateCreation >= " + dateMinC;
+            query += " AND ca.dateCreation >= '" + DateUtil.convertUtilToSql(dateMinC) + "'";
         }
         if (dateMaxC != null) {
             System.out.println("date test " + dateMaxC);
-            query += " AND ca.dateCreation <= " + dateMaxC;
+            query += " AND ca.dateCreation <=' " + DateUtil.convertUtilToSql(dateMaxC) + "'";
         }
         if (dateMinDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG >= " + dateMinDRHMG;
+            query += " AND ca.dateEnregistrementDRHMG >=' " + DateUtil.convertUtilToSql(dateMinDRHMG) + "'";
         }
         if (dateMaxDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG <= " + dateMaxDRHMG;
+            query += " AND ca.dateEnregistrementDRHMG <=' " + DateUtil.convertUtilToSql(dateMaxDRHMG) + "'";
         }
         if (dateMinBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >= " + dateMinBTR;
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >=' " + DateUtil.convertUtilToSql(dateMinBTR) + "'";
         }
         if (dateMaxBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <= " + dateMaxBTR;
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <=' " + DateUtil.convertUtilToSql(dateMaxBTR) + "'";
         }
         if (codeA_V != null) {
             query += SearchUtil.addConstraint("ca", "codeA_V", "=", codeA_V);
+        }
+        if(sousClasse!= null){
+            query += SearchUtil.addConstraint("ca", "sousClasse.id", "=", sousClasse.getId());
         }
         if (expediteur != null) {
             query += SearchUtil.addConstraint("ca", "destinataireExpediteur.id", "=", expediteur.getId());

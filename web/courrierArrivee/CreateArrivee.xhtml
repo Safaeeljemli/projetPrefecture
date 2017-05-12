@@ -86,7 +86,7 @@
                                         <p:outputLabel value="Expediteur" for="expediteur" />
                                     </p:column>
                                     <p:column styleClass="text-font">
-                                        <p:selectOneMenu id="expediteur"   value="#{courrierArriveeController.expediteur}" >
+                                        <p:selectOneMenu id="expediteur"   value="#{courrierArriveeController.selected.destinataireExpediteur}" >
                                             <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
                                             <f:selectItems value="#{courrierArriveeController.expediteursAvailableSelectOne}" var="itemFinalite" itemValue="#{itemFinalite}" itemLabel="#{itemFinalite.nom}"/>
                                         </p:selectOneMenu>
@@ -96,9 +96,9 @@
                                         <p:outputLabel value="Mode Traitement" for="modeTraitement" />
                                     </p:column>
                                     <p:column styleClass="text-font">
-                                        <p:selectOneMenu id="modeTraitement"   value="#{courrierArriveeController.modeTraitement}" >
+                                        <p:selectOneMenu id="modeTraitement"   value="#{courrierArriveeController.selected.modeTraitement}" >
                                             <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                                            <f:selectItems value="#{courrierArriveeController.modeTraitementsAvailableSelectOne}" var="itemDestinataire" itemValue="#{itemDestinataire}" itemLabel="#{itemDestinataire.nom}"/>
+                                            <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}" var="destinataireExpediteurItem" itemValue="#{destinataireExpediteurItem}" itemLabel="#{itemDestinataire.nom}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column styleClass="text-font">

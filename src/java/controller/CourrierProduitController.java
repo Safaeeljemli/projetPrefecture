@@ -187,7 +187,9 @@ public class CourrierProduitController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+           getItems().add(ejbFacade.clone(selected));
+            //ystem.out.println("***" + selected.getModeTraitement().getNom());
+            prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }
 
