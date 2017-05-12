@@ -29,7 +29,7 @@ public class User implements Serializable {
     private String prenom;
      private String email;
     private String tel;
-    private boolean blocked=false;
+    private int  blocked=0;
     private int nbrCnx;
     private boolean adminn;
 //    private boolean connected=false;
@@ -85,14 +85,15 @@ public class User implements Serializable {
         this.tel = tel;
     }
 
-    public boolean isBlocked() {
+    public int getBlocked() {
         return blocked;
     }
 
-    public void setBlocked(boolean blocked) {
+    public void setBlocked(int blocked) {
         this.blocked = blocked;
     }
 
+   
     public int getNbrCnx() {
         return nbrCnx;
     }

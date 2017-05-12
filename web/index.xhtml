@@ -1,93 +1,50 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+     <h:head>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <link  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
+        <link src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>       
+        <h:outputScript library="js" name="jsfcrud.js"/>
     </h:head>
-    <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
-        <br />
-        <h:link outcome="/classe/List" value="Show All Classe Items"/>
-        <br />
-        <h:link outcome="/departement/List" value="Show All Departement Items"/>
-        <br />
-        <h:link outcome="/device/List" value="Show All Device Items"/>
-        <br />
-        <h:link outcome="/domaine/List" value="Show All Domaine Items"/>
-        <br />
-        <h:link outcome="/echelle/List" value="Show All Echelle Items"/>
-        <br />
-        <h:link outcome="/echelon/List" value="Show All Echelon Items"/>
-        <br />
-        <h:link outcome="/ecole/List" value="Show All Ecole Items"/>
-        <br />
-        <h:link outcome="/employee/List" value="Show All Employee Items"/>
-        <br />
-        <h:link outcome="/history/List" value="Show All History Items"/>
-        <br />
-        <h:link outcome="/sousClasse/List" value="Show All SousClasse Items"/>
-        <br />
-        <h:link outcome="/stage/List" value="Show All Stage Items"/>
-        <br />
-        <h:link outcome="/stagiaire/List" value="Show All Stagiaire Items"/>
-        <br />
-        <h:link outcome="/user/List" value="Show All User Items"/>
-        <br />
-        <h:link outcome="/finalite/List" value="Show All Finalite Items"/>
-        <br />
-        <h:link outcome="/modeTraitement/List" value="Show All ModeTraitement Items"/>
-        <br />
-        <h:link outcome="/courrierArrivee/List" value="Show All CourrierArrivee Items"/>
-        <br />
-        <h:link outcome="/courrierProduit/List" value="Show All CourrierProduit Items"/>
-        <br />
-        <h:link outcome="/destinataireExpediteur/List" value="Show All DestinataireExpediteur Items"/>
+    <h:body style="background-color: #eeefee" >
+    <!--<body style="background-color: #eeefee">-->
+        <b:growl id="growl" />
+        <h:form id="loginForm">
+            <b:container>
+                <b:panel title="PLATEFORME DE L'APPLICATION" look="primary" style="text-align: center;margin-top: 5%; margin-left: 20%;margin-right:20%;">
+
+                    <img src="logo.jpg" style=" padding: 20px" class="center-block" width="200" height="250"></img>
+                    <p:panel header="Connecter vous a votre compte" style="margin-left: 15%;margin-right:15%;text-align: center">
+                        <h:form style="margin-left:2%;margin-right:40%;">
+                            <b:panelGrid columns="2" class="form-group">
+                                <h:outputLabel value="Login:" for="login" style=" font-size: 12pt ;padding-top: 10px ;margin-left: -50px"/>
+                                <b:inputText id="login" value="#{userController.selected.login}" class="form-control" >
+                                    <f:facet name="prepend">
+                                        <b:icon name="user" />
+                                    </f:facet>
+                                </b:inputText>
+                                <h:outputLabel  value="Password:" style="padding-top: 10px ;margin-left: -95px;width:1px;font-size: 12pt" for="password"  />
+                                <p:password id="password"  value="#{userController.selected.passwrd}"  class="form-control" />                                           
+                            </b:panelGrid>
+                            <b:commandButton class="btn btn-primary  form-control" style="font-size: 11pt" icon="ui-icon-user" value="Sing in" action="#{userController.seConnecter()}"></b:commandButton><br></br><br></br>
+                            <!--<p:commandLink  class="form-control"  value="Forgot password?" action="inaccessible/user/ForgotPassword?faces-redirect=true" update=":growl"></p:commandLink><br></br>-->
+                        </h:form>
+                    </p:panel>
+                </b:panel>
+            </b:container>
+        </h:form>
     </h:body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
+
+
 

@@ -1,11 +1,14 @@
 package controller;
 
 import bean.User;
+import controller.util.DeviceUtil;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import controller.util.SessionUtil;
 import service.UserFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,7 +34,23 @@ public class UserController implements Serializable {
     public UserController() {
     }
 
+    //CONNEXION
+     public String seConnecter() {
+        Object[] res = ejbFacade.seConnecter(selected, DeviceUtil.getDevice());
+        int res1 = (int) res[0];
+        if (res1 < 0) {
+            JsfUtil.addErrorMessage("le code de l'erreur " + res1);
+            return "/index?faces-redirect=true";
+        } else {
+            SessionUtil.registerUser(selected);
+           // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
+            return "/home/Home?faces-redirect=true";
+        }
+     }
     public User getSelected() {
+        if(selected== null){
+            selected = new User();
+        }
         return selected;
     }
 

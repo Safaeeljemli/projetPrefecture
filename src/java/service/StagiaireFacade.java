@@ -9,6 +9,7 @@ import bean.Departement;
 import bean.Ecole;
 import bean.Employee;
 import bean.Stagiaire;
+import controller.util.DateUtil;
 import controller.util.SearchUtil;
 import java.util.Date;
 import java.util.List;
@@ -45,15 +46,12 @@ public class StagiaireFacade extends AbstractFacade<Stagiaire> {
         }
         
        if (dateDebut != null) {
-           query += " AND s.dateDebut >" + dateDebut;
-           // query += SearchUtil.addConstraintDate("s", "s.dateDebut", ">",  dateDebut);
-       }
-        if (dateFin != null) {
-             query += " AND s.dateFin <" + dateFin;
+          query += " AND s.dateDebut >= '" + DateUtil.convertUtilToSql(dateDebut) + "'";
         }
-            //query += SearchUtil.addConstraintDate("s", "s.dateFin", "<",  dateFin);
-     
 
+        if (dateFin != null) {
+            query += " AND s.dateFin <= '" + DateUtil.convertUtilToSql(dateFin) + "'";
+        }
         if (departement != null) {
             query += SearchUtil.addConstraint("s", "departement.id", "=", departement.getId());
         }
@@ -115,6 +113,27 @@ public class StagiaireFacade extends AbstractFacade<Stagiaire> {
 //        params.put("status", status);
 //        params.put("userName", user.getNom());
 //        return params;
- //   }
+//    }
+
+       public void clone(Stagiaire stagiaireSource, Stagiaire stagiaireDestination) {
+        stagiaireDestination.setCin(stagiaireSource.getCin());
+        stagiaireDestination.setDateDebut(stagiaireSource.getDateDebut());
+        stagiaireDestination.setDateFin(stagiaireSource.getDateFin());
+        stagiaireDestination.setDepartement(stagiaireSource.getDepartement());
+        stagiaireDestination.setDomaine(stagiaireSource.getDomaine());
+        stagiaireDestination.setEcoleStagiaire(stagiaireSource.getEcoleStagiaire());
+        stagiaireDestination.setEncadrant(stagiaireSource.getEncadrant());
+        stagiaireDestination.setMail(stagiaireSource.getMail());
+        stagiaireDestination.setNom(stagiaireSource.getNom());
+        stagiaireDestination.setNumTel(stagiaireSource.getNumTel());
+        stagiaireDestination.setStage(stagiaireSource.getStage());
+        stagiaireDestination.setPrenom(stagiaireSource.getPrenom());
+    }
+
+    public Stagiaire clone(Stagiaire stagiaire) {
+        Stagiaire cloned = new Stagiaire();
+        clone(stagiaire , cloned);
+        return cloned;
+    }
 
 }

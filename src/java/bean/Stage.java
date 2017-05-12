@@ -98,7 +98,15 @@ public class Stage implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Stage[ id=" + id + " ]";
+        String type;
+        if(typeStage==1){
+            type = "Normal";
+        }else{
+            type = "Alternée";
+        }
+        return type;
     }
+
+   
     
 }

@@ -97,7 +97,8 @@ public class Departement implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Departement[ id=" + id + " ]";
+        return  nom ;
     }
 
+    
 }

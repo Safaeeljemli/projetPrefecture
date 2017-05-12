@@ -85,7 +85,8 @@ public class Ecole implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Ecole[ id=" + id + " ]";
+        return   nom;
     }
-    
+
+   
 }

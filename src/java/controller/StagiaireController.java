@@ -28,7 +28,7 @@ import javax.faces.convert.FacesConverter;
 @Named("stagiaireController")
 @SessionScoped
 public class StagiaireController implements Serializable {
-
+    
     @EJB
     private service.StagiaireFacade ejbFacade;
     @EJB
@@ -37,7 +37,7 @@ public class StagiaireController implements Serializable {
     private service.DepartementFacade depatementFacade;
     @EJB
     private service.EmployeeFacade employeeFacade;
-
+    
     private List<Stagiaire> items;
     private Stagiaire selected;
     //recherche Stagiaire
@@ -47,113 +47,129 @@ public class StagiaireController implements Serializable {
     private Date dateFin;
     private Employee encadrant;
     private Departement thisDepartement;
-
+    
     public StagiaireController() {
     }
-
+    
     public Stagiaire getSelected() {
         return selected;
     }
-
+    
     public void setSelected(Stagiaire selected) {
         this.selected = selected;
     }
-
+    
     protected void setEmbeddableKeys() {
     }
-
+    
     protected void initializeEmbeddableKey() {
     }
-
+    
     private StagiaireFacade getFacade() {
         return ejbFacade;
     }
-
+    
     public Stagiaire prepareCreate() {
         selected = new Stagiaire();
         initializeEmbeddableKey();
         return selected;
     }
-
+    
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("StagiaireCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            getItems().add(ejbFacade.clone(selected));
+            getFacade().create(selected);
+            prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("StagiaireUpdated"));
     }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("StagiaireDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+//    public void destroy() {
+//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("StagiaireDeleted"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            selected = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
+    public void destroy(Stagiaire item) {
+        getFacade().remove(item);
+        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StagiaireDeleted"));
+        items = null;    // Invalidate list of items to trigger re-query.
     }
-
+    
     public List<Stagiaire> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
-
+    
     public void refresh() {
         selected = null;
         items = null;
+        setTypeStage(0);
+        setEcole(null);
+        setDateDebut(null);
+        setDateFin(null);
+        setEncadrant(null);
+        setThisDepartement(null);
     }
-
+    
     public int getTypeStage() {
         return typeStage;
     }
-
+    
     public void setTypeStage(int typeStage) {
         this.typeStage = typeStage;
     }
-
+    
     public Ecole getEcole() {
+        if (ecole == null) {
+            ecole = new Ecole();
+        }
         return ecole;
     }
-
+    
     public void setEcole(Ecole ecole) {
         this.ecole = ecole;
     }
-
+    
     public Date getDateDebut() {
         return dateDebut;
     }
-
+    
     public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
-
+    
     public Date getDateFin() {
         return dateFin;
     }
-
+    
     public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
-
+    
     public Employee getEncadrant() {
         return encadrant;
     }
-
+    
     public void setEncadrant(Employee encadrant) {
         this.encadrant = encadrant;
     }
-
+    
     public Departement getThisDepartement() {
         return thisDepartement;
     }
-
+    
     public void setThisDepartement(Departement thisDepartement) {
         this.thisDepartement = thisDepartement;
     }
-
+    
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -181,19 +197,19 @@ public class StagiaireController implements Serializable {
             }
         }
     }
-
+    
     public Stagiaire getStagiaire(java.lang.Long id) {
         return getFacade().find(id);
     }
-
+    
     public List<Stagiaire> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
-
+    
     public List<Ecole> getEcolesAvailableSelectOne() {
         return ecoleFacade.findAll();
     }
-
+    
     public void findEncadrentByDepartement() {
         try {
             getThisDepartement().setEmployees(employeeFacade.findEncadrentByDepartement(thisDepartement));
@@ -201,7 +217,7 @@ public class StagiaireController implements Serializable {
             JsfUtil.addErrorMessage("veiller choisire une departement");
         }
     }
-
+    
     public List<Departement> findDepartement() {
         return depatementFacade.findAll();
     }
@@ -228,7 +244,7 @@ public class StagiaireController implements Serializable {
 
     @FacesConverter(forClass = Stagiaire.class)
     public static class StagiaireControllerConverter implements Converter {
-
+        
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -238,19 +254,19 @@ public class StagiaireController implements Serializable {
                     getValue(facesContext.getELContext(), null, "stagiaireController");
             return controller.getStagiaire(getKey(value));
         }
-
+        
         java.lang.Long getKey(String value) {
             java.lang.Long key;
             key = Long.valueOf(value);
             return key;
         }
-
+        
         String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
         }
-
+        
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
@@ -264,7 +280,7 @@ public class StagiaireController implements Serializable {
                 return null;
             }
         }
-
+        
     }
-
+    
 }
