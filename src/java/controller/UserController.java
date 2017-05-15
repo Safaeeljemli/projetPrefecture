@@ -36,6 +36,7 @@ public class UserController implements Serializable {
 
     //CONNEXION
      public String seConnecter() {
+         System.out.println("test user");
         Object[] res = ejbFacade.seConnecter(selected, DeviceUtil.getDevice());
         int res1 = (int) res[0];
         if (res1 < 0) {
@@ -44,7 +45,7 @@ public class UserController implements Serializable {
         } else {
             SessionUtil.registerUser(selected);
            // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
-            return "/home/Home?faces-redirect=true";
+            return "/home/accueil?faces-redirect=true";
         }
      }
     public User getSelected() {

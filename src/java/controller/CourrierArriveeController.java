@@ -191,16 +191,12 @@ public class CourrierArriveeController implements Serializable {
     }
     //methods 
 
-    public void refresh() {
-        selected = null;
-        items = null;
-    }
 
     public void findSousClasseByClasse() {
         try {
             getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("veiller choisire une departement");
+            JsfUtil.addErrorMessage("veiller choisire une classe");
         }
     }
 
@@ -268,6 +264,21 @@ public class CourrierArriveeController implements Serializable {
         initializeEmbeddableKey();
     }
 
+     public void refresh() {
+        selected = null;
+        items = null;
+        setClasse(null);
+        setCodeA_V(null);
+        setCourrierProduit(null);
+        setDateMaxBTR(null);
+        setDateMaxC(null);
+        setDateMaxDRHMG(null);
+        setDateMinBTR(null);
+        setDateMinC(null);
+        setDateMinDRHMG(null);
+        setSousClasse(null);
+    }
+    
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -280,13 +291,21 @@ public class CourrierArriveeController implements Serializable {
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeUpdated"));
     }
+    public void delete() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeDeleted"));
+    }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+//    public void destroy() {
+//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeDeleted"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            selected = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
+    public void destroy(CourrierArrivee item) {
+        getFacade().remove(item);
+        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeDeleted"));
+        items = null;    
     }
 
     public List<CourrierArrivee> getItems() {

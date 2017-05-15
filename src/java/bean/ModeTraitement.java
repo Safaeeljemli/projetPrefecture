@@ -74,7 +74,7 @@ public class ModeTraitement implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.ModeTraitement[ id=" + id + " ]";
+        return nom;
     }
 
 }

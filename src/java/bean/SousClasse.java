@@ -95,7 +95,7 @@ public class SousClasse implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.SousClasse[ id=" + id + " ]";
+        return nom;
     }
 
 }

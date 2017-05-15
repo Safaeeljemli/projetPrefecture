@@ -1,8 +1,10 @@
 package controller;
 
+import bean.Classe;
 import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.Finalite;
+import bean.SousClasse;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierProduitFacade;
@@ -21,8 +23,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.FinaliteFacade;
+import service.SousClasseFacade;
 
 @Named("courrierProduitController")
 @SessionScoped
@@ -41,14 +45,36 @@ public class CourrierProduitController implements Serializable {
     private int etat;
     private Finalite finalite;
     private String codeP_V;
-    private DestinataireExpediteur destinataire;
+    private DestinataireExpediteur destinataire = null;
+    private Classe classe = null;
+    private SousClasse sousClasse = null;
 
     @EJB
     private FinaliteFacade finaliteFacade;
     @EJB
     private DestinataireExpediteurFacade destinataireFacade;
+    @EJB
+    private ClasseFacade classeFacade;
+    @EJB
+    private SousClasseFacade sousClasseFacade;
 
     public CourrierProduitController() {
+    }
+
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
+
+    public SousClasse getSousClasse() {
+        return sousClasse;
+    }
+
+    public void setSousClasse(SousClasse sousClasse) {
+        this.sousClasse = sousClasse;
     }
 
     public int getEtat() {
@@ -149,18 +175,45 @@ public class CourrierProduitController implements Serializable {
         return destinataireFacade.findAll();
     }
 
+    public List<Classe> getClassesAvailableSelectOne() {
+        return classeFacade.findAll();
+    }
+
     public List<Finalite> getFinalitesAvailableSelectOne() {
         return finaliteFacade.findAll();
     }
 
+    public void findSousClasseByClasse() {
+        try {
+            getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("veiller choisire une classe");
+        }
+    }
+
     public void findCourrierProduit() {
-        items = ejbFacade.findCourrierProduit(dateMinC, dateMaxC,dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeP_V, finalite, destinataire);
+        items = ejbFacade.findCourrierProduit(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeP_V, finalite, destinataire);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
             JsfUtil.addSuccessMessage("successe");
         }
 
+    }
+
+    public void refresh() {
+        selected = null;
+        items = null;
+        setCodeP_V(null);
+        setEtat(0);
+        setFinalite(null);
+        setDateMaxBTR(null);
+        setDateMaxC(null);
+        setDateMaxDRHMG(null);
+        setDateMinBTR(null);
+        setDateMinC(null);
+        setDateMinDRHMG(null);
+        setDestinataire(null);
     }
 
 //     public void prepareView() {
@@ -187,7 +240,7 @@ public class CourrierProduitController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitCreated"));
         if (!JsfUtil.isValidationFailed()) {
-           getItems().add(ejbFacade.clone(selected));
+            getItems().add(ejbFacade.clone(selected));
             //ystem.out.println("***" + selected.getModeTraitement().getNom());
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
@@ -197,12 +250,17 @@ public class CourrierProduitController implements Serializable {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitUpdated"));
     }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+//    public void destroy() {
+//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitDeleted"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            selected = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
+    public void destroy(CourrierProduit item) {
+        getFacade().remove(item);
+        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CourrierProduitDeleted"));
+        items = null;
     }
 
     public List<CourrierProduit> getItems() {

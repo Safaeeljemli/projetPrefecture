@@ -84,7 +84,7 @@ public class DestinataireExpediteur implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Destinataire[ id=" + id + " ]";
+        return nom;
     }
 
 }

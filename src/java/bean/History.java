@@ -6,15 +6,16 @@
 
 package bean;
 
-import converters.LocalDateTimeAttributeConverter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -30,8 +31,8 @@ public class History implements Serializable {
     @OneToOne
     private User user;
     private int type;//1:login  2:logout
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime inOutTimeStamp;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date inOutTimeStamp;
 
     public Long getId() {
         return id;
@@ -57,16 +58,16 @@ public class History implements Serializable {
         this.type = type;
     }
 
-
-    public LocalDateTime getInOutTimeStamp() {
+    public Date getInOutTimeStamp() {
         return inOutTimeStamp;
     }
 
-    public void setInOutTimeStamp(LocalDateTime inOutTimeStamp) {
+    public void setInOutTimeStamp(Date inOutTimeStamp) {
         this.inOutTimeStamp = inOutTimeStamp;
     }
-    
 
+
+  
     @Override
     public int hashCode() {
         int hash = 0;

@@ -173,7 +173,7 @@ public class CourrierArrivee implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.CourrierArrivee[ id=" + n_enregistrement + " ]";
+        return codeA_V;
     }
 
 }

@@ -15,7 +15,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="CourrierProduitListForm">
+            <h:form id="CourrierProduitSearchForm">
                 <b:panel title="Rechercher des Courrier Produit " class="panel-primary"  >
                     <b:panelGrid columns="6" >
 
@@ -110,10 +110,10 @@
                             <p:outputLabel value="Classe" for="classe" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:selectOneMenu id="classe"   value="#{courrierArriveeController.classe}" >
-                                <p:ajax listener="#{courrierArriveeController.findSousClasseByClasse()}"  update="sousClasse" />
+                            <p:selectOneMenu id="classe"   value="#{courrierProduitController.classe}" >
+                                <p:ajax listener="#{courrierProduitController.findSousClasseByClasse()}"  update="sousClasse" />
                                 <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                                <f:selectItems value="#{courrierArriveeController.classesAvailableSelectOne}" var="itemClasse" itemValue="#{itemClasse}" itemLabel="#{itemClasse.nom}"/>
+                                <f:selectItems value="#{courrierProduitController.classesAvailableSelectOne}" var="itemClasse" itemValue="#{itemClasse}" itemLabel="#{itemClasse.nom}"/>
                             </p:selectOneMenu>
                         </p:column>
 
@@ -121,9 +121,9 @@
                             <p:outputLabel value="Sous Classe" for="sousClasse" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:selectOneMenu id="sousClasse"   value="#{courrierArriveeController.sousClasse}" >
+                            <p:selectOneMenu id="sousClasse"   value="#{courrierProduitController.sousClasse}" >
                                 <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                                <f:selectItems value="#{courrierArriveeController.classe.sousClasses}" var="itemSousClasse" itemValue="#{itemSousClasse}" itemLabel="#{itemSousClasse.nom}"/>
+                                <f:selectItems value="#{courrierProduitController.classe.sousClasses}" var="itemSousClasse" itemValue="#{itemSousClasse}" itemLabel="#{itemSousClasse.nom}"/>
                             </p:selectOneMenu>
                         </p:column>
 
@@ -144,28 +144,20 @@
                         <br></br>
 
                         <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierProduitController.findCourrierProduit()}" ></b:commandButton>
-                        <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierProduitController.refresh()}" ></b:commandButton>
+                        <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierProduitController.refresh()}" update="CourrierProduitSearchForm" ></b:commandButton>
                     </div>
                 </b:panel>
+            </h:form>
 
-                <b:panel title=" Courrier Produit " class="panel-primary"  >
+            <b:panel title=" Courrier Produit " class="panel-primary"  >
+                <h:form id="CourrierProduitListForm">
+
                     <div align="center">
                         <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
                     </div>
                     <b:dataTable  id="datalist" value="#{courrierProduitController.items}" var="item" >
 
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_n_dordre}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.n_dordre}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_courrierArrivee}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.courrierArrivee}"/>
-                        </b:dataTableColumn>
+                        
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateCreation}"/>
@@ -186,12 +178,7 @@
                             </f:facet>
                             <h:outputText value="#{item.objet}"/>
                         </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_finalite}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.finalite}"/>
-                        </b:dataTableColumn>
+                        
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiePourValidation}"/>
@@ -214,55 +201,34 @@
                             </f:facet>
                             <h:outputText value="#{item.etat}"/>
                         </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_raisonSignature}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.raisonSignature}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiAuBOW_TRANS}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dateEnvoiAuBOW_TRANS}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiParBOW_TRANS}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dateEnvoiParBOW_TRANS}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </b:dataTableColumn>
+                        
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDeLaMinuteDuBOW_TRANS}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dateRetourDeLaMinuteDuBOW_TRANS}"/>
+                            <h:outputText value="#{item.dateRetourDeLaMinuteDuBOW_TRANS}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
                         </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierProduitTitle_n_EnvoiParBOW_TRANS}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.n_EnvoiParBOW_TRANS}"/>
-                        </b:dataTableColumn>
+                        
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_sousClasse}"/>
                             </f:facet>
                             <h:outputText value="#{item.sousClasse}"/>
                         </b:dataTableColumn>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" disabled="#{empty courrierProduitController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CourrierProduitEditForm" oncomplete="PF('CourrierProduitEditDialog').show()" disabled="#{empty courrierProduitController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{courrierProduitController.destroy}" update=":growl,datalist" disabled="#{empty courrierProduitController.selected}"/>
-                        </f:facet>
+                        <b:dataTableColumn>
+                            <f:facet name="header">
+                                <h:outputText value="Option"/>
+                            </f:facet>
+                            <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierProduitController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" />
+                            <!--<p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="stagiaireController.generatPdf(item)}" ajax="false"/>-->
+                            <b:commandButton look="danger" value=""  id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  />
+                            <b:commandButton actionListener="#{courrierProduitController.update}" value=""  icon-awesome="fa-refresh"  update=":growl,:CourrierProduitListForm:datalist" oncomplete="PF('CourrierProduitEditDialog').show()"/>
+
+                        </b:dataTableColumn>
                     </b:dataTable>
-                </b:panel>
-            </h:form>
+                </h:form>
+
+            </b:panel>
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>

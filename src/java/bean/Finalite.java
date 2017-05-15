@@ -75,7 +75,7 @@ public class Finalite implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Finalte[ id=" + id + " ]";
+        return  nom ;
     }
 
 }

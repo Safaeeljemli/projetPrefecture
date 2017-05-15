@@ -45,6 +45,15 @@
                             <p:menuitem value="Stagiaire" outcome="/stagiaire/List.xhtml" />
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>
+                        <p:submenu label="Courrier">
+                            <p:menuitem value="CourrierArrivee" outcome="/courrierArrivee/List.xhtml" />
+                            <p:menuitem value="CourrierProduit" outcome="/courrierProduit/List.xhtml" />
+                            <p:submenu label="Paramétrage">
+                                 <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
+                                 <p:menuitem value="Destinataire/Expediteur" outcome="/destinataireExpediteur/List.xhtml" />
+                                 <p:menuitem value="Finalité" outcome="/finalite/List.xhtml" />
+                            </p:submenu>
+                        </p:submenu>
                     </p:menubar>
                 </h:form>
             </p:layoutUnit>

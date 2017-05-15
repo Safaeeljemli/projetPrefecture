@@ -16,8 +16,10 @@
         <f:metadata>
             <f:viewAction action="#{courrierArriveeController.prepareCreate()}" />
         </f:metadata>
+        
+        
         <ui:define name="body">
-            <h:form id="searchCourrierProduitForm">
+            <h:form id="CourrierProduitSearchForm">
                 <b:panel title="Recherche" class="panel-primary">
                     <b:panelGrid columns="6">
 
@@ -136,7 +138,7 @@
                         <br></br>
                         <p:column styleClass="text-font">
                             <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierArriveeController.findCourrierArrivee()}" update=":CourrierArriveeListForm:datalist"></b:commandButton>
-                            <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{stagiaireController.refresh()}" update=":CourrierArriveeListForm:datalist"></b:commandButton>
+                            <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierArriveeController.refresh()}" update="CourrierProduitSearchForm"></b:commandButton>
                         </p:column>
                     </div>
                 </b:panel>
@@ -205,21 +207,20 @@
                         </b:dataTableColumn>
                         <b:dataTableColumn>
                             <f:facet name="header">
-                                <h:outputText value="Detail"/>
+                                <h:outputText value="Option"/>
                             </f:facet>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search"  update=":CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" disabled="#{empty courrierArriveeController.selected}"/> 
+                            <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierArriveeController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" />
+                            <!--<p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="stagiaireController.generatPdf(item)}" ajax="false"/>-->
+                            <b:commandButton look="danger" value=""  id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{courrierArriveeController.setSelected(item)}" update=":growl,:CourrierArriveeListForm:datalist" ajax="true" oncomplete="PF('CourrierArriveeDeleteDialog').show()" />
+                            <b:commandButton actionListener="#{courrierArriveeController.update}" value=""  icon-awesome="fa-refresh"  update=":growl,:CourrierArriveeListForm:datalist" oncomplete="PF('CourrierArriveeEditDialog').show()"/>
+
                         </b:dataTableColumn>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCreate1Form" oncomplete="PF('CourrierArriveeCreateDialog').show()"/>
-                            <!--<p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>-->
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{courrierArriveeController.destroy}" update=":growl,datalist" disabled="#{empty courrierArriveeController.selected}"/>
-                        </f:facet>
+                        
+                        
                     </b:dataTable>
                 </h:form>
             </b:panel>
             <ui:include src="Create.xhtml"/>
-            <ui:include src="courrierArrivee.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
         </ui:define>
