@@ -5,10 +5,10 @@ import controller.util.DeviceUtil;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
+import java.io.IOException;
 import service.UserFacade;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -48,6 +48,14 @@ public class UserController implements Serializable {
             return "/home/accueil?faces-redirect=true";
         }
      }
+     
+     // se deconnecter
+     
+      public void seDeConnnecter() throws IOException {
+        ejbFacade.seDeConnnecter();
+        SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
+    }
+     
     public User getSelected() {
         if(selected== null){
             selected = new User();

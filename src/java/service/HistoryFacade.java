@@ -6,6 +6,8 @@
 package service;
 
 import bean.History;
+import bean.User;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,22 @@ public class HistoryFacade extends AbstractFacade<History> {
     public HistoryFacade() {
         super(History.class);
     }
+    
+    public void createHistoryElement(User loadedUser, int type) {
+        History connexionHistory = new History();
+        connexionHistory.setUserLogin(loadedUser.getLogin());
+        if (type == 1) {
+            connexionHistory.setType(1);
+            connexionHistory.setInOutTimeStamp(new Date());
+        }
+        if (type == 2) {
+            connexionHistory.setType(2);
+            connexionHistory.setInOutTimeStamp(new Date());
+        }
+        System.out.println("createHistoryElement :: "+connexionHistory);
+        create(connexionHistory);
+    }
+
+    
     
 }

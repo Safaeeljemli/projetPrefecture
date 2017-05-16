@@ -9,7 +9,8 @@ import bean.Device;
 import bean.User;
 import controller.util.HashageUtil;
 import controller.util.JsfUtil;
-import java.util.Date;
+import controller.util.SessionUtil;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +22,10 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
 
+    @EJB
+    private HistoryFacade historyFacade;
+    
+    
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
 
@@ -94,6 +99,13 @@ public class UserFacade extends AbstractFacade<User> {
           return new Object[]{2, loadedUser};
         } }
     
+// se deconnecter
+     public void seDeConnnecter() {
+        User connectedUser = SessionUtil.getConnectedUser();
+        historyFacade.createHistoryElement(connectedUser, 2);
+        SessionUtil.unRegisterUser(connectedUser);
 
+    }
+    
     
 }

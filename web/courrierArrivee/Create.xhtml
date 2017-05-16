@@ -43,7 +43,7 @@
                                                itemValue="#{modeTraitementItem}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_codeA_V}" for="codeA_V" />
-                            <p:inputText id="codeA_V" value="#{courrierArriveeController.selected.codeA_V}" title="#{bundle.CreateCourrierArriveeTitle_codeA_V}" />
+                            <p:inputText id="codeA_V" value="#{courrierArriveeController.abreviation}" title="#{bundle.CreateCourrierArriveeTitle_codeA_V}" />
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_sousClasse}" for="sousClasse" />
                             <p:selectOneMenu id="sousClasse" value="#{courrierArriveeController.selected.sousClasse}" >
                                 <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"

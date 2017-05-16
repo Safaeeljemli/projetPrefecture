@@ -52,6 +52,9 @@ public class CourrierArriveeController implements Serializable {
     private CourrierProduit courrierProduit = null;
     private Classe classe = null;
     private SousClasse sousClasse = null;
+    private String annee = "17";
+    private String type;
+    private String abreviation;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
@@ -66,6 +69,30 @@ public class CourrierArriveeController implements Serializable {
     }
 
     // getter & setter
+    public String getAbreviation() {
+        return abreviation;
+    }
+
+    public void setAbreviation(String abreviation) {
+        this.abreviation = abreviation;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(String annee) {
+        this.annee = annee;
+    }
+
     public CourrierArrivee getItem() {
         return item;
     }
@@ -151,7 +178,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public void setCodeA_V(String codeA_V) {
-        this.codeA_V = codeA_V;
+        this.codeA_V = "'" + sousClasse.getNom() + abreviation + annee + "'";
     }
 
     public DestinataireExpediteur getExpediteur() {
@@ -190,7 +217,6 @@ public class CourrierArriveeController implements Serializable {
         return classeFacade.findAll();
     }
     //methods 
-
 
     public void findSousClasseByClasse() {
         try {
@@ -238,17 +264,6 @@ public class CourrierArriveeController implements Serializable {
         modeTraitement = null;
         return selected;
     }
-//    public void prepareCreate() {
-//        dateMinC = null;
-//        dateMaxC = null;
-//        dateMinDRHMG = null;
-//        dateMinDRHMG = null;
-//        dateMaxBTR = null;
-//        dateMaxBTR = null;
-//        codeA_V = null;
-//        expediteur = null;
-//        modeTraitement = null;
-//    }
 
     public void prepareView() {
         selected = null;
@@ -264,7 +279,7 @@ public class CourrierArriveeController implements Serializable {
         initializeEmbeddableKey();
     }
 
-     public void refresh() {
+    public void refresh() {
         selected = null;
         items = null;
         setClasse(null);
@@ -278,7 +293,11 @@ public class CourrierArriveeController implements Serializable {
         setDateMinDRHMG(null);
         setSousClasse(null);
     }
-    
+
+    public void initialiseCode() {
+        selected.setCodeA_V("'" + sousClasse.getNom() + abreviation + annee + "'");
+    }
+
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -291,6 +310,7 @@ public class CourrierArriveeController implements Serializable {
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeUpdated"));
     }
+
     public void delete() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeDeleted"));
     }
@@ -305,7 +325,7 @@ public class CourrierArriveeController implements Serializable {
     public void destroy(CourrierArrivee item) {
         getFacade().remove(item);
         JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeDeleted"));
-        items = null;    
+        items = null;
     }
 
     public List<CourrierArrivee> getItems() {

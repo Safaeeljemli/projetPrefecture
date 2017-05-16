@@ -27,7 +27,7 @@
             <p:layoutUnit position="north" size="65" >
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="#{bundle.Home}" outcome="/home/Home.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="#{bundle.Home}" outcome="/home/accueil.xhtml" icon="ui-icon-home"/>
                         <p:submenu label="#{bundle.Maintenance}">
                             <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
                             <p:menuitem value="CourrierArrivee" outcome="/courrierArrivee/List.xhtml" />
@@ -46,15 +46,17 @@
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>
                         <p:submenu label="Courrier">
-                            <p:menuitem value="CourrierArrivee" outcome="/courrierArrivee/List.xhtml" />
-                            <p:menuitem value="CourrierProduit" outcome="/courrierProduit/List.xhtml" />
+                            <p:menuitem value="Arrivee" outcome="/courrierArrivee/List.xhtml" />
+                            <p:menuitem value="Produit" outcome="/courrierProduit/List.xhtml" />
                             <p:submenu label="Paramétrage">
-                                 <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
-                                 <p:menuitem value="Destinataire/Expediteur" outcome="/destinataireExpediteur/List.xhtml" />
-                                 <p:menuitem value="Finalité" outcome="/finalite/List.xhtml" />
+                                <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
+                                <p:menuitem value="Destinataire/Expediteur" outcome="/destinataireExpediteur/List.xhtml" />
+                                <p:menuitem value="Finalité" outcome="/finalite/List.xhtml" />
                             </p:submenu>
                         </p:submenu>
+                        <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
+
                 </h:form>
             </p:layoutUnit>
 

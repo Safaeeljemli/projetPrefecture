@@ -28,6 +28,7 @@ public class History implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String userLogin;
     @OneToOne
     private User user;
     private int type;//1:login  2:logout
@@ -40,6 +41,14 @@ public class History implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     public User getUser() {

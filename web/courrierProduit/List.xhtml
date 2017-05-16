@@ -157,7 +157,7 @@
                     </div>
                     <b:dataTable  id="datalist" value="#{courrierProduitController.items}" var="item" >
 
-                        
+
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateCreation}"/>
@@ -178,7 +178,7 @@
                             </f:facet>
                             <h:outputText value="#{item.objet}"/>
                         </b:dataTableColumn>
-                        
+
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateEnvoiePourValidation}"/>
@@ -201,14 +201,14 @@
                             </f:facet>
                             <h:outputText value="#{item.etat}"/>
                         </b:dataTableColumn>
-                        
+
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_dateRetourDeLaMinuteDuBOW_TRANS}"/>
                             </f:facet>
                             <h:outputText value="#{item.dateRetourDeLaMinuteDuBOW_TRANS}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
                         </b:dataTableColumn>
-                        
+
                         <b:dataTableColumn>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_sousClasse}"/>
@@ -221,7 +221,7 @@
                             </f:facet>
                             <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierProduitController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" />
                             <!--<p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="stagiaireController.generatPdf(item)}" ajax="false"/>-->
-                            <b:commandButton look="danger" value=""  id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  />
+                            <b:commandButton look="danger" value="" onclick="return confirme();" id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  />
                             <b:commandButton actionListener="#{courrierProduitController.update}" value=""  icon-awesome="fa-refresh"  update=":growl,:CourrierProduitListForm:datalist" oncomplete="PF('CourrierProduitEditDialog').show()"/>
 
                         </b:dataTableColumn>
@@ -229,7 +229,13 @@
                 </h:form>
 
             </b:panel>
-
+            <centre>
+                <script>
+                    function confirme() {
+                        return confirm("Etes-vous sûr de vouloir supprimer?");
+                    }
+                </script>
+            </centre>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>

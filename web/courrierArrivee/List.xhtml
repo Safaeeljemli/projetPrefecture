@@ -12,12 +12,14 @@
 
         <ui:define name="title">
             <h:outputText value="#{bundle.ListCourrierArriveeTitle}"></h:outputText>
+
         </ui:define>
         <f:metadata>
             <f:viewAction action="#{courrierArriveeController.prepareCreate()}" />
         </f:metadata>
-        
-        
+
+
+
         <ui:define name="body">
             <h:form id="CourrierProduitSearchForm">
                 <b:panel title="Recherche" class="panel-primary">
@@ -210,16 +212,31 @@
                                 <h:outputText value="Option"/>
                             </f:facet>
                             <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierArriveeController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" />
-                            <!--<p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="stagiaireController.generatPdf(item)}" ajax="false"/>-->
-                            <b:commandButton look="danger" value=""  id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{courrierArriveeController.setSelected(item)}" update=":growl,:CourrierArriveeListForm:datalist" ajax="true" oncomplete="PF('CourrierArriveeDeleteDialog').show()" />
+
+                            <p:growl id="message" showDetail="true" />
+
+                            <b:commandButton look="danger" value=""  id="deleteButton" onclick="return confirme();" icon-awesome="fa-trash-o"  actionListener="#{courrierArriveeController.destroy(item)}" update=":growl,:CourrierArriveeListForm:datalist"   >
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </b:commandButton>
+
+
+
+
                             <b:commandButton actionListener="#{courrierArriveeController.update}" value=""  icon-awesome="fa-refresh"  update=":growl,:CourrierArriveeListForm:datalist" oncomplete="PF('CourrierArriveeEditDialog').show()"/>
 
                         </b:dataTableColumn>
-                        
-                        
+
+
                     </b:dataTable>
                 </h:form>
+
             </b:panel>
+
+            <script>
+                function confirme() {
+                    return confirm("Etes-vous sûr de vouloir supprimer?");
+                }
+            </script>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
