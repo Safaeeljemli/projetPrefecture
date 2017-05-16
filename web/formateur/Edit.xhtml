@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FormateurEditDlg" widgetVar="FormateurEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditFormateurTitle}">
+            <h:form id="FormateurEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{formateurController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditFormateurLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{formateurController.selected.id}" title="#{bundle.EditFormateurTitle_id}" />
+                        <p:outputLabel value="#{bundle.EditFormateurLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{formateurController.selected.nom}" title="#{bundle.EditFormateurTitle_nom}" />
+                        <p:outputLabel value="#{bundle.EditFormateurLabel_tel}" for="tel" />
+                        <p:inputText id="tel" value="#{formateurController.selected.tel}" title="#{bundle.EditFormateurTitle_tel}" />
+                        <p:outputLabel value="#{bundle.EditFormateurLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{formateurController.selected.mail}" title="#{bundle.EditFormateurTitle_mail}" />
+                        <p:outputLabel value="#{bundle.EditFormateurLabel_cin}" for="cin" />
+                        <p:inputText id="cin" value="#{formateurController.selected.cin}" title="#{bundle.EditFormateurTitle_cin}" />
+                        <p:outputLabel value="#{bundle.EditFormateurLabel_employee}" for="employee" />
+                        <p:selectOneMenu id="employee" value="#{formateurController.selected.employee}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{employeeController.itemsAvailableSelectOne}"
+                                           var="employeeItem"
+                                           itemValue="#{employeeItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formateurController.update}" value="#{bundle.Save}" update="display,:FormateurListForm:datalist,:growl" oncomplete="handleSubmit(args, 'FormateurEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="FormateurEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

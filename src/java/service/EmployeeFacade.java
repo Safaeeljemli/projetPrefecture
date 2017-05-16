@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author safa
+ * @author PC
  */
 @Stateless
 public class EmployeeFacade extends AbstractFacade<Employee> {
@@ -30,7 +30,7 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
     public EmployeeFacade() {
         super(Employee.class);
     }
-    public  List<Employee> findEncadrentByDepartement(Departement departement){
+     public  List<Employee> findEncadrentByDepartement(Departement departement){
         return  em.createQuery("SELECT e FROM Employee e WHERE e.departement.id='"+departement.getId()+"'").getResultList();
     }
 }

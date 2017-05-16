@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FormationEditDlg" widgetVar="FormationEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditFormationTitle}">
+            <h:form id="FormationEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{formationController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditFormationLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{formationController.selected.id}" title="#{bundle.EditFormationTitle_id}" />
+                        <p:outputLabel value="#{bundle.EditFormationLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{formationController.selected.nom}" title="#{bundle.EditFormationTitle_nom}" />
+                        <p:outputLabel value="#{bundle.EditFormationLabel_lieuFormation}" for="lieuFormation" />
+                        <p:selectOneMenu id="lieuFormation" value="#{formationController.selected.lieuFormation}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{lieuFormationController.itemsAvailableSelectOne}"
+                                           var="lieuFormationItem"
+                                           itemValue="#{lieuFormationItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditFormationLabel_organismeFormation}" for="organismeFormation" />
+                        <p:selectOneMenu id="organismeFormation" value="#{formationController.selected.organismeFormation}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{organismeFormationController.itemsAvailableSelectOne}"
+                                           var="organismeFormationItem"
+                                           itemValue="#{organismeFormationItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditFormationLabel_formateur}" for="formateur" />
+                        <p:selectOneMenu id="formateur" value="#{formationController.selected.formateur}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{formateurController.itemsAvailableSelectOne}"
+                                           var="formateurItem"
+                                           itemValue="#{formateurItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formationController.update}" value="#{bundle.Save}" update="display,:FormationListForm:datalist,:growl" oncomplete="handleSubmit(args, 'FormationEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="FormationEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

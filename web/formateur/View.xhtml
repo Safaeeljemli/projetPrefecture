@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FormateurViewDlg" widgetVar="FormateurViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewFormateurTitle}">
+            <h:form id="FormateurViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{formateurController.selected != null}">
+                        <h:outputText value="#{bundle.ViewFormateurLabel_id}"/>
+                        <h:outputText value="#{formateurController.selected.id}" title="#{bundle.ViewFormateurTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewFormateurLabel_nom}"/>
+                        <h:outputText value="#{formateurController.selected.nom}" title="#{bundle.ViewFormateurTitle_nom}"/>
+                        <h:outputText value="#{bundle.ViewFormateurLabel_tel}"/>
+                        <h:outputText value="#{formateurController.selected.tel}" title="#{bundle.ViewFormateurTitle_tel}"/>
+                        <h:outputText value="#{bundle.ViewFormateurLabel_mail}"/>
+                        <h:outputText value="#{formateurController.selected.mail}" title="#{bundle.ViewFormateurTitle_mail}"/>
+                        <h:outputText value="#{bundle.ViewFormateurLabel_cin}"/>
+                        <h:outputText value="#{formateurController.selected.cin}" title="#{bundle.ViewFormateurTitle_cin}"/>
+                        <h:outputText value="#{bundle.ViewFormateurLabel_employee}"/>
+                        <h:outputText value="#{formateurController.selected.employee}" title="#{bundle.ViewFormateurTitle_employee}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="FormateurViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
