@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92cf5a35-a1bd-4307-91b9-6cd50beabb4f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="124"/>
+	<parameter name="genre" class="java.lang.String"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="etudiant" class="java.lang.String"/>
+	<parameter name="school" class="java.lang.String"/>
+	<parameter name="option" class="java.lang.String"/>
+	<parameter name="Division" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="kolchi" class="java.lang.String"/>
+	<field name="dateDebut" class="java.lang.String"/>
+	<field name="dateFin" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="163" splitType="Stretch">
+			<image>
+				<reportElement uuid="09228c18-cc5f-4fe1-b915-670a3f63079c" x="16" y="20" width="161" height="121"/>
+				<imageExpression><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\old2\\Project\\src\\java\\jasper\\logoMaroc.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="8f6d5843-14a7-4a4f-b6ed-164df0837112" x="382" y="0" width="134" height="20"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Royaume du Maroc]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="22ccb0b5-2e8c-416e-b84d-8d5c90dc1cc5" x="382" y="20" width="138" height="22"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Ministère de L'Interieure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1937bf0a-8bf0-4e8d-9450-5b447bf45206" x="373" y="62" width="163" height="19"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Prefecture de Marrakech-Safi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d112ca30-f881-4684-9440-8f3f0173da0d" x="387" y="81" width="129" height="20"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Sectretariat General]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8f09d65a-f2c8-4a7c-b38c-abdad03a8a10" x="363" y="101" width="179" height="20"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Division Resources Humaines]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8f09d65a-f2c8-4a7c-b38c-abdad03a8a10" x="382" y="121" width="147" height="20"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Et des moyens Generaux]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d958700c-b8e3-417a-a460-e84ae89eb004" x="360" y="143" width="195" height="20"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Service de la Formation Continue]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="233d6a8f-7786-4d1e-b3e6-1e504545a5f4" x="347" y="42" width="208" height="20"/>
+				<textElement>
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Wilaya de la Region Marrakech - Safi]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="cc1e83eb-4702-4884-b2e3-c56a60f3170a" x="152" y="0" width="235" height="46"/>
+				<textElement textAlignment="Justified">
+					<font size="24" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Attestation de stage:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="280" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5ad35638-ae14-48b5-aee2-8f54f0acba43" x="55" y="0" width="526" height="26"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Le Wali de la Region Marrakech-Safi Gouverneur de la ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c4be03cb-587d-4c6d-af3d-6f23a1dca22f" x="29" y="26" width="526" height="33"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[prefecture de Marrakech  atteste par la presente que :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a331903a-ab33-4be8-8528-6be114c149fd" x="465" y="26" width="55" height="20"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{genre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9e2e1ce5-67cc-4b96-b6b2-486dd29ecbca" x="29" y="59" width="472" height="27"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7af9e704-72e5-41c2-8594-79e170df3a22" x="29" y="86" width="83" height="28"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etudiant}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="78f862c3-4d2c-4d51-a4bd-52461f0aeb8b" x="112" y="86" width="14" height="28"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[a ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="80d40346-1b2c-4605-bd49-76c53661701b" x="26" y="114" width="188" height="27"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[a effectuer un stage du]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff301a91-52ac-475a-b3f6-4d71ea38be96" x="447" y="114" width="40" height="27"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[a la]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="18808121-b950-48e5-8d03-51c3e322d6ea" x="26" y="141" width="475" height="27"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Division}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d05cb4ce-0ed8-4910-80e9-0ecb81a6d9d1" x="126" y="86" width="375" height="28"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{school}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e755fa20-8da0-4c3e-b3a4-8c3e1df3ed50" x="214" y="114" width="229" height="27"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="17" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1d4fd4aa-47b3-4679-891f-fadf3b752052" x="322" y="0" width="121" height="32"/>
+				<textElement>
+					<font size="16" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Marrakech Le:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="2e2af715-d4ed-4dad-bcb6-cb1d880d079a" x="443" y="0" width="112" height="32"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

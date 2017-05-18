@@ -30,6 +30,7 @@ public class Stagiaire implements Serializable {
     private String cin;
     private String mail;
     private Long numTel;
+    private String genre;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebut;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -67,6 +68,14 @@ public class Stagiaire implements Serializable {
 
     public void setDepartement(Departement departement) {
         this.departement = departement;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getCin() {

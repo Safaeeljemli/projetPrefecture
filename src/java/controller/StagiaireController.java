@@ -24,6 +24,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import net.sf.jasperreports.engine.JRException;
 
 @Named("stagiaireController")
 @SessionScoped
@@ -235,14 +236,14 @@ public class StagiaireController implements Serializable {
             System.out.println("success");
         }
     }
-    ///pdf
-//    public void generatPdf(Stagiaire stagiaire) throws JRException, IOException {
-//        System.out.println("print pdf controller");
-//        ejbFacade.printPdf(stagiaire,SessionUtil.getConnectedUser());
-//        FacesContext.getCurrentInstance().responseComplete();
-//    }
+    public void generatPdf(Stagiaire stagiaire) throws JRException, IOException {
+        System.out.println("print pdf controller");
+        ejbFacade.printPdf(stagiaire);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
 
-    @FacesConverter(forClass = Stagiaire.class)
+
+    @FacesConverter(forClass = Stagiaire.class) 
     public static class StagiaireControllerConverter implements Converter {
         
         @Override
