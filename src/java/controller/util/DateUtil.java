@@ -24,6 +24,15 @@ public class DateUtil {
             return null;
         }
     }
+    public static String convrtString(Date date,String pattern) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            System.out.println("Date Util value :: "+simpleDateFormat.format(date));
+            return simpleDateFormat.format(date);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 
     public static java.sql.Date convertUtilToSql(java.util.Date date) {
         return new java.sql.Date(date.getTime());

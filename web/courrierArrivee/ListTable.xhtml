@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCourrierArriveeTitle}"></h:outputText>
+
+        </ui:define>
+        <f:metadata>
+            <f:viewAction action="#{courrierArriveeController.prepareCreate()}" />
+        </f:metadata>
+
+
+
+        <ui:define name="body">
+
+            <h:form id="CourrierArriveeListTableForm">
+
+                <b:panel >
+                    <p:outputLabel value="n_enregistrement   " for="n_enregistrement1" />
+                    <p:selectBooleanCheckbox id="n_enregistrement1" value="#{courrierArriveeController.n_enCheck}"  />
+                    <p:outputLabel value="   n_enregistrementDRHMG   " for="n_enregistrementDRHMG1" />
+                    <p:selectBooleanCheckbox id="n_enregistrementDRHMG1" value="#{courrierArriveeController.n_DRHMGCheck}"  />
+                    <p:outputLabel value="n_enregistrementBOW_TRANS_RLAN" for="n_enregistrementBOW_TRANS_RLAN1" />
+                    <p:selectBooleanCheckbox id="n_enregistrementBOW_TRANS_RLAN1" value="#{courrierArriveeController.n_BOW_TRANS_RLANcheck}"  />
+                    <p:outputLabel value="codeA_V" for="codeA_V1" />
+                    <p:selectBooleanCheckbox id="codeA_V1" value="#{courrierArriveeController.codeA_Vcheck}"  />
+                    <p:outputLabel value="dateEnregistrement" for="dateEnregistrement1" />
+                    <p:selectBooleanCheckbox id="dateEnregistrement1" value="#{courrierArriveeController.dateEnregcheck}"  />
+                    <p:outputLabel value="DateEnregistrementDRHMG" for="dateEnregistrementDRHMG1" />
+                    <p:selectBooleanCheckbox id="dateEnregistrementDRHMG1" value="#{courrierArriveeController.dateDRHMGcheck}"  />
+                    <p:outputLabel value="DateEnregistrementBOW_TRANS_RLAN" for="dateEnregistrementBOW_TRANS_RLAN1" />
+                    <p:selectBooleanCheckbox id="dateEnregistrementBOW_TRANS_RLAN1" value="#{courrierArriveeController.dateBOW_TRANS_RLANcheck}"  />
+                    <p:outputLabel value="Expediteur" for="expediteur1" />
+                    <p:outputLabel value="Expediteur" for="expediteur1" />
+                    <p:selectBooleanCheckbox id="expediteur1" value="#{courrierArriveeController.expediteurCheck}"  />
+                    <p:outputLabel value="motsCle" for="motsCle1" />
+                    <p:selectBooleanCheckbox id="motsCle1" value="#{courrierArriveeController.motsCleCheck}"  />
+                    <p:outputLabel value="objet" for="objet1" />
+                    <p:selectBooleanCheckbox id="objet1" value="#{courrierArriveeController.objetCheck}"  />
+                    <p:outputLabel value="modeTraitement" for="modeTraitement1" />
+                    <p:selectBooleanCheckbox id="modeTraitement1" value="#{courrierArriveeController.modeTraitementCheck}"  />
+                    <p:outputLabel value="sousClasse" for="sousClasse1" />
+                    <p:selectBooleanCheckbox id="sousClasse1" value="#{courrierArriveeController.sousClasseCheck}"  />
+                    <p:ajax update="CourrierArriveeListTableForm:datalist"/>
+                </b:panel>
+
+                <b:panel title=" Courrier Arrivee " class="panel-primary"  >
+                    <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item"
+                                 selectionMode="single" selection="#{courrierArriveeController.selected}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 paginator="true"
+                                 rowKey="#{item.n_enregistrement}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <f:facet name="header">
+                            List of CourrierArrivee
+                            <div >
+                                <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                                <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                            </div >
+                            <div >
+                                <h:commandLink>
+                                    <p:graphicImage name="/resources/images/icone-pdf.png" width="24"/>
+                                    <p:dataExporter type="xls" target="datalist"  fileName="cars" postProcessor="#{courrierArriveeController.postProcessXLS}" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="icone.jpg" width="24"/>
+                                    <p:dataExporter type="pdf" target="datalist" fileName="cars"  />
+                                </h:commandLink>
+                            </div>
+                        </f:facet>
+
+                        <p:column rendered="#{courrierArriveeController.n_enCheck eq true}" >
+                            <f:facet name="header">
+                                <h:outputText value="_n_enregistrement"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_enregistrement}"/>
+
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.n_DRHMGCheck eq true}" >
+                            <f:facet name="header">
+                                <h:outputText value="n_enregistrementDRHMG"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_enregistrementDRHMG}"/>
+
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.n_BOW_TRANS_RLANcheck eq true}" >
+                            <f:facet name="header">
+                                <h:outputText value="n_enregistrementBOW_TRANS_RLAN"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_enregistrementBOW_TRANS_RLAN}"/>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.codeA_Vcheck eq true}" >
+                            <f:facet name="header">
+                                <h:outputText value="Code A/V"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codeA_V}"/>
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrement}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnregistrement}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column rendered="#{courrierArriveeController.dateDRHMGcheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="dateEnregistrementDRHMG"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnregistrementDRHMG}"  >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.dateBOW_TRANS_RLANcheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="dateEnregistrementBOW_TRANS_RLAN"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnregistrementBOW_TRANS_RLAN}"  >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.expediteurCheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="Expediteur"/>
+                            </f:facet>
+                            <h:outputText value="#{item.destinataireExpediteur}" />
+                        </p:column>
+
+                        <p:column rendered="#{courrierArriveeController.motsCleCheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_motsCle}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.motsCle}"/>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.objetCheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_objet}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.objet}"/>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.modeTraitementCheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_modeTraitement}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.modeTraitement}"/>
+                        </p:column>
+                        <p:column   rendered="#{courrierArriveeController.sousClasseCheck eq true}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_sousClasse}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sousClasse}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                </b:panel>
+                <!--                <p:panel header="Export All Data">
+                                    <h:commandLink>
+                                        <p:graphicImage value="/icons/excel.jpg" />
+                                        <p:dataExporter type="xls" postProcessor="courrierArriveeController.postProcessXLS}" target="datalist" fileName="myexcel" />
+                                    </h:commandLink>
+                                    <h:commandLink>
+                                        <p:graphicImage value="/icons/pdf.png" />
+                                        <p:dataExporter type="pdf" target="datalist" fileName="mypdf" />
+                                    </h:commandLink>
+                                </p:panel>-->
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

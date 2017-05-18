@@ -44,8 +44,13 @@
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
                         </p:submenu>
                         <p:submenu label="Courrier">
-                            <p:menuitem value="Arrivee" outcome="/courrierArrivee/List.xhtml" />
-                            <p:menuitem value="Produit" outcome="/courrierProduit/List.xhtml" />
+                            <p:submenu label="Arrivee">
+                                <p:menuitem value="Arrivee" outcome="/courrierArrivee/List.xhtml" />
+                                <p:menuitem value="Tableau" outcome="/courrierArrivee/ListTable.xhtml" />
+                            </p:submenu>
+                            <p:submenu label="Produit">
+                                <p:menuitem value="Produit" outcome="/courrierProduit/List.xhtml" />
+                            </p:submenu>
                             <p:submenu label="Paramétrage">
                                 <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
                                 <p:menuitem value="Destinataire/Expediteur" outcome="/destinataireExpediteur/List.xhtml" />

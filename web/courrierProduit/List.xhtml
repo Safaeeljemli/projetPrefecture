@@ -220,8 +220,10 @@
                                 <h:outputText value="Option"/>
                             </f:facet>
                             <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierProduitController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" />
-                            <!--<p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="stagiaireController.generatPdf(item)}" ajax="false"/>-->
-                            <b:commandButton look="danger" value="" onclick="return confirme();" id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  />
+                            <p:growl id="message" showDetail="true" />
+                            <p:commandButton  value="" onclick="return confirme();" id="deleteButton"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
                             <b:commandButton actionListener="#{courrierProduitController.update}" value=""  icon-awesome="fa-refresh"  update=":growl,:CourrierProduitListForm:datalist" oncomplete="PF('CourrierProduitEditDialog').show()"/>
 
                         </b:dataTableColumn>
@@ -230,11 +232,7 @@
 
             </b:panel>
             <centre>
-                <script>
-                    function confirme() {
-                        return confirm("Etes-vous sûr de vouloir supprimer?");
-                    }
-                </script>
+
             </centre>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>

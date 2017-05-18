@@ -3,7 +3,6 @@ package controller;
 import bean.Classe;
 import bean.CourrierArrivee;
 import bean.CourrierProduit;
-//import static bean.CourrierProduit_.courrierArrivee;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
@@ -21,6 +20,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -29,6 +29,12 @@ import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.ModeTraitementFacade;
 import service.SousClasseFacade;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 
 @Named("courrierArriveeController")
 @SessionScoped
@@ -40,6 +46,7 @@ public class CourrierArriveeController implements Serializable {
     private CourrierArrivee selected;
     private CourrierArrivee item;
 
+    private String errorMessage = "";
     private Date dateMinC;
     private Date dateMaxC;
     private Date dateMinDRHMG;
@@ -56,6 +63,19 @@ public class CourrierArriveeController implements Serializable {
     private String type;
     private String abreviation;
 
+    private boolean dateDRHMGcheck;
+    private boolean expediteurCheck;
+    private boolean motsCleCheck;
+    private boolean objetCheck;
+    private boolean modeTraitementCheck;
+    private boolean n_DRHMGCheck;
+    private boolean n_enCheck;
+    private boolean n_BOW_TRANS_RLANcheck;
+    private boolean codeA_Vcheck;
+    private boolean dateEnregcheck;
+    private boolean dateBOW_TRANS_RLANcheck;
+    private boolean sousClasseCheck;
+
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
     @EJB
@@ -69,12 +89,108 @@ public class CourrierArriveeController implements Serializable {
     }
 
     // getter & setter
+    public boolean isSousClasseCheck() {
+        return sousClasseCheck;
+    }
+
+    public void setSousClasseCheck(boolean sousClasseCheck) {
+        this.sousClasseCheck = sousClasseCheck;
+    }
+
+    public boolean isDateBOW_TRANS_RLANcheck() {
+        return dateBOW_TRANS_RLANcheck;
+    }
+
+    public void setDateBOW_TRANS_RLANcheck(boolean dateBOW_TRANS_RLANcheck) {
+        this.dateBOW_TRANS_RLANcheck = dateBOW_TRANS_RLANcheck;
+    }
+
+    public boolean isDateEnregcheck() {
+        return dateEnregcheck;
+    }
+
+    public void setDateEnregcheck(boolean dateEnregcheck) {
+        this.dateEnregcheck = dateEnregcheck;
+    }
+
+    public boolean isCodeA_Vcheck() {
+        return codeA_Vcheck;
+    }
+
+    public void setCodeA_Vcheck(boolean codeA_Vcheck) {
+        this.codeA_Vcheck = codeA_Vcheck;
+    }
+
+    public boolean isN_DRHMGCheck() {
+        return n_DRHMGCheck;
+    }
+
+    public void setN_DRHMGCheck(boolean n_DRHMGCheck) {
+        this.n_DRHMGCheck = n_DRHMGCheck;
+    }
+
+    public boolean isN_enCheck() {
+        return n_enCheck;
+    }
+
+    public void setN_enCheck(boolean n_enCheck) {
+        this.n_enCheck = n_enCheck;
+    }
+
+    public boolean isN_BOW_TRANS_RLANcheck() {
+        return n_BOW_TRANS_RLANcheck;
+    }
+
+    public void setN_BOW_TRANS_RLANcheck(boolean n_BOW_TRANS_RLANcheck) {
+        this.n_BOW_TRANS_RLANcheck = n_BOW_TRANS_RLANcheck;
+    }
+
     public String getAbreviation() {
         return abreviation;
     }
 
     public void setAbreviation(String abreviation) {
         this.abreviation = abreviation;
+    }
+
+    public boolean isDateDRHMGcheck() {
+        return dateDRHMGcheck;
+    }
+
+    public void setDateDRHMGcheck(boolean dateDRHMGcheck) {
+        this.dateDRHMGcheck = dateDRHMGcheck;
+    }
+
+    public boolean isExpediteurCheck() {
+        return expediteurCheck;
+    }
+
+    public void setExpediteurCheck(boolean expediteurCheck) {
+        this.expediteurCheck = expediteurCheck;
+    }
+
+    public boolean isMotsCleCheck() {
+        return motsCleCheck;
+    }
+
+    public void setMotsCleCheck(boolean motsCleCheck) {
+        this.motsCleCheck = motsCleCheck;
+    }
+
+    public boolean isObjetCheck() {
+        return objetCheck;
+    }
+
+    public void setObjetCheck(boolean objetCheck) {
+        this.objetCheck = objetCheck;
+    }
+
+    public boolean isModeTraitementCheck() {
+        return modeTraitementCheck;
+    }
+
+    public void setModeTraitementCheck(boolean modeTraitementCheck) {
+        this.modeTraitementCheck = modeTraitementCheck;
     }
 
     public String getType() {
@@ -216,7 +332,39 @@ public class CourrierArriveeController implements Serializable {
     public List<Classe> getClassesAvailableSelectOne() {
         return classeFacade.findAll();
     }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private CourrierArriveeFacade getFacade() {
+        return ejbFacade;
+    }
+
     //methods 
+    public void testError() {
+        String s = "" + selected.getN_enregistrementDRHMG();
+
+        System.out.println("s = " + s);
+        System.out.println("selected = " + selected.getN_enregistrementDRHMG());
+        if (!s.matches("\\d+")) {
+            System.out.println("ssss test");
+//            setErrorMessage("error");
+            FacesContext.getCurrentInstance().addMessage("CourrierArriveeCreateForm", new FacesMessage("the input must be a Number"));
+
+        }
+        setErrorMessage("");
+    }
 
     public void findSousClasseByClasse() {
         try {
@@ -240,14 +388,18 @@ public class CourrierArriveeController implements Serializable {
         }
     }
 
-    protected void setEmbeddableKeys() {
-    }
+    public void postProcessXLS(Object document) {
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        CellStyle style = wb.createCellStyle();
+        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
 
-    protected void initializeEmbeddableKey() {
-    }
-
-    private CourrierArriveeFacade getFacade() {
-        return ejbFacade;
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                cell.setCellValue(cell.getStringCellValue().toUpperCase());
+                cell.setCellStyle(style);
+            }
+        }
     }
 
     public CourrierArrivee prepareCreate() {
@@ -265,20 +417,19 @@ public class CourrierArriveeController implements Serializable {
         return selected;
     }
 
-    public void prepareView() {
-        selected = null;
-        dateMinC = null;
-        dateMaxC = null;
-        dateMinDRHMG = null;
-        dateMinDRHMG = null;
-        dateMaxBTR = null;
-        dateMaxBTR = null;
-        codeA_V = null;
-        expediteur = null;
-        modeTraitement = null;
-        initializeEmbeddableKey();
-    }
-
+//    public void prepareView() {
+//        selected = null;
+//        dateMinC = null;
+//        dateMaxC = null;
+//        dateMinDRHMG = null;
+//        dateMinDRHMG = null;
+//        dateMaxBTR = null;
+//        dateMaxBTR = null;
+//        codeA_V = null;
+//        expediteur = null;
+//        modeTraitement = null;
+//        initializeEmbeddableKey();
+//    }
     public void refresh() {
         selected = null;
         items = null;
@@ -302,7 +453,6 @@ public class CourrierArriveeController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));
-            //ystem.out.println("***" + selected.getModeTraitement().getNom());
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }

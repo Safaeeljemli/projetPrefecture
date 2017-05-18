@@ -14,8 +14,12 @@
                 <h:panelGroup >
                     <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 500px">
                         <b:panelGrid columns="2" rendered="#{courrierArriveeController.selected != null}">
-                            <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementDRHMG}" for="n_enregistrementDRHMG" />
-                            <p:inputText id="n_enregistrementDRHMG" value="#{courrierArriveeController.selected.n_enregistrementDRHMG}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementDRHMG}" />
+                            <p:outputLabel id="labelError" value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementDRHMG} #{courrierArriveeController.errorMessage}" for="n_enregistrementDRHMG" >
+                                <h:message for="n_enregistrementDRHMG" errorClass="errorMsg" ></h:message>
+                            </p:outputLabel>
+                            <p:inputText id="n_enregistrementDRHMG" validatorMessage="error type" value="#{courrierArriveeController.selected.n_enregistrementDRHMG}"  placeholder="number" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementDRHMG}" >
+                                <f:validateRegex pattern="^[0-9]" />
+                            </p:inputText>
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementBOW_TRANS_RLAN}" for="n_enregistrementBOW_TRANS_RLAN" />
                             <p:inputText id="n_enregistrementBOW_TRANS_RLAN" value="#{courrierArriveeController.selected.n_enregistrementBOW_TRANS_RLAN}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementBOW_TRANS_RLAN}" />
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementDRHMG}" for="dateEnregistrementDRHMG" />
@@ -35,7 +39,8 @@
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_motsCle}" for="motsCle" />
                             <p:inputText id="motsCle" value="#{courrierArriveeController.selected.motsCle}" title="#{bundle.CreateCourrierArriveeTitle_motsCle}" />
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_objet}" for="objet" />
-                            <p:inputText id="objet" value="#{courrierArriveeController.selected.objet}" title="#{bundle.CreateCourrierArriveeTitle_objet}" />
+                            <p:inputText id="objet" value="#{courrierArriveeController.selected.objet}" title="#{bundle.CreateCourrierArriveeTitle_objet}">
+                            </p:inputText>
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_modeTraitement}" for="modeTraitement" />
                             <p:selectOneMenu id="modeTraitement" value="#{courrierArriveeController.selected.modeTraitement}" >
                                 <f:selectItems value="#{modeTraitementController.itemsAvailableSelectOne}"
