@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CourrierArriveeCheckDlg" widgetVar="CourrierArriveeCheckDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCourrierArriveeTitle}">
+            <h:form id="CourrierArriveeCheckForm">
+                <h:panelGroup >
+
+                    <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 420px">
+                        <b:panelGrid columns="2" rendered="#{courrierArriveeController.items != null}">
+                            <p:outputLabel value="N° enregistrement   :" for="n_enregistrement1" />
+                            <p:selectBooleanCheckbox id="n_enregistrement1" value="#{courrierArriveeController.n_enCheck}"  />
+                            <p:outputLabel value="N° enregistrement DRHMG   :" for="n_enregistrementDRHMG1" />
+                            <p:selectBooleanCheckbox id="n_enregistrementDRHMG1" value="#{courrierArriveeController.n_DRHMGCheck}"  />
+                            <p:outputLabel value="N° enregistrement BOW_TRANS_RLAN  :" for="n_enregistrementBOW_TRANS_RLAN1" />
+                            <p:selectBooleanCheckbox id="n_enregistrementBOW_TRANS_RLAN1" value="#{courrierArriveeController.n_BOW_TRANS_RLANcheck}"  />
+                            <p:outputLabel value="CodeA_V  :" for="codeA_V1" />
+                            <p:selectBooleanCheckbox id="codeA_V1" value="#{courrierArriveeController.codeA_Vcheck}"  />
+                            <p:outputLabel value="Date Enregistrement   :" for="dateEnregistrement1" />
+                            <p:selectBooleanCheckbox id="dateEnregistrement1" value="#{courrierArriveeController.dateEnregcheck}"  />
+                            <p:outputLabel value="Date Enregistrement DRHMG :" for="dateEnregistrementDRHMG1" />
+                            <p:selectBooleanCheckbox id="dateEnregistrementDRHMG1" value="#{courrierArriveeController.dateDRHMGcheck}"  />
+                            <p:outputLabel value="Date Enregistrement BOW_TRANS_RLAN  :" for="dateEnregistrementBOW_TRANS_RLAN1" />
+                            <p:selectBooleanCheckbox id="dateEnregistrementBOW_TRANS_RLAN1" value="#{courrierArriveeController.dateBOW_TRANS_RLANcheck}"  />
+                            <p:outputLabel value="Expediteur :" for="expediteur1" />
+                            <p:selectBooleanCheckbox id="expediteur1" value="#{courrierArriveeController.expediteurCheck}"  />
+                            <p:outputLabel value="Mots Cle  :" for="motsCle1" />
+                            <p:selectBooleanCheckbox id="motsCle1" value="#{courrierArriveeController.motsCleCheck}"  />
+                            <p:outputLabel value="Objet  :" for="objet1" />
+                            <p:selectBooleanCheckbox id="objet1" value="#{courrierArriveeController.objetCheck}"  />
+                            <p:outputLabel value="Mode Traitement  :" for="modeTraitement1" />
+                            <p:selectBooleanCheckbox id="modeTraitement1" value="#{courrierArriveeController.modeTraitementCheck}"  />
+                            <p:outputLabel value="Sous Classe  :" for="sousClasse1" />
+                            <p:selectBooleanCheckbox id="sousClasse1" value="#{courrierArriveeController.sousClasseCheck}"  />
+                            <p:outputLabel value="Option  :" for="option1" />
+                            <p:selectBooleanCheckbox id="option1" value="#{courrierArriveeController.optionCheck}"  />
+                        </b:panelGrid>
+                    </b:panel>
+
+                    <p:commandButton  value="Show" update=":CourrierArriveeListForm:datalist,:growl" oncomplete="handleSubmit(args,'CourrierArriveeCheckDialog');"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

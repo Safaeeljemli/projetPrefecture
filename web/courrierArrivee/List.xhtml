@@ -17,7 +17,7 @@
         <f:metadata>
             <f:viewAction action="#{courrierArriveeController.prepareCreate()}" />
         </f:metadata>
-        
+
         <ui:define name="body">
             <h:form id="CourrierProduitSearchForm">
                 <b:panel title="Recherche" class="panel-primary">
@@ -143,101 +143,167 @@
                     </div>
                 </b:panel>
             </h:form>
-            <b:panel title=" Courrier Arrivee " class="panel-primary"  >
-                <h:form id="CourrierArriveeListForm">
+            <h:form id="CourrierArriveeListForm">
+                <b:panel title=" Courrier Arrivee " class="panel-primary"  >
+
                     <div align="center">
                         <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCreateForm" oncomplete="PF('CourrierArriveeCreateDialog').show()" />
+                        <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
                     </div>
 
+                    <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item"
+                                 selectionMode="single" selection="#{courrierArriveeController.selected}"
+                                 rowKey="#{item.n_enregistrement}"
+                                 rows="10"
+                                 >
 
-                    <b:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item"
-                                 selectionMode="single"  >
 
-                        <b:dataTableColumn>
+                        <f:facet name="header">  
+                            <h:outputText value="Message Table With More Details"/>  
+
+                            <div >
+                                <h:commandLink styleClass="icon-file-excel">
+                                    
+                                     <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
+                                    <p:dataExporter type="xls" target="datalist"  fileName="Liste des Courrier Arrivée" postProcessor="#{courrierArriveeController.postProcessXLS}" />
+                                </h:commandLink>
+
+                                <h:commandLink styleClass="icon-file-pdf">
+                                    <h:graphicImage class="imagelink" id="imag2" value="/resources/images/icone-pdf.png" title="pdf" style="width:30px;height:30px" ></h:graphicImage>
+                                    <p:dataExporter type="pdf"  target="datalist" fileName="Liste des Courrier Arrivée" preProcessor="#{courrierArriveeController.preProcessPDF}" />
+                                </h:commandLink>
+                            </div>
+                        </f:facet> 
+                        <p:column rendered="#{courrierArriveeController.n_enCheck eq true}" sortBy="#{item.n_enregistrement}" >
+                            <f:facet name="header">
+                                <h:outputText value="_n_enregistrement"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_enregistrement}"/>
+
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.n_DRHMGCheck eq true}" sortBy="#{item.n_enregistrementDRHMG}" >
+                            <f:facet name="header">
+                                <h:outputText value="n_enregistrementDRHMG"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_enregistrementDRHMG}"/>
+
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.n_BOW_TRANS_RLANcheck eq true}" sortBy="#{item.n_enregistrementBOW_TRANS_RLAN}">
+                            <f:facet name="header">
+                                <h:outputText value="n_enregistrementBOW_TRANS_RLAN"/>
+                            </f:facet>
+                            <h:outputText value="#{item.n_enregistrementBOW_TRANS_RLAN}"/>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.codeA_Vcheck eq true}" sortBy="#{item.codeA_V}" >
+                            <f:facet name="header">
+                                <h:outputText value="Code A/V"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codeA_V}"/>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.dateEnregcheck eq true}" sortBy="#{item.dateEnregistrement}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrement}" />
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnregistrement}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column rendered="#{courrierArriveeController.dateDRHMGcheck eq true}" sortBy="#{item.dateEnregistrementDRHMG}">
                             <f:facet name="header">
                                 <h:outputText value="dateEnregistrementDRHMG"/>
                             </f:facet>
                             <h:outputText value="#{item.dateEnregistrementDRHMG}"  >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.dateBOW_TRANS_RLANcheck eq true}" sortBy="#{item.dateEnregistrementBOW_TRANS_RLAN}">
+                            <f:facet name="header">
+                                <h:outputText value="dateEnregistrementBOW_TRANS_RLAN"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateEnregistrementBOW_TRANS_RLAN}"  >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.expediteurCheck eq true}" sortBy="#{item.destinataireExpediteur.nom}">
                             <f:facet name="header">
                                 <h:outputText value="Expediteur"/>
                             </f:facet>
-                            <h:outputText value="#{item.destinataireExpediteur}" />
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_dateEnregistrement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dateEnregistrement}" >
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
+                            <h:outputText value="#{item.destinataireExpediteur.nom}" />
+                        </p:column>
+
+                        <p:column rendered="#{courrierArriveeController.motsCleCheck eq true}" sortBy="#{item.motsCle}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierArriveeTitle_motsCle}"/>
                             </f:facet>
                             <h:outputText value="#{item.motsCle}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.objetCheck eq true}" sortBy="#{item.objet}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierArriveeTitle_objet}"/>
                             </f:facet>
                             <h:outputText value="#{item.objet}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
+                        </p:column>
+                        <p:column rendered="#{courrierArriveeController.modeTraitementCheck eq true}" sortBy="#{item.modeTraitement.nom}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierArriveeTitle_modeTraitement}"/>
                             </f:facet>
-                            <h:outputText value="#{item.modeTraitement}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCourrierArriveeTitle_codeA_V}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.codeA_V}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
+                            <h:outputText value="#{item.modeTraitement.nom}"/>
+                        </p:column>
+                        <p:column   rendered="#{courrierArriveeController.sousClasseCheck eq true}" sortBy="#{item.sousClasse.nom}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierArriveeTitle_sousClasse}"/>
                             </f:facet>
-                            <h:outputText value="#{item.sousClasse}"/>
-                        </b:dataTableColumn>
-                        <b:dataTableColumn>
+                            <h:outputText value="#{item.sousClasse.nom}"/>
+                        </p:column>
+                        <p:column   rendered="#{courrierArriveeController.optionCheck eq true}" >
                             <f:facet name="header">
                                 <h:outputText value="Option"/>
                             </f:facet>
-                            <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierArriveeController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" />
+                            <p:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierArriveeController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" />
 
                             <p:growl id="message" showDetail="true" />
 
-                            <b:commandButton look="danger" value=""  id="deleteButton" onclick="return confirme();" icon-awesome="fa-trash-o"  actionListener="#{courrierArriveeController.destroy(item)}" update=":growl,:CourrierArriveeListForm:datalist"   >
+                            <p:commandButton  value=""  id="deleteButton"    actionListener="#{courrierArriveeController.destroy(item)}" update=":growl,:CourrierArriveeListForm:datalist"   >
                                 <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                            </b:commandButton>
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+
+
+
+                            <p:commandButton id="editButton"   icon="fa-refresh" value="" update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
 
 
 
 
-                            <b:commandButton actionListener="#{courrierArriveeController.update}" value=""  icon-awesome="fa-refresh"  update=":growl,:CourrierArriveeListForm:datalist" oncomplete="PF('CourrierArriveeEditDialog').show()"/>
+                </b:panel>
+                <!--                <b:panel>
+                                    <div >
+                                        <h:commandLink>
+                                            <p:graphicImage name="/resources/images/icone-pdf.png" width="24"/>
+                                            <p:dataExporter type="xls" target="datalist"  fileName="Liste des Courrier Arrivée" postProcessor="{courrierArriveeController.postProcessXLS}" />
+                                        </h:commandLink>
+                
+                                        <h:commandLink>
+                                            <p:graphicImage name="icone.jpg" width="24"/>
+                                            <p:dataExporter type="pdf" target="datalist" fileName="Liste des Courrier Arrivée" preProcessor="courrierArriveeController.preProcessPDF}" />
+                                        </h:commandLink>
+                                    </div>
+                                </b:panel>-->
 
-                        </b:dataTableColumn>
-
-
-                    </b:dataTable>
-                </h:form>
-
-            </b:panel>
-
-            <script>
-                function confirme() {
-                    return confirm("Etes-vous sûr de vouloir supprimer?");
-                }
-            </script>
+            </h:form>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
+            <ui:include src="CheckColunms.xhtml"/>
         </ui:define>
     </ui:composition>
 
