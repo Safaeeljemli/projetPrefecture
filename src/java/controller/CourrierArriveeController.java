@@ -6,6 +6,8 @@ import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierArriveeFacade;
@@ -25,16 +27,16 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import service.ClasseFacade;
-import service.DestinataireExpediteurFacade;
-import service.ModeTraitementFacade;
-import service.SousClasseFacade;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
+import service.ClasseFacade;
+import service.DestinataireExpediteurFacade;
+import service.ModeTraitementFacade;
+import service.SousClasseFacade;
 
 @Named("courrierArriveeController")
 @SessionScoped
@@ -75,6 +77,7 @@ public class CourrierArriveeController implements Serializable {
     private boolean dateEnregcheck;
     private boolean dateBOW_TRANS_RLANcheck;
     private boolean sousClasseCheck;
+    private boolean optionCheck;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
@@ -89,6 +92,14 @@ public class CourrierArriveeController implements Serializable {
     }
 
     // getter & setter
+    public boolean isOptionCheck() {
+        return optionCheck;
+    }
+
+    public void setOptionCheck(boolean optionCheck) {
+        this.optionCheck = optionCheck;
+    }
+
     public boolean isSousClasseCheck() {
         return sousClasseCheck;
     }
@@ -402,6 +413,28 @@ public class CourrierArriveeController implements Serializable {
         }
     }
 
+    public void preProcessPDF(Object document) {
+
+        Document doc = (Document) document;
+        doc.setPageSize(PageSize.LEGAL.rotate());
+        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
+        doc.addHeader("azerr", "aeaze");
+        doc.addAuthor("autt");
+        doc.addSubject("sujet");
+        doc.addCreationDate(); // this did not work either.
+
+    }
+
+    //    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+    //        Document pdf = (Document) document;
+    //        pdf.open();
+    //        pdf.setPageSize(PageSize.A4);
+    //
+    //        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    //        String logo = externalContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" + File.separator + "images" + File.separator + "prime_logo.png";
+    //
+    //        pdf.add(Image.getInstance(logo));
+    //    }
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
@@ -523,6 +556,7 @@ public class CourrierArriveeController implements Serializable {
 
     public List<CourrierArrivee> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+
     }
 
     @FacesConverter(forClass = CourrierArrivee.class)
