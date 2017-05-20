@@ -43,7 +43,7 @@ public class CourrierProduit implements Serializable {
     private Date dateEnvoiParBOW_TRANS;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateRetourDeLaMinuteDuBOW_TRANS;
-    private int n_EnvoiParBOW_TRANS;
+    private Long n_EnvoiParBOW_TRANS;
     @ManyToOne
     private SousClasse sousClasse;
     @ManyToOne
@@ -165,11 +165,11 @@ public class CourrierProduit implements Serializable {
         this.dateRetourDeLaMinuteDuBOW_TRANS = dateRetourDeLaMinuteDuBOW_TRANS;
     }
 
-    public int getN_EnvoiParBOW_TRANS() {
+    public Long getN_EnvoiParBOW_TRANS() {
         return n_EnvoiParBOW_TRANS;
     }
 
-    public void setN_EnvoiParBOW_TRANS(int n_EnvoiParBOW_TRANS) {
+    public void setN_EnvoiParBOW_TRANS(Long n_EnvoiParBOW_TRANS) {
         this.n_EnvoiParBOW_TRANS = n_EnvoiParBOW_TRANS;
     }
 

@@ -63,21 +63,21 @@ public class CourrierArriveeController implements Serializable {
     private SousClasse sousClasse = null;
     private String annee = "17";
     private String type;
-    private String abreviation;
+    private String abrev;
 
-    private boolean dateDRHMGcheck;
-    private boolean expediteurCheck;
-    private boolean motsCleCheck;
-    private boolean objetCheck;
-    private boolean modeTraitementCheck;
-    private boolean n_DRHMGCheck;
-    private boolean n_enCheck;
-    private boolean n_BOW_TRANS_RLANcheck;
-    private boolean codeA_Vcheck;
-    private boolean dateEnregcheck;
-    private boolean dateBOW_TRANS_RLANcheck;
-    private boolean sousClasseCheck;
-    private boolean optionCheck;
+    private boolean dateDRHMGcheck=false;
+    private boolean expediteurCheck=true;
+    private boolean motsCleCheck=true;
+    private boolean objetCheck=true;
+    private boolean modeTraitementCheck=true;
+    private boolean n_DRHMGCheck=true;
+    private boolean n_enCheck=true;
+    private boolean n_BOW_TRANS_RLANcheck=true;
+    private boolean codeA_Vcheck=true;
+    private boolean dateEnregcheck=true;
+    private boolean dateBOW_TRANS_RLANcheck=true;
+    private boolean sousClasseCheck=true;
+    private boolean optionCheck=true;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
@@ -156,12 +156,12 @@ public class CourrierArriveeController implements Serializable {
         this.n_BOW_TRANS_RLANcheck = n_BOW_TRANS_RLANcheck;
     }
 
-    public String getAbreviation() {
-        return abreviation;
+    public String getAbrev() {
+        return abrev;
     }
 
-    public void setAbreviation(String abreviation) {
-        this.abreviation = abreviation;
+    public void setAbrev(String abrev) {
+        this.abrev = abrev;
     }
 
     public boolean isDateDRHMGcheck() {
@@ -305,7 +305,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public void setCodeA_V(String codeA_V) {
-        this.codeA_V = "'" + sousClasse.getNom() + abreviation + annee + "'";
+        this.codeA_V = "'" + sousClasse.getNom() + abrev + annee + "'";
     }
 
     public DestinataireExpediteur getExpediteur() {
@@ -479,10 +479,11 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public void initialiseCode() {
-        selected.setCodeA_V("'" + sousClasse.getNom() + abreviation + annee + "'");
+        selected.setCodeA_V("'" + sousClasse.getNom() + abrev + annee + "'");
     }
 
     public void create() {
+        selected.setCodeA_V(ejbFacade.generateCodeA(abrev,selected.getDateEnregistrement(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));

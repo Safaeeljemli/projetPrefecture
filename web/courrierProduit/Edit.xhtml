@@ -14,6 +14,13 @@
                     <p:panelGrid columns="2" rendered="#{courrierProduitController.selected != null}">
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_n_dordre}" for="n_dordre" />
                         <p:inputText id="n_dordre" value="#{courrierProduitController.selected.n_dordre}" title="#{bundle.EditCourrierProduitTitle_n_dordre}" />
+                        <p:outputLabel value="#{bundle.EditCourrierProduitLabel_destinataireExpediteur}" for="destinataireExpediteur" />
+                        <p:selectOneMenu id="destinataireExpediteur" value="#{courrierProduitController.selected.destinataireExpediteur}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
+                                           var="destinataireExpediteurItem"
+                                           itemValue="#{destinataireExpediteurItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_courrierArrivee}" for="courrierArrivee" />
                         <p:selectOneMenu id="courrierArrivee" value="#{courrierProduitController.selected.courrierArrivee}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
@@ -22,7 +29,7 @@
                                            itemValue="#{courrierArriveeItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateCreation}" for="dateCreation" />
-                        <p:inputText id="dateCreation" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.EditCourrierProduitTitle_dateCreation}" />
+                        <p:calendar id="dateCreation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.EditCourrierProduitTitle_dateCreation}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_codeP_V}" for="codeP_V" />
                         <p:inputText id="codeP_V" value="#{courrierProduitController.selected.codeP_V}" title="#{bundle.EditCourrierProduitTitle_codeP_V}" />
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_objet}" for="objet" />
@@ -35,19 +42,19 @@
                                            itemValue="#{finaliteItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateEnvoiePourValidation}" for="dateEnvoiePourValidation" />
-                        <p:inputText id="dateEnvoiePourValidation" value="#{courrierProduitController.selected.dateEnvoiePourValidation}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiePourValidation}" />
+                        <p:calendar id="dateEnvoiePourValidation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiePourValidation}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiePourValidation}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateRetourDocument}" for="dateRetourDocument" />
-                        <p:inputText id="dateRetourDocument" value="#{courrierProduitController.selected.dateRetourDocument}" title="#{bundle.EditCourrierProduitTitle_dateRetourDocument}" />
+                        <p:calendar id="dateRetourDocument" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateRetourDocument}" title="#{bundle.EditCourrierProduitTitle_dateRetourDocument}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_etat}" for="etat" />
                         <p:inputText id="etat" value="#{courrierProduitController.selected.etat}" title="#{bundle.EditCourrierProduitTitle_etat}" />
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_raisonSignature}" for="raisonSignature" />
                         <p:inputText id="raisonSignature" value="#{courrierProduitController.selected.raisonSignature}" title="#{bundle.EditCourrierProduitTitle_raisonSignature}" />
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateEnvoiAuBOW_TRANS}" for="dateEnvoiAuBOW_TRANS" />
-                        <p:inputText id="dateEnvoiAuBOW_TRANS" value="#{courrierProduitController.selected.dateEnvoiAuBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiAuBOW_TRANS}" />
+                        <p:calendar id="dateEnvoiAuBOW_TRANS" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiAuBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiAuBOW_TRANS}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateEnvoiParBOW_TRANS}" for="dateEnvoiParBOW_TRANS" />
-                        <p:inputText id="dateEnvoiParBOW_TRANS" value="#{courrierProduitController.selected.dateEnvoiParBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiParBOW_TRANS}" />
-                        <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateRetourDeLaMinuteDuOW_TRANS}" for="dateRetourDeLaMinuteDuBOW_TRANS" />
-                        <p:inputText id="dateRetourDeLaMinuteDuBOW_TRANS" value="#{courrierProduitController.selected.dateRetourDeLaMinuteDuBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateRetourDeLaMinuteDuOW_TRANS}" />
+                        <p:calendar id="dateEnvoiParBOW_TRANS" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiParBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiParBOW_TRANS}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditCourrierProduitLabel_dateRetourDeLaMinuteDuBOW_TRANS}" for="dateRetourDeLaMinuteDuBOW_TRANS" />
+                        <p:calendar id="dateRetourDeLaMinuteDuBOW_TRANS" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateRetourDeLaMinuteDuBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateRetourDeLaMinuteDuBOW_TRANS}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_n_EnvoiParBOW_TRANS}" for="n_EnvoiParBOW_TRANS" />
                         <p:inputText id="n_EnvoiParBOW_TRANS" value="#{courrierProduitController.selected.n_EnvoiParBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_n_EnvoiParBOW_TRANS}" />
                         <p:outputLabel value="#{bundle.EditCourrierProduitLabel_sousClasse}" for="sousClasse" />

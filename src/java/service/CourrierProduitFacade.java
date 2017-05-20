@@ -8,6 +8,7 @@ package service;
 import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.Finalite;
+import controller.util.DateUtil;
 import controller.util.SearchUtil;
 import java.util.Date;
 import java.util.List;
@@ -21,19 +22,19 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
-    
+
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public CourrierProduitFacade() {
         super(CourrierProduit.class);
     }
-    
+
     public void clone(CourrierProduit courrierSource, CourrierProduit courrierDestination) {
         courrierDestination.setCodeP_V(courrierSource.getCodeP_V());
         courrierDestination.setCourrierArrivee(courrierSource.getCourrierArrivee());
@@ -51,13 +52,13 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         courrierDestination.setRaisonSignature(courrierSource.getRaisonSignature());
         courrierDestination.setSousClasse(courrierSource.getSousClasse());
     }
-    
+
     public CourrierProduit clone(CourrierProduit courrierProduit) {
         CourrierProduit cloned = new CourrierProduit();
         clone(courrierProduit, cloned);
         return cloned;
     }
-    
+
     public List<CourrierProduit> findCourrierProduit(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeP_V, Finalite finalite, DestinataireExpediteur destinataire) {
         String query = "Select cp FROM CourrierProduit cp WHERE 1=1";
         if (dateMinC != null) {
@@ -84,12 +85,20 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         if (finalite != null) {
             query += SearchUtil.addConstraint("cp", "finalite.id", "=", finalite.getId());
         }
-        
+
         if (destinataire != null) {
             query += SearchUtil.addConstraint("cp", "destinataire.id", "=", destinataire.getId());
         }
         return em.createQuery(query).getResultList();
-        
+
     }
-    
+
+    public String generateCodeP(String abrv, Date dateCreation, int sousClasse) {
+        String code;
+        code = sousClasse + abrv + DateUtil.convrtStringDate(dateCreation, "yy") + "P";
+        return code;
+    }
+
+   
 }
+

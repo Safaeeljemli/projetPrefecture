@@ -23,6 +23,14 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.FinaliteFacade;
@@ -45,9 +53,28 @@ public class CourrierProduitController implements Serializable {
     private int etat;
     private Finalite finalite;
     private String codeP_V;
+    private String abrev;
     private DestinataireExpediteur destinataire = null;
     private Classe classe = null;
     private SousClasse sousClasse = null;
+
+    private boolean n_ordreCheck;
+    private boolean dateCrtCheck;
+    private boolean objetCheck;
+    private boolean dateEnvValiCheck;
+    private boolean dateRetrCheck;
+    private boolean etatCheck;
+    private boolean codePCheck;
+    private boolean raisonCheck;
+    private boolean dateEnvoiAuBTCheck;
+    private boolean dateEnvoiParBTCheck;
+    private boolean dateRetMinutBTCheck;
+    private boolean n_EnvoiParBTCheck;
+    private boolean sousClasseCheck;
+    private boolean finaliteCheck;
+    private boolean destinataireCheck;
+    private boolean courrierArriveeCodeCheck;
+    private boolean optionCheck;
 
     @EJB
     private FinaliteFacade finaliteFacade;
@@ -59,6 +86,142 @@ public class CourrierProduitController implements Serializable {
     private SousClasseFacade sousClasseFacade;
 
     public CourrierProduitController() {
+    }
+
+    public boolean isOptionCheck() {
+        return optionCheck;
+    }
+
+    public boolean isDateEnvoiParBTCheck() {
+        return dateEnvoiParBTCheck;
+    }
+
+    public void setDateEnvoiParBTCheck(boolean dateEnvoiParBTCheck) {
+        this.dateEnvoiParBTCheck = dateEnvoiParBTCheck;
+    }
+
+    public void setOptionCheck(boolean optionCheck) {
+        this.optionCheck = optionCheck;
+    }
+
+    public boolean isN_ordreCheck() {
+        return n_ordreCheck;
+    }
+
+    public void setN_ordreCheck(boolean n_ordreCheck) {
+        this.n_ordreCheck = n_ordreCheck;
+    }
+
+    public boolean isDateCrtCheck() {
+        return dateCrtCheck;
+    }
+
+    public void setDateCrtCheck(boolean dateCrtCheck) {
+        this.dateCrtCheck = dateCrtCheck;
+    }
+
+    public boolean isObjetCheck() {
+        return objetCheck;
+    }
+
+    public void setObjetCheck(boolean objetCheck) {
+        this.objetCheck = objetCheck;
+    }
+
+    public boolean isDateEnvValiCheck() {
+        return dateEnvValiCheck;
+    }
+
+    public void setDateEnvValiCheck(boolean dateEnvValiCheck) {
+        this.dateEnvValiCheck = dateEnvValiCheck;
+    }
+
+    public boolean isDateRetrCheck() {
+        return dateRetrCheck;
+    }
+
+    public void setDateRetrCheck(boolean dateRetrCheck) {
+        this.dateRetrCheck = dateRetrCheck;
+    }
+
+    public boolean isEtatCheck() {
+        return etatCheck;
+    }
+
+    public void setEtatCheck(boolean etatCheck) {
+        this.etatCheck = etatCheck;
+    }
+
+    public boolean isCodePCheck() {
+        return codePCheck;
+    }
+
+    public void setCodePCheck(boolean codePCheck) {
+        this.codePCheck = codePCheck;
+    }
+
+    public boolean isRaisonCheck() {
+        return raisonCheck;
+    }
+
+    public void setRaisonCheck(boolean raisonCheck) {
+        this.raisonCheck = raisonCheck;
+    }
+
+    public boolean isDateEnvoiAuBTCheck() {
+        return dateEnvoiAuBTCheck;
+    }
+
+    public void setDateEnvoiAuBTCheck(boolean dateEnvoiAuBTCheck) {
+        this.dateEnvoiAuBTCheck = dateEnvoiAuBTCheck;
+    }
+
+    public boolean isDateRetMinutBTCheck() {
+        return dateRetMinutBTCheck;
+    }
+
+    public void setDateRetMinutBTCheck(boolean dateRetMinutBTCheck) {
+        this.dateRetMinutBTCheck = dateRetMinutBTCheck;
+    }
+
+    public boolean isFinaliteCheck() {
+        return finaliteCheck;
+    }
+
+    public void setFinaliteCheck(boolean finaliteCheck) {
+        this.finaliteCheck = finaliteCheck;
+    }
+
+    public boolean isDestinataireCheck() {
+        return destinataireCheck;
+    }
+
+    public void setDestinataireCheck(boolean destinataireCheck) {
+        this.destinataireCheck = destinataireCheck;
+    }
+
+    public boolean isN_EnvoiParBTCheck() {
+        return n_EnvoiParBTCheck;
+    }
+
+    public void setN_EnvoiParBTCheck(boolean n_EnvoiParBTCheck) {
+        this.n_EnvoiParBTCheck = n_EnvoiParBTCheck;
+    }
+
+    public boolean isSousClasseCheck() {
+        return sousClasseCheck;
+    }
+
+    public void setSousClasseCheck(boolean sousClasseCheck) {
+        this.sousClasseCheck = sousClasseCheck;
+    }
+
+    public boolean isCourrierArriveeCodeCheck() {
+        return courrierArriveeCodeCheck;
+    }
+
+    public void setCourrierArriveeCodeCheck(boolean courrierArriveeCodeCheck) {
+        this.courrierArriveeCodeCheck = courrierArriveeCodeCheck;
     }
 
     public Classe getClasse() {
@@ -157,6 +320,14 @@ public class CourrierProduitController implements Serializable {
         this.codeP_V = codeP_V;
     }
 
+    public String getAbrev() {
+        return abrev;
+    }
+
+    public void setAbrev(String abrev) {
+        this.abrev = abrev;
+    }
+
     public DestinataireExpediteur getDestinataire() {
         return destinataire;
     }
@@ -201,6 +372,32 @@ public class CourrierProduitController implements Serializable {
 
     }
 
+    public void postProcessXLS(Object document) {
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        CellStyle style = wb.createCellStyle();
+        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                cell.setCellValue(cell.getStringCellValue().toUpperCase());
+                cell.setCellStyle(style);
+            }
+        }
+    }
+
+    public void preProcessPDF(Object document) {
+
+        Document doc = (Document) document;
+        doc.setPageSize(PageSize.LEGAL.rotate());
+        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
+        doc.addHeader("azerr", "aeaze");
+        doc.addAuthor("autt");
+        doc.addSubject("sujet");
+        doc.addCreationDate(); // this did not work either.
+
+    }
+
     public void refresh() {
         selected = null;
         items = null;
@@ -238,6 +435,7 @@ public class CourrierProduitController implements Serializable {
     }
 
     public void create() {
+        selected.setCodeP_V(ejbFacade.generateCodeP(abrev,selected.getDateCreation(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));

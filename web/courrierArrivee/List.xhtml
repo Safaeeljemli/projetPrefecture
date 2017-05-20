@@ -20,7 +20,7 @@
 
         <ui:define name="body">
             <h:form id="CourrierProduitSearchForm">
-                <b:panel title="Recherche" class="panel-primary">
+                <b:panel title="Recherche des Courriers Arrivéees" class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;" >
                     <b:panelGrid columns="6">
 
                         <p:column styleClass="text-font">
@@ -136,19 +136,18 @@
 
                     <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
                         <br></br>
-                        <p:column styleClass="text-font">
-                            <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierArriveeController.findCourrierArrivee()}" update=":CourrierArriveeListForm:datalist"></b:commandButton>
-                            <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierArriveeController.refresh()}" update="CourrierProduitSearchForm"></b:commandButton>
-                        </p:column>
+                        <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierArriveeController.findCourrierArrivee()}" update=":CourrierArriveeListForm:datalist"></b:commandButton>
+                        <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierArriveeController.refresh()}" update="CourrierProduitSearchForm"></b:commandButton>
                     </div>
                 </b:panel>
             </h:form>
-            <h:form id="CourrierArriveeListForm">
-                <b:panel title=" Courrier Arrivee " class="panel-primary"  >
 
+<br/>
+            <b:panel title=" Courrier Arrivee " class="panel-primary" style="text-align: center;" >
+                <h:form id="CourrierArriveeListForm">
                     <div align="center">
                         <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCreateForm" oncomplete="PF('CourrierArriveeCreateDialog').show()" />
-                        <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
+                        <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
                     </div>
 
                     <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item"
@@ -157,14 +156,13 @@
                                  rows="10"
                                  >
 
-
                         <f:facet name="header">  
-                            <h:outputText value="Message Table With More Details"/>  
+                            <h:outputText value="Liste des Courriers Arrivees"/>  
 
                             <div >
                                 <h:commandLink styleClass="icon-file-excel">
-                                    
-                                     <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
+
+                                    <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
                                     <p:dataExporter type="xls" target="datalist"  fileName="Liste des Courrier Arrivée" postProcessor="#{courrierArriveeController.postProcessXLS}" />
                                 </h:commandLink>
 
@@ -282,24 +280,9 @@
                     </p:dataTable>
 
 
+                </h:form>
+            </b:panel>
 
-
-                </b:panel>
-                <!--                <b:panel>
-                                    <div >
-                                        <h:commandLink>
-                                            <p:graphicImage name="/resources/images/icone-pdf.png" width="24"/>
-                                            <p:dataExporter type="xls" target="datalist"  fileName="Liste des Courrier Arrivée" postProcessor="{courrierArriveeController.postProcessXLS}" />
-                                        </h:commandLink>
-                
-                                        <h:commandLink>
-                                            <p:graphicImage name="icone.jpg" width="24"/>
-                                            <p:dataExporter type="pdf" target="datalist" fileName="Liste des Courrier Arrivée" preProcessor="courrierArriveeController.preProcessPDF}" />
-                                        </h:commandLink>
-                                    </div>
-                                </b:panel>-->
-
-            </h:form>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>

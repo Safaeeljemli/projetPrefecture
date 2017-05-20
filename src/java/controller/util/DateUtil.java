@@ -24,7 +24,7 @@ public class DateUtil {
             return null;
         }
     }
-    public static String convrtString(Date date,String pattern) {
+    public static String convrtStringDate(Date date,String pattern) {
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             System.out.println("Date Util value :: "+simpleDateFormat.format(date));

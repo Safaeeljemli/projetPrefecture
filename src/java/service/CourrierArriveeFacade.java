@@ -67,20 +67,19 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
             query += " AND ca.dateCreation >= '" + DateUtil.convertUtilToSql(dateMinC) + "'";
         }
         if (dateMaxC != null) {
-            System.out.println("date test " + dateMaxC);
-            query += " AND ca.dateCreation <=' " + DateUtil.convertUtilToSql(dateMaxC) + "'";
+            query += " AND ca.dateCreation <= '" + DateUtil.convertUtilToSql(dateMaxC) + "'";
         }
         if (dateMinDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG >=' " + DateUtil.convertUtilToSql(dateMinDRHMG) + "'";
+            query += " AND ca.dateEnregistrementDRHMG >= '" + DateUtil.convertUtilToSql(dateMinDRHMG) + "'";
         }
         if (dateMaxDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG <=' " + DateUtil.convertUtilToSql(dateMaxDRHMG) + "'";
+            query += " AND ca.dateEnregistrementDRHMG <= '" + DateUtil.convertUtilToSql(dateMaxDRHMG) + "'";
         }
         if (dateMinBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >=' " + DateUtil.convertUtilToSql(dateMinBTR) + "'";
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >= '" + DateUtil.convertUtilToSql(dateMinBTR) + "'";
         }
         if (dateMaxBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <=' " + DateUtil.convertUtilToSql(dateMaxBTR) + "'";
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <= '" + DateUtil.convertUtilToSql(dateMaxBTR) + "'";
         }
         if (codeA_V != null) {
             query += SearchUtil.addConstraint("ca", "codeA_V", "=", codeA_V);
@@ -99,4 +98,11 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
 
     }
 
+    public String generateCodeA(String abrv, Date dateCreation, int sousClasse) {
+        String code;
+        code = sousClasse + abrv + DateUtil.convrtStringDate(dateCreation, "yy") + "A";
+        return code;
+    }
+
+    
 }

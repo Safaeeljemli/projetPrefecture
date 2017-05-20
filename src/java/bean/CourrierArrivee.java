@@ -32,8 +32,8 @@ public class CourrierArrivee implements Serializable {
     private String motsCle;
     private String codeA_V;
     private String objet;
-    private int n_enregistrementDRHMG;
-    private int n_enregistrementBOW_TRANS_RLAN;
+    private Long n_enregistrementDRHMG;
+    private Long n_enregistrementBOW_TRANS_RLAN;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnregistrementDRHMG;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -55,19 +55,19 @@ public class CourrierArrivee implements Serializable {
         this.courrierProduits = courrierProduits;
     }
 
-    public int getN_enregistrementDRHMG() {
+    public Long getN_enregistrementDRHMG() {
         return n_enregistrementDRHMG;
     }
 
-    public void setN_enregistrementDRHMG(int n_enregistrementDRHMG) {
+    public void setN_enregistrementDRHMG(Long n_enregistrementDRHMG) {
         this.n_enregistrementDRHMG = n_enregistrementDRHMG;
     }
 
-    public int getN_enregistrementBOW_TRANS_RLAN() {
+    public Long getN_enregistrementBOW_TRANS_RLAN() {
         return n_enregistrementBOW_TRANS_RLAN;
     }
 
-    public void setN_enregistrementBOW_TRANS_RLAN(int n_enregistrementBOW_TRANS_RLAN) {
+    public void setN_enregistrementBOW_TRANS_RLAN(Long n_enregistrementBOW_TRANS_RLAN) {
         this.n_enregistrementBOW_TRANS_RLAN = n_enregistrementBOW_TRANS_RLAN;
     }
 

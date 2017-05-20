@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CourrierProduitCheckDlg" widgetVar="CourrierProduitCheckDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCourrierArriveeTitle}">
+            <h:form id="CourrierProduitCheckForm">
+                <h:panelGroup >
+
+                    <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 420px">
+
+
+                        <b:panelGrid columns="2" rendered="#{courrierProduitController.items != null}">
+                            <p:outputLabel value="N° Ordre   :" for="n_ordre1" />
+                            <p:selectBooleanCheckbox id="n_ordre1" value="#{courrierProduitController.n_ordreCheck}"  />
+                            <p:outputLabel value="N° EnvoiParBOW_TRANS  :" for="n_EnvoiParBTCheck" />
+                            <p:selectBooleanCheckbox id="n_EnvoiParBTCheck" value="#{courrierProduitController.n_EnvoiParBTCheck}"  />
+                            <p:outputLabel value="Date Creation   :" for="dateCrtCheck" />
+                            <p:selectBooleanCheckbox id="dateCrtCheck" value="#{courrierProduitController.dateCrtCheck}"  />
+                            <p:outputLabel value="Date Retour du Document   :" for="dateRetrCheck" />
+                            <p:selectBooleanCheckbox id="dateRetrCheck" value="#{courrierProduitController.dateRetrCheck}"  />
+                            <p:outputLabel value="Date Envoi pour validation   :" for="dateEnvValiCheck" />
+                            <p:selectBooleanCheckbox id="dateEnvValiCheck" value="#{courrierProduitController.dateEnvValiCheck}"  />
+                            <p:outputLabel value="Date envoi au BOW_TRANS  :" for="dateEnvoiAuBTCheck" />
+                            <p:selectBooleanCheckbox id="dateEnvoiAuBTCheck" value="#{courrierProduitController.dateEnvoiAuBTCheck}"  />
+                            <p:outputLabel value="Date retour de la minute du BOW_TRANS :" for="dateRetMinutBTCheck" />
+                            <p:selectBooleanCheckbox id="dateRetMinutBTCheck" value="#{courrierProduitController.dateRetMinutBTCheck}"  />
+                            <p:outputLabel value="Date envoi par BOW_TRANS :" for="dateEnvoiParBOW_TRANS" />
+                            <p:selectBooleanCheckbox id="dateEnvoiParBOW_TRANS" value="#{courrierProduitController.dateEnvoiParBTCheck}"  />
+                            <p:outputLabel value="Code P_V  :" for="codePCheck" />
+                            <p:selectBooleanCheckbox id="codePCheck" value="#{courrierProduitController.codePCheck}"  />
+                            <p:outputLabel value="Objet  :" for="objetCheck" />
+                            <p:selectBooleanCheckbox id="objetCheck" value="#{courrierProduitController.objetCheck}"  />
+
+                            <p:outputLabel value="Etat  :" for="etatCheck" />
+                            <p:selectBooleanCheckbox id="etatCheck" value="#{courrierProduitController.etatCheck}"  />
+                            <p:outputLabel value="Raison  :" for="raisonCheck" />
+                            <p:selectBooleanCheckbox id="raisonCheck" value="#{courrierProduitController.raisonCheck}"  />
+                            <p:outputLabel value="Sous classe  :" for="sousClasseCheck" />
+                            <p:selectBooleanCheckbox id="sousClasseCheck" value="#{courrierProduitController.sousClasseCheck}"  />
+                            <p:outputLabel value="Finalité  :" for="finaliteCheck" />
+                            <p:selectBooleanCheckbox id="finaliteCheck" value="#{courrierProduitController.finaliteCheck}"  />
+                            <p:outputLabel value="Déstinataire :" for="destinataireCheck" />
+                            <p:selectBooleanCheckbox id="destinataireCheck" value="#{courrierProduitController.destinataireCheck}"  />
+                            <p:outputLabel value="Code courrier arrivée :" for="courrierArriveeCodeCheck" />
+                            <p:selectBooleanCheckbox id="courrierArriveeCodeCheck" value="#{courrierProduitController.courrierArriveeCodeCheck}"  />
+                            <p:outputLabel value="Option  :" for="option1" />
+                            <p:selectBooleanCheckbox id="option1" value="#{courrierProduitController.optionCheck}"  />
+                        </b:panelGrid>
+                    </b:panel>
+
+                    <p:commandButton  value="Show" update=":CourrierProduitListForm:datalist,:growl" oncomplete="handleSubmit(args,'CourrierProduitCheckDialog');"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
