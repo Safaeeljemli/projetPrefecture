@@ -12,11 +12,10 @@
 
         <ui:define name="title">
             <h:outputText value="#{bundle.ListCourrierArriveeTitle}"></h:outputText>
-
         </ui:define>
-<!--        <f:metadata>
-            <f:viewAction action="{courrierArriveeController.prepareCreate()}" />
-        </f:metadata>-->
+        <!--        <f:metadata>
+                    <f:viewAction action="{courrierArriveeController.prepareCreate()}" />
+                </f:metadata>-->
 
         <ui:define name="body">
             <h:form id="CourrierProduitSearchForm">
@@ -50,66 +49,34 @@
                             </p:selectOneMenu>
                         </p:column>
 
-                        <!--date de Creation-->
-                        <p:column>
-                            <p:outputLabel value="Date Creation:" />
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date Creation:" for="dateC" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Min:" for="dateMinC" />
+                            <p:calendar id="dateC" value="#{courrierArriveeController.dateC}" navigator="true" pattern="dd/MM/yyyy" >
+                            </p:calendar> 
+                        </p:column>
+
+
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date DRHMG:" for="dateDRHMG" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateMinC" value="#{courrierArriveeController.dateMinC}" navigator="true" pattern="dd/MM/yyyy" >
+                            <p:calendar id="dateDRHMG" value="#{courrierArriveeController.dateDRHMG}" navigator="true" pattern="dd/MM/yyyy" >
                             </p:calendar> 
                         </p:column>
 
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Max:" for="dateMaxC" />
+                            <p:outputLabel value="Date BTR:" for="dateBTR" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateMaxC" value="#{courrierArriveeController.dateMaxC}" navigator="true" pattern="dd/MM/yyyy" >
+                            <p:calendar id="dateBTR" value="#{courrierArriveeController.dateBTR}" navigator="true" pattern="dd/MM/yyyy " >
                             </p:calendar> 
                         </p:column>
 
-                        <!--date d'enregistrement DRHMG-->
-                        <p:column>
-                            <p:outputLabel value="Date Enregistrement DRHMG:" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Min:" for="dateMinDRHMG" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMinDRHMG" value="#{courrierArriveeController.dateMinC}" navigator="true" pattern="dd/MM/yyyy" >
-                            </p:calendar> 
-                        </p:column>
-
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Max:" for="dateMaxDRHMG" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMaxDRHMG" value="#{courrierArriveeController.dateMaxC}" navigator="true" pattern="dd/MM/yyyy" >
-                            </p:calendar> 
-                        </p:column>
-
-                        <!--date d'enregistrement BOW_TRANS_RLAN-->
-                        <p:column>
-                            <p:outputLabel value="Date Enregistrement BTR:" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Min:" for="dateMinBTR" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMinBTR" value="#{courrierArriveeController.dateMinBTR}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar> 
-                        </p:column>
-
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Max:" for="dateMaxBTR" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMaxBTR" value="#{courrierArriveeController.dateMaxBTR}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar> 
-                        </p:column>
-
+                        <!--test-->
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Classe" for="classe" />
                         </p:column>
@@ -130,6 +97,7 @@
                                 <f:selectItems value="#{courrierArriveeController.classe.sousClasses}" var="itemSousClasse" itemValue="#{itemSousClasse}" itemLabel="#{itemSousClasse.nom}"/>
                             </p:selectOneMenu>
                         </p:column>
+
 
 
                     </b:panelGrid>

@@ -49,12 +49,9 @@ public class CourrierArriveeController implements Serializable {
     private CourrierArrivee item;
 
     private String errorMessage = "";
-    private Date dateMinC;
-    private Date dateMaxC;
-    private Date dateMinDRHMG;
-    private Date dateMaxDRHMG;
-    private Date dateMinBTR;
-    private Date dateMaxBTR;
+    private Date dateC;
+    private Date dateDRHMG;
+    private Date dateBTR;
     private String codeA_V;
     private DestinataireExpediteur expediteur = null;
     private ModeTraitement modeTraitement = null;
@@ -252,52 +249,28 @@ public class CourrierArriveeController implements Serializable {
         this.courrierProduit = courrierProduit;
     }
 
-    public Date getDateMinC() {
-        return dateMinC;
+    public Date getDateC() {
+        return dateC;
     }
 
-    public void setDateMinC(Date dateMinC) {
-        this.dateMinC = dateMinC;
+    public void setDateC(Date dateC) {
+        this.dateC = dateC;
     }
 
-    public Date getDateMaxC() {
-        return dateMaxC;
+    public Date getDateDRHMG() {
+        return dateDRHMG;
     }
 
-    public void setDateMaxC(Date dateMaxC) {
-        this.dateMaxC = dateMaxC;
+    public void setDateDRHMG(Date dateDRHMG) {
+        this.dateDRHMG = dateDRHMG;
     }
 
-    public Date getDateMinDRHMG() {
-        return dateMinDRHMG;
+    public Date getDateBTR() {
+        return dateBTR;
     }
 
-    public void setDateMinDRHMG(Date dateMinDRHMG) {
-        this.dateMinDRHMG = dateMinDRHMG;
-    }
-
-    public Date getDateMaxDRHMG() {
-        return dateMaxDRHMG;
-    }
-
-    public void setDateMaxDRHMG(Date dateMaxDRHMG) {
-        this.dateMaxDRHMG = dateMaxDRHMG;
-    }
-
-    public Date getDateMinBTR() {
-        return dateMinBTR;
-    }
-
-    public void setDateMinBTR(Date dateMinBTR) {
-        this.dateMinBTR = dateMinBTR;
-    }
-
-    public Date getDateMaxBTR() {
-        return dateMaxBTR;
-    }
-
-    public void setDateMaxBTR(Date dateMaxBTR) {
-        this.dateMaxBTR = dateMaxBTR;
+    public void setDateBTR(Date dateBTR) {
+        this.dateBTR = dateBTR;
     }
 
     public String getCodeA_V() {
@@ -387,6 +360,7 @@ public class CourrierArriveeController implements Serializable {
 
     public void findCourrierArrivee() {
         System.out.println("haaaa");
+        items = getFacade().findCourrierArrivee( dateC, dateDRHMG, dateBTR,  codeA_V, sousClasse, expediteur, modeTraitement);
         if (items == null) {
 //            items = ejbFacade.findAll();
             JsfUtil.addSuccessMessage("No Data Found");
@@ -424,12 +398,9 @@ public class CourrierArriveeController implements Serializable {
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
-        dateMinC = null;
-        dateMaxC = null;
-        dateMinDRHMG = null;
-        dateMinDRHMG = null;
-        dateMaxBTR = null;
-        dateMaxBTR = null;
+        dateC = null;
+        dateDRHMG = null;
+        dateBTR = null;
         codeA_V = null;
         expediteur = null;
         modeTraitement = null;
@@ -455,12 +426,9 @@ public class CourrierArriveeController implements Serializable {
         setClasse(null);
         setCodeA_V(null);
 //        setCourrierProduit(null);
-        setDateMaxBTR(null);
-        setDateMaxC(null);
-        setDateMaxDRHMG(null);
-        setDateMinBTR(null);
-        setDateMinC(null);
-        setDateMinDRHMG(null);
+        setDateDRHMG(null);
+        setDateBTR(null);
+        setDateC(null);
         setSousClasse(null);
     }
 

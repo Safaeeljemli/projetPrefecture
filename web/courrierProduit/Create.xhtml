@@ -20,32 +20,35 @@
                             <p:inputText id="n_dordre" value="#{courrierProduitController.selected.n_dordre}" title="#{bundle.CreateCourrierProduitTitle_n_dordre}" />
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_destinataireExpediteur}" for="destinataireExpediteur" />
                             <p:selectOneMenu id="destinataireExpediteur" value="#{courrierProduitController.selected.destinataireExpediteur}" >
+                                <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
                                 <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
                                                var="destinataireExpediteurItem"
                                                itemValue="#{destinataireExpediteurItem}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_courrierArrivee}" for="courrierArrivee" />
                             <p:selectOneMenu id="courrierArrivee" value="#{courrierProduitController.selected.courrierArrivee}" >
+                                <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
                                 <f:selectItems value="#{courrierArriveeController.itemsAvailableSelectOne}"
                                                var="courrierArriveeItem"
                                                itemValue="#{courrierArriveeItem}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateCreation}" for="dateCreation" />
-                            <p:calendar id="dateCreation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.EditCourrierProduitTitle_dateCreation}"  showOn="button"/>
+                            <p:calendar id="dateCreation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.EditCourrierProduitTitle_dateCreation}"  />
                             <p:outputLabel value="Abreviation" for="Abreviation" />
                             <p:inputText id="Abreviation" value="#{courrierProduitController.abrev}" title="#{bundle.CreateCourrierProduitTitle_codeP_V}" />
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_objet}" for="objet" />
                             <p:inputText id="objet" value="#{courrierProduitController.selected.objet}" title="#{bundle.CreateCourrierProduitTitle_objet}" />
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_finalite}" for="finalite" />
                             <p:selectOneMenu id="finalite" value="#{courrierProduitController.selected.finalite}" >
+                                <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
                                 <f:selectItems value="#{finaliteController.itemsAvailableSelectOne}"
                                                var="finaliteItem"
                                                itemValue="#{finaliteItem}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiePourValidation}" for="dateEnvoiePourValidation" />
-                            <p:calendar id="dateEnvoiePourValidation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiePourValidation}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiePourValidation}"  showOn="button"/>
+                            <p:calendar id="dateEnvoiePourValidation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiePourValidation}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiePourValidation}"/>
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateRetourDocument}" for="dateRetourDocument" />
-                            <p:calendar id="dateRetourDocument" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateRetourDocument}" title="#{bundle.EditCourrierProduitTitle_dateRetourDocument}"  showOn="button"/>
+                            <p:calendar id="dateRetourDocument" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateRetourDocument}" title="#{bundle.EditCourrierProduitTitle_dateRetourDocument}" />
 
 
 
@@ -59,6 +62,7 @@
                             <p:inputText id="n_EnvoiParBOW_TRANS" value="#{courrierProduitController.selected.n_EnvoiParBOW_TRANS}" title="#{bundle.CreateCourrierProduitTitle_n_EnvoiParBOW_TRANS}" />
                             <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_sousClasse}" for="sousClasse" />
                             <p:selectOneMenu id="sousClasse" value="#{courrierProduitController.selected.sousClasse}" >
+                                <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
                                 <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"
                                                var="sousClasseItem"
                                                itemValue="#{sousClasseItem}"/>

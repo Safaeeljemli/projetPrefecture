@@ -59,27 +59,17 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         return cloned;
     }
 
-    public List<CourrierArrivee> findCourrierArrivee(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeA_V,SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement) {
+    public List<CourrierArrivee> findCourrierArrivee(Date dateC,  Date dateDRHMG,  Date dateBTR, String codeA_V,SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement) {
         System.out.println("facaaade");
         String query = "Select ca FROM CourrierArrivee ca WHERE 1=1";
-        if (dateMinC != null) {
-            System.out.println("date test " + dateMinC);
-            query += " AND ca.dateCreation >= '" + DateUtil.convertUtilToSql(dateMinC) + "'";
+        if (dateC != null) {
+            query += " AND ca.dateCreation = '" + DateUtil.convertUtilToSql(dateC) + "'";
         }
-        if (dateMaxC != null) {
-            query += " AND ca.dateCreation <= '" + DateUtil.convertUtilToSql(dateMaxC) + "'";
+        if (dateDRHMG != null) {
+            query += " AND ca.dateEnregistrementDRHMG = '" + DateUtil.convertUtilToSql(dateDRHMG) + "'";
         }
-        if (dateMinDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG >= '" + DateUtil.convertUtilToSql(dateMinDRHMG) + "'";
-        }
-        if (dateMaxDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG <= '" + DateUtil.convertUtilToSql(dateMaxDRHMG) + "'";
-        }
-        if (dateMinBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN >= '" + DateUtil.convertUtilToSql(dateMinBTR) + "'";
-        }
-        if (dateMaxBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN <= '" + DateUtil.convertUtilToSql(dateMaxBTR) + "'";
+        if (dateBTR != null) {
+            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN = '" + DateUtil.convertUtilToSql(dateBTR) + "'";
         }
         if (codeA_V != null) {
             query += SearchUtil.addConstraint("ca", "codeA_V", "=", codeA_V);
