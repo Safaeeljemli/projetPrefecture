@@ -14,9 +14,9 @@
             <h:outputText value="#{bundle.ListCourrierArriveeTitle}"></h:outputText>
 
         </ui:define>
-        <f:metadata>
-            <f:viewAction action="#{courrierArriveeController.prepareCreate()}" />
-        </f:metadata>
+<!--        <f:metadata>
+            <f:viewAction action="{courrierArriveeController.prepareCreate()}" />
+        </f:metadata>-->
 
         <ui:define name="body">
             <h:form id="CourrierProduitSearchForm">
@@ -142,7 +142,7 @@
                 </b:panel>
             </h:form>
 
-<br/>
+
             <b:panel title=" Courrier Arrivee " class="panel-primary" style="text-align: center;" >
                 <h:form id="CourrierArriveeListForm">
                     <div align="center">

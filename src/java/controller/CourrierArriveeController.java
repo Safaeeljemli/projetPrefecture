@@ -65,19 +65,19 @@ public class CourrierArriveeController implements Serializable {
     private String type;
     private String abrev;
 
-    private boolean dateDRHMGcheck=false;
-    private boolean expediteurCheck=true;
-    private boolean motsCleCheck=true;
-    private boolean objetCheck=true;
-    private boolean modeTraitementCheck=true;
-    private boolean n_DRHMGCheck=true;
-    private boolean n_enCheck=true;
-    private boolean n_BOW_TRANS_RLANcheck=true;
-    private boolean codeA_Vcheck=true;
-    private boolean dateEnregcheck=true;
-    private boolean dateBOW_TRANS_RLANcheck=true;
-    private boolean sousClasseCheck=true;
-    private boolean optionCheck=true;
+    private boolean dateDRHMGcheck = false;
+    private boolean expediteurCheck = true;
+    private boolean motsCleCheck = true;
+    private boolean objetCheck = true;
+    private boolean modeTraitementCheck = true;
+    private boolean n_DRHMGCheck = true;
+    private boolean n_enCheck = true;
+    private boolean n_BOW_TRANS_RLANcheck = true;
+    private boolean codeA_Vcheck = true;
+    private boolean dateEnregcheck = true;
+    private boolean dateBOW_TRANS_RLANcheck = true;
+    private boolean sousClasseCheck = true;
+    private boolean optionCheck = true;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
@@ -305,7 +305,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public void setCodeA_V(String codeA_V) {
-        this.codeA_V = "'" + sousClasse.getNom() + abrev + annee + "'";
+        this.codeA_V = codeA_V;
     }
 
     public DestinataireExpediteur getExpediteur() {
@@ -387,14 +387,10 @@ public class CourrierArriveeController implements Serializable {
 
     public void findCourrierArrivee() {
         System.out.println("haaaa");
-        refresh();
-        items = ejbFacade.findCourrierArrivee(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeA_V, sousClasse, expediteur, modeTraitement);
         if (items == null) {
-            items = ejbFacade.findAll();
-
+//            items = ejbFacade.findAll();
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
-            System.out.println(" items ! null ");
             JsfUtil.addSuccessMessage("successe");
         }
     }
@@ -425,16 +421,6 @@ public class CourrierArriveeController implements Serializable {
 
     }
 
-    //    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
-    //        Document pdf = (Document) document;
-    //        pdf.open();
-    //        pdf.setPageSize(PageSize.A4);
-    //
-    //        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-    //        String logo = externalContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" + File.separator + "images" + File.separator + "prime_logo.png";
-    //
-    //        pdf.add(Image.getInstance(logo));
-    //    }
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
@@ -465,10 +451,10 @@ public class CourrierArriveeController implements Serializable {
 //    }
     public void refresh() {
         selected = null;
-        items = null;
+//        items = null;
         setClasse(null);
         setCodeA_V(null);
-        setCourrierProduit(null);
+//        setCourrierProduit(null);
         setDateMaxBTR(null);
         setDateMaxC(null);
         setDateMaxDRHMG(null);
@@ -483,7 +469,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public void create() {
-        selected.setCodeA_V(ejbFacade.generateCodeA(abrev,selected.getDateEnregistrement(), 12));
+        selected.setCodeA_V(ejbFacade.generateCodeA(abrev, selected.getDateEnregistrement(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));
