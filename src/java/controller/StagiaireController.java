@@ -1,9 +1,12 @@
 package controller;
 
 import bean.Departement;
+import bean.Domaine;
 import bean.Ecole;
 import bean.Employee;
 import bean.Stagiaire;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
@@ -25,6 +28,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import net.sf.jasperreports.engine.JRException;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 
 @Named("stagiaireController")
 @SessionScoped
@@ -38,7 +47,8 @@ public class StagiaireController implements Serializable {
     private service.DepartementFacade depatementFacade;
     @EJB
     private service.EmployeeFacade employeeFacade;
-    
+    private Ecole selectedE;
+    private Domaine selectedD;
     private List<Stagiaire> items;
     private Stagiaire selected;
     //recherche Stagiaire
@@ -48,12 +58,63 @@ public class StagiaireController implements Serializable {
     private Date dateFin;
     private Employee encadrant;
     private Departement thisDepartement;
+    private int genre;
+    //boolean
+    private boolean nomB=true;
+    private boolean prenomB=true;
+    private boolean cinB=true;
+    private boolean mailB=true;
+    private boolean numTelB=true;
+    private boolean genreB=true;
+    private boolean typeB=true;
+    private boolean dateDebutB=true;
+    private boolean dateFinB=true;
+    private boolean encadrantB=true;
+    private boolean  depB =true;
+    private boolean  ecoleB=true;
+    private  boolean filiereB;
     
+    private DomaineController controllerD;
     public StagiaireController() {
     }
     
     public Stagiaire getSelected() {
         return selected;
+    }
+
+    public Ecole getSelectedE() {
+        
+        return selectedE;
+    }
+
+    public void setSelectedE(Ecole selectedE) {
+        this.selectedE = selectedE;
+    }
+
+    public Domaine getSelectedD() {
+        return selectedD;
+    }
+
+    public void setSelectedD(Domaine selectedD) {
+        this.selectedD = selectedD;
+    }
+    
+
+    public boolean isFiliereB() {
+        return filiereB;
+    }
+
+    public DomaineController getControllerD() {
+        return controllerD;
+    }
+
+    public void setControllerD(DomaineController controllerD) {
+        this.controllerD = controllerD;
+    }
+
+    
+    public void setFiliereB(boolean filiereB) {
+        this.filiereB = filiereB;
     }
     
     public void setSelected(Stagiaire selected) {
@@ -127,6 +188,22 @@ public class StagiaireController implements Serializable {
     public void setTypeStage(int typeStage) {
         this.typeStage = typeStage;
     }
+
+    public int getGenre() {
+        return genre;
+    }
+
+    public void setGenre(int genre) {
+        this.genre = genre;
+    }
+
+    public boolean isEcoleB() {
+        return ecoleB;
+    }
+
+    public void setEcoleB(boolean ecoleB) {
+        this.ecoleB = ecoleB;
+    }
     
     public Ecole getEcole() {
         if (ecole == null) {
@@ -170,6 +247,123 @@ public class StagiaireController implements Serializable {
     public void setThisDepartement(Departement thisDepartement) {
         this.thisDepartement = thisDepartement;
     }
+
+    public boolean isNomB() {
+        return nomB;
+    }
+
+    public void setNomB(boolean nomB) {
+        this.nomB = nomB;
+    }
+
+    public boolean isPrenomB() {
+        return prenomB;
+    }
+
+    public void setPrenomB(boolean prenomB) {
+        this.prenomB = prenomB;
+    }
+
+    public boolean isCinB() {
+        return cinB;
+    }
+
+    public void setCinB(boolean cinB) {
+        this.cinB = cinB;
+    }
+
+    public boolean isMailB() {
+        return mailB;
+    }
+
+    public void setMailB(boolean mailB) {
+        this.mailB = mailB;
+    }
+
+    public boolean isNumTelB() {
+        return numTelB;
+    }
+
+    public void setNumTelB(boolean numTelB) {
+        this.numTelB = numTelB;
+    }
+
+    public boolean isTypeB() {
+        return typeB;
+    }
+
+    public void setTypeB(boolean typeB) {
+        this.typeB = typeB;
+    }
+
+    public boolean isDateDebutB() {
+        return dateDebutB;
+    }
+
+    public void setDateDebutB(boolean dateDebutB) {
+        this.dateDebutB = dateDebutB;
+    }
+
+    public boolean isDateFinB() {
+        return dateFinB;
+    }
+
+    public void setDateFinB(boolean dateFinB) {
+        this.dateFinB = dateFinB;
+    }
+
+    public boolean isEncadrantB() {
+        return encadrantB;
+    }
+
+    public void setEncadrantB(boolean encadrantB) {
+        this.encadrantB = encadrantB;
+    }
+
+    public boolean isDepB() {
+        return depB;
+    }
+
+    public void setDepB(boolean depB) {
+        this.depB = depB;
+    }
+
+    public boolean isGenreB() {
+        return genreB;
+    }
+
+    public void setGenreB(boolean genreB) {
+        this.genreB = genreB;
+    }
+        public void postProcessXLS(Object document) {
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        CellStyle style = wb.createCellStyle();
+        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                cell.setCellValue(cell.getStringCellValue().toUpperCase());
+                cell.setCellStyle(style);
+            }
+        }
+    }
+
+    public void preProcessPDF(Object document) {
+        Document doc = (Document) document;
+        doc.setPageSize(PageSize.A4.rotate());
+      doc.addCreationDate();
+      doc.addSubject("Liste Des Stagiaires");
+      
+        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
+        doc.addHeader("azerr", "aeaze");
+        doc.addAuthor("autt");
+      //  doc.addSubject("sujet");
+        doc.addCreationDate(); // this did not work either.
+
+    }
+
+    
     
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -226,7 +420,7 @@ public class StagiaireController implements Serializable {
     //recherche dial Stagiaire
     public void findStagiaire() {
         System.out.println(":: search :: ");
-        items = getFacade().findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
+        items = getFacade().findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant,genre);
 //items =ejbFacade.findStagiaire(typeStage, ecole, dateDebut, dateFin, thisDepartement, encadrant);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");

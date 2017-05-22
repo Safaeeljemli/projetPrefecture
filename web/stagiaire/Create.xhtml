@@ -12,57 +12,94 @@
         <p:dialog id="StagiaireCreateDlg" widgetVar="StagiaireCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateStagiaireTitle}">
             <h:form id="StagiaireCreateForm">
                 <h:panelGroup >
-                    <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 350px">
-                    <b:panelGrid columns="2" rendered="#{stagiaireController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_nom}"  />
-                        <b:inputText id="nom" value="#{stagiaireController.selected.nom}" title="#{bundle.CreateStagiaireTitle_nom}"  required="true"/>
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_prenom}"  />
-                        <b:inputText id="prenom" value="#{stagiaireController.selected.prenom}" title="#{bundle.CreateStagiaireTitle_prenom}" required="true" />
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_cin}"  />
-                        <b:inputText id="cin" value="#{stagiaireController.selected.cin}" title="#{bundle.CreateStagiaireTitle_cin}" required="true" />
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_mail}" />
-                        <b:inputText id="mail" required="true" label="email" placeholder="exemple@gmail.com"
-                                         requiredMessage="Veuillez remplir le champs 'EMAIL'"
-                                         validatorMessage="Format d'email invalide"
-                                         value="#{stagiaireController.selected.mail}">
-                            </b:inputText>
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_numTel}"  />
-                        <b:inputText id="numTel" value="#{stagiaireController.selected.numTel}" title="#{bundle.CreateStagiaireTitle_numTel}" />
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_dateDebut}"  />
-                        <p:calendar id="dateDebut" value="#{stagiaireController.selected.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar>
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_dateFin}"  />
-                        <p:calendar id="dateFin" value="#{stagiaireController.selected.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar>
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_domaine}"  />
-                        <p:selectOneMenu id="domaine" value="#{stagiaireController.selected.domaine}" >
-                            <f:selectItems value="#{domaineController.itemsAvailableSelectOne}"
-                                           var="domaineItem"
-                                           itemValue="#{domaineItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_encadrant}" for="encadrant" />
-                        <p:selectOneMenu id="encadrant" value="#{stagiaireController.selected.encadrant}" >
-                            <f:selectItems value="#{employeeController.itemsAvailableSelectOne}"
-                                           var="encadrantItem"
-                                           itemValue="#{encadrantItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateStagiaireLabel_stage}" for="stage" />
-                        <p:selectOneMenu id="stage" value="#{stagiaireController.selected.stage}" >
-                            <f:selectItems value="#{stageController.itemsAvailableSelectOne}"
-                                           var="stageItem"
-                                           itemValue="#{stageItem}"/>
-                        </p:selectOneMenu>
-                         <p:outputLabel value="#{bundle.CreateStagiaireLabel_ecoleStagiaire}" />
-                        <p:selectOneMenu id="ecoleStagiaire" value="#{stagiaireController.selected.ecoleStagiaire}" >
-                            <f:selectItems value="#{ecoleController.itemsAvailableSelectOne}"
-                                           var="ecoleStagiaireItem"
-                                           itemValue="#{ecoleStagiaireItem}"/>
-                        </p:selectOneMenu>
-                    </b:panelGrid>
-                    <p:commandButton actionListener="#{stagiaireController.create}" value="#{bundle.Save}" update="display,:StagiaireListForm:datalist,:growl" oncomplete="handleSubmit(args,'StagiaireCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="StagiaireCreateDialog.hide()"/>
-                    </b:panel>
-                    </h:panelGroup>
+                    <div class="col-lg-12">
+                        <div class="col-lg-4" >
+                            <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 350px">
+                                <b:panelGrid columns="2" rendered="#{stagiaireController.selected != null}">
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_nom}"  />
+                                    <b:inputText id="nom" value="#{stagiaireController.selected.nom}" title="#{bundle.CreateStagiaireTitle_nom}"  required="true"/>
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_prenom}"  />
+                                    <b:inputText id="prenom" value="#{stagiaireController.selected.prenom}" title="#{bundle.CreateStagiaireTitle_prenom}" required="true" />
+                                    <p:outputLabel value="sexe:"  for="genre"/>
+                                    <p:selectOneMenu id="genre"   value="#{stagiaireController.selected.genre}" title="sexe"  required="true">
+                                        <f:selectItem itemLabel="--select--" itemValue="0"  ></f:selectItem>
+                                        <f:selectItem itemValue="1" itemLabel="Femme"/>
+                                        <f:selectItem itemValue="2" itemLabel="Homme"/>            
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_cin}"  />
+                                    <b:inputText id="cin" value="#{stagiaireController.selected.cin}" title="#{bundle.CreateStagiaireTitle_cin}" required="true" />
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_mail}" />
+                                    <b:inputText id="mail" required="true" label="email" placeholder="exemple@gmail.com" 
+                                                 requiredMessage="Veuillez remplir le champs 'EMAIL'"
+                                                 validatorMessage="Format d'email invalide"
+                                                 value="#{stagiaireController.selected.mail}">
+                                    </b:inputText>
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_numTel}"  />
+                                    <b:inputText id="numTel" value="#{stagiaireController.selected.numTel}" title="#{bundle.CreateStagiaireTitle_numTel}" />
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_dateDebut}"  />
+                                    <p:calendar id="dateDebut" value="#{stagiaireController.selected.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
+                                    </p:calendar>
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_dateFin}"  />
+                                    <p:calendar id="dateFin" value="#{stagiaireController.selected.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
+                                    </p:calendar>
+
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_encadrant}" for="encadrant" />
+                                    <p:selectOneMenu id="encadrant" value="#{stagiaireController.selected.encadrant}" >
+                                        <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                        <f:selectItems value="#{employeeController.itemsAvailableSelectOne}"
+                                                       var="encadrantItem"
+                                                       itemValue="#{encadrantItem}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_ecoleStagiaire}" for="ecoleStagiaire" />
+                                    <p:selectOneMenu id="ecoleStagiaire" value="#{stagiaireController.selected.ecoleStagiaire}" >
+                                        <f:selectItem itemLabel="--select--" itemValue="null" noSelectionOption="true" ></f:selectItem>
+                                        <f:selectItems value="#{ecoleController.itemsAvailableSelectOne}"
+                                                       var="ecoleStagiaireItem"
+                                                       itemValue="#{ecoleStagiaireItem}"/>
+                                        <p:ajax update="StagiaireCreateForm" />
+                                    </p:selectOneMenu>
+
+
+                                    <p:outputLabel value="Filièere:" rendered="#{stagiaireController.selected.ecoleStagiaire !=  null}" for="stage" id="ecole" />
+                                    <p:selectOneMenu  id="stage" value="#{stagiaireController.selected.stage}" rendered="#{stagiaireController.selected.ecoleStagiaire !=  null}" >
+                                        <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                        <f:selectItems value="#{stageController.itemsAvailableSelectOne}"
+                                                       var="stageItem"
+                                                       itemValue="#{stageItem}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="#{bundle.CreateStagiaireLabel_domaine}" for="domaine" rendered="#{stagiaireController.selected.ecoleStagiaire !=  null}"/>
+                                    <p:selectOneMenu id="domaine" value="#{stagiaireController.selected.domaine}" rendered="#{stagiaireController.selected.ecoleStagiaire !=  null}" >
+                                        <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                        <f:selectItems value="#{domaineController.itemsAvailableSelectOne}"
+                                                       var="domaineItem"
+                                                       itemValue="#{domaineItem}"/>
+                                    </p:selectOneMenu>
+                                </b:panelGrid>
+                                <p:commandButton actionListener="#{stagiaireController.create}" value="#{bundle.Save}" update="display,:StagiaireListForm:datalist,:growl" oncomplete="handleSubmit(args,'StagiaireCreateDialog');"/>
+                                <p:commandButton value="#{bundle.Cancel}" onclick="StagiaireCreateDialog.hide()"/>
+                            </b:panel>
+                        </div>
+                        <div class="col-lg-7" id="div2" >
+                            <b:panel id="ecoleAd" title=" ajouter un etablissement " class="panel-primary" style=" background-color: #eee6ff;margin-left: 100px" >
+                                <div class="col-lg-12" >
+                                    <div class="col-lg-6" >
+                                        <p:panelGrid  id="tab">
+                                            <p:outputLabel value="#{bundle.CreateEcoleLabel_nom}" for="nomE" />
+                                            <p:inputText id="nomE" value="#{stagiaireController.selectedD.ecole.nom}" title="#{bundle.CreateEcoleTitle_nom}" />
+                                            <p:outputLabel value="filiere :" for="fil" />
+                                            <p:inputText id="fil" value="#{stagiaireController.selectedD.nom}" title="filiere" />
+                                        </p:panelGrid>
+                                        <p:commandButton actionListener="#{stagiaireController.controllerD.create()}" value="#{bundle.Save}" update="StagiaireCreateForm" oncomplete="handleSubmit(args,'StagiaireCreateDialog');"/>
+                                <p:commandButton value="#{bundle.Cancel}" onclick="StagiaireCreateDialog.hide()"/>
+                          
+                                    </div>
+                                </div>
+                            </b:panel>
+                        </div>
+                        
+                    </div>
+                </h:panelGroup>
             </h:form>
         </p:dialog>
 

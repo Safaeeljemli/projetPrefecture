@@ -1,4 +1,4 @@
-/*
+/*  
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -42,7 +42,7 @@ public class StagiaireFacade extends AbstractFacade<Stagiaire> {
         super(Stagiaire.class);
     }
 
-    public List<Stagiaire> findStagiaire(int typeStage, Ecole ecole, Date dateDebut, Date dateFin, Departement departement, Employee encadrant) {
+    public List<Stagiaire> findStagiaire(int typeStage, Ecole ecole, Date dateDebut, Date dateFin, Departement departement, Employee encadrant,int genre) {
         System.out.println("recherche Facade");
         String query = "Select s FROM Stagiaire s WHERE 1=1";
         if (typeStage != 0) {
@@ -66,6 +66,9 @@ public class StagiaireFacade extends AbstractFacade<Stagiaire> {
         if (encadrant != null) {
             query += SearchUtil.addConstraint("s", "encadrant.id", "=", encadrant.getId());
         }
+        if(genre != 0){
+             query += SearchUtil.addConstraint("s", "genre","=",genre);
+        }
         return em.createQuery(query).getResultList();
 
     }
@@ -75,32 +78,32 @@ public class StagiaireFacade extends AbstractFacade<Stagiaire> {
         myList.add(stagiaire);
         Map<String, Object> params = prepareParams(stagiaire);
         PdfUtil.generatePdf(myList, params, "AttestationStage.pdf", "jasper/AttestationS.jasper");
-
     }
-
     private Map<String, Object> prepareParams(Stagiaire stagiaire) {
-        String genre;
-        String etudiant;
-        if (stagiaire.getGenre().equals("Homme")) {
+        String genre = null;
+        String etudiant = null;
+        if (stagiaire.getGenre()==2) {
             genre = "Mrs.";
             etudiant = "etudiant";
-        } else {
+        } else if(stagiaire.getGenre()==1) {
             genre = "Mme.";
             etudiant = "etudiante";
         }
-        String date= stagiaire.getDateDebut().toString()+" au "+stagiaire.getDateFin().toString();
+        
+        String date= DateUtil.convrtStringDate(stagiaire.getDateDebut(), "dd/MM/YY") +" au "+ DateUtil.convrtStringDate(stagiaire.getDateFin(), "dd/MM/YY")+"";
         String division = stagiaire.getDepartement().getNom()+" du secretariat general de la Prefecture de Marrakech.";
-        String name = stagiaire.getNom() + " " + stagiaire.getPrenom() + "  de CIN " + stagiaire.getCin();
-        String school = stagiaire.getEcoleStagiaire().getNom() + " " + stagiaire.getDomaine().getNom();
-         String kolchi="Le Wali de la Region Marrakech-Safi Gouverneur de la prefecture de Marrakech atteste par la presente que :"+ genre +" " +name+" "+ etudiant+" a "+school+" a effectuer un stage du: "+date+" a la "+division;
+        String name = stagiaire.getNom() + "  " + stagiaire.getPrenom() + "  de CIN  " + stagiaire.getCin();
+        String school = stagiaire.getEcoleStagiaire().getNom() + " option " + stagiaire.getDomaine().getNom();
+      String kolchi="    Le Wali de la Region Marrakech-Safi Gouverneur de la prefecture de Marrakech atteste par la presente que"
+              + " : "+ genre +" " +name+"  "+ etudiant+" a " + school + " a effectuer un stage du " +date+ " a la division du  " +division+"";
         Map<String, Object> params = new HashMap();
-        params.put("date", date);
-        params.put("school", school);
-        params.put("Division", division);
-        params.put("genre", genre);
-        params.put("etudiant", etudiant);
-        params.put("name", name);
-        params.put("kolchi", kolchi);
+       // params.put("date", date);
+       // params.put("school", school);
+       // params.put("Division", division);
+       // params.put("genre", genre);
+      //  params.put("etudiant", etudiant);
+       // params.put("name", name);
+       params.put("kolchi", kolchi);
         return params;
     }
 

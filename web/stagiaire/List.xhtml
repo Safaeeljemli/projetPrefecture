@@ -16,29 +16,11 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="StagiaireListForm">
+            <h:form id="StagiaireSearchForm">
 
                 <b:panel title="Rechercher des Stagiaires par différents" class="panel-primary"  >
                     <b:panelGrid columns="6" >
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Ecole" for="ecole" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:selectOneMenu id="ecole"   value="#{stagiaireController.ecole}" >
-                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                                <f:selectItems value="#{stagiaireController.ecolesAvailableSelectOne}" var="itemEcole" itemValue="#{itemEcole}" itemLabel="#{itemEcole.nom}"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Type de Stage:" for="typeStage" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:selectOneMenu id="typeStage" value="#{stagiaireController.typeStage}" >
-                                <f:selectItem itemValue="0" itemLabel="Tous"/>
-                                <f:selectItem itemValue="1" itemLabel="Normal"/>
-                                <f:selectItem itemValue="2" itemLabel="Alternée"/>
-                            </p:selectOneMenu>
-                        </p:column>
+
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Date Debut" for="dateDebut" />
                         </p:column>
@@ -71,73 +53,115 @@
                                 <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
                                 <f:selectItems value="#{stagiaireController.thisDepartement.employees}" var="itemEmployee" itemValue="#{itemEmployee}" itemLabel="#{itemEmployee.nom}"/>
                             </p:selectOneMenu>
+                        </p:column >
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Sexe :" for="genre" />
+                        </p:column>
+                        <b:column styleClass="text-font">
+                            <p:selectOneMenu id="genre"   value="#{stagiaireController.genre}" >
+                                <f:selectItem itemLabel="--select--" itemValue="0"  ></f:selectItem>
+                                <f:selectItem itemValue="1" itemLabel="Femme"/>
+                                <f:selectItem itemValue="2" itemLabel="Homme"/>            
+                            </p:selectOneMenu>
+                        </b:column> <p:column styleClass="text-font">
+                            <p:outputLabel value="Ecole" for="ecole" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="ecole"   value="#{stagiaireController.ecole}" >
+                                <f:selectItem itemLabel="--select--" itemValue=""  ></f:selectItem>
+                                <f:selectItems value="#{stagiaireController.ecolesAvailableSelectOne}" var="itemEcole" itemValue="#{itemEcole}" itemLabel="#{itemEcole.nom}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Type de Stage:" for="typeStage" />
+                        </p:column>
+                        <p:column styleClass="text-font">
+                            <p:selectOneMenu id="typeStage" value="#{stagiaireController.typeStage}" >
+                                <f:selectItem itemValue="0" itemLabel="Tous"/>
+                                <f:selectItem itemValue="1" itemLabel="Normal"/>
+                                <f:selectItem itemValue="2" itemLabel="Alternée"/>
+                            </p:selectOneMenu>
                         </p:column>
 
 
                     </b:panelGrid>
                     <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
                         <br></br>
-                        <b:commandButton value="Rechecher"  ajax="true" icon="glyphicon glyphicon-search"  actionListener="#{stagiaireController.findStagiaire()}" update="datalist"></b:commandButton>
-                        <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh" ajax="true"  actionListener="#{stagiaireController.refresh()}" update="StagiaireListForm"></b:commandButton>
+                        <b:commandButton value="Rechecher"  ajax="true" icon="glyphicon glyphicon-search"  actionListener="#{stagiaireController.findStagiaire()}" update=":StagiaireListForm:datalist"></b:commandButton>
+                        <b:commandButton value="Reafresher" icon="glyphicon glyphicon-refresh" ajax="true"  actionListener="#{stagiaireController.refresh()}" update="StagiaireListForm,StagiaireSearchForm"></b:commandButton>
                     </div>
 
                 </b:panel>
-
-                <b:panel title=" Stagiaires " class="panel-primary"  >
+            </h:form>
+            <b:panel title=" Stagiaires " class="panel-primary"  >
+                <h:form id="StagiaireListForm">
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Create" ajax="true" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{stagiaireController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('StagiaireCreateDialog').show()" />
+                        <b:commandButton id="createButton" style="width: 200px" value="Ajouter Stagiaire" ajax="true" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{stagiaireController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('StagiaireCreateDialog').show()" />
+                        <b:commandButton id="chowColumnsButton" style="width: 200px" value="colonnes a afficher" icon-awesome="glyphicon-refresh" icon-spin="lg" class="btn-primary"   update=":StagiaireCheckForm" oncomplete="PF('StagiaireCheckDialog').show()" />
+
                     </div>
 
                     <p:dataTable value="#{stagiaireController.items}" var="item" id="datalist">
-                       <f:facet name="header">
-                            LISTE STAGIAIRE
-                               <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" style="width:150px; float: left" placeholder="Enter keyword"/>
-                            <p:commandButton id="toggler" type="button" value="Columns" style="float:right " icon="ui-icon-calculator" />
-                            <p:columnToggler datasource="datalist" trigger="toggler" />
+                        <f:facet name="header"  >
+
+                            <div >
+                                <h:outputText value="Liste des Stagiaire"/>  
+                                <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <h:commandLink styleClass="icon-file-excel">
+                                    <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
+                                    <p:dataExporter type="xls" target="datalist"  fileName="Liste des Stagiaire" postProcessor="#{stagiaireController.postProcessXLS}" />
+                                </h:commandLink>
+
+                                <h:commandLink styleClass="icon-file-pdf">
+                                    <h:graphicImage class="imagelink" id="imag2" value="/resources/images/icone-pdf.png" title="pdf" style="width:30px;height:30px" ></h:graphicImage>
+                                    <p:dataExporter type="pdf"  target="datalist" fileName="Liste des Stagiaire" preProcessor="#{stagiaireController.preProcessPDF}" />
+                                </h:commandLink>
+                            </div>
+
                         </f:facet>
-                        <p:column sortBy="#{item.nom}">
+                        <p:column sortBy="#{item.nom}" rendered="#{stagiaireController.nomB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.prenom}">
+                        <p:column sortBy="#{item.prenom}" rendered="#{stagiaireController.prenomB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="Prenom"/>
                             </f:facet>
                             <h:outputText value="#{item.prenom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.departement.nom}">
+                        <p:column sortBy="#{item.departement.nom}" rendered="#{stagiaireController.depB eq true}">
                             <f:facet name="header" >
-                                <h:outputText value="Departement"/>
+                                <h:outputText value="Division"/>
                             </f:facet>
                             <h:outputText value="#{item.departement.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.cin}">
+                        <p:column sortBy="#{item.cin}" rendered="#{stagiaireController.cinB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="Cin"/>
                             </f:facet>
                             <h:outputText value="#{item.cin}"/>
                         </p:column>
-                        <p:column sortBy="#{item.genre}">
+                        <p:column sortBy="#{item.genre}" rendered="#{stagiaireController.genreB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="Genre"/>
                             </f:facet>
                             <h:outputText value="#{item.genre}"/>
                         </p:column>
-                        <p:column sortBy="#{item.mail}">
+                        <p:column sortBy="#{item.mail}" rendered="#{stagiaireController.mailB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="Mail"/>
                             </f:facet>
                             <h:outputText value="#{item.mail}"/>
                         </p:column>
-                        <p:column sortBy="#{item.numTel}">
+                        <p:column sortBy="#{item.numTel}" rendered="#{stagiaireController.numTelB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="NumTel"/>
                             </f:facet>
                             <h:outputText value="#{item.numTel}"/>
                         </p:column>
-                        <p:column sortBy="#{item.dateDebut}">
+                        <p:column sortBy="#{item.dateDebut}" rendered="#{stagiaireController.dateDebutB eq true}">
                             <f:facet name="header" >
                                 <h:outputText value="DateDebut"/>
                             </f:facet>
@@ -145,7 +169,7 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column sortBy="#{item.dateFin}">
+                        <p:column sortBy="#{item.dateFin}" rendered="#{stagiaireController.dateFinB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="DateFin"/>
                             </f:facet>
@@ -153,27 +177,27 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column sortBy="#{item.ecoleStagiaire.nom}">
+                        <p:column sortBy="#{item.ecoleStagiaire.nom} " rendered="#{stagiaireController.ecoleB eq true}">
                             <f:facet name="header">
-                                <h:outputText value="EcoleStagiaire"/>
+                                <h:outputText value="Etablissement"/>
                             </f:facet>
                             <h:outputText value="#{item.ecoleStagiaire.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.domaine.nom}">
+                        <p:column sortBy="#{item.domaine.nom}" rendered="#{stagiaireController.filiereB eq true}">
                             <f:facet name="header">
-                                <h:outputText value="Domaine"/>
+                                <h:outputText value="Filière"/>
                             </f:facet>
                             <h:outputText value="#{item.domaine.nom}"/>
                         </p:column>
-                        <p:column>
+                        <p:column rendered="#{stagiaireController.encadrantB eq true}">
                             <f:facet name="header">
                                 <h:outputText value="Encadrant"/>
                             </f:facet>
                             <h:outputText value="#{item.encadrant.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.stage.typeStage}">
+                        <p:column sortBy="#{item.stage.typeStage}"  rendered="#{stagiaireController.typeB eq true}">
                             <f:facet name="header">
-                                <h:outputText value="Stage"/>
+                                <h:outputText value="Type Stage"/>
                             </f:facet>
                             <h:outputText value="#{item.stage.typeStage}"/>
                         </p:column>
@@ -183,7 +207,7 @@
                             </f:facet>
                             <b:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{stagiaireController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,:StagiaireViewForm" oncomplete="PF('StagiaireViewDialog').show()" />
                             <p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="#{stagiaireController.generatPdf(item)}" ajax="false"/>
-                            <b:commandButton actionListener="#{stagiaireController.update(item)}" value=""  icon-awesome="fa-refresh"  update=":growl,:StagiaireListForm:datalist" oncomplete="PF('StagiaireEditDialog').show()"/>
+                            <b:commandButton actionListener="#{stagiaireController.update()}" value=""  icon-awesome="fa-refresh"  update=":growl,:StagiaireListForm:datalist" oncomplete="PF('StagiaireEditDialog').show()"/>
                             <p:growl id="message" showDetail="true" />
                             <p:commandButton  value="" id="deleteButton"  icon="ui-icon-trash" actionListener="#{stagiaireController.destroy(item)}" update=":growl,:StagiaireListForm:datalist,message"  >
                                 <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
@@ -194,15 +218,16 @@
                                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                             </p:confirmDialog>
                             <p:growl id="messages" />
- 
+
                         </p:column>
 
 
                     </p:dataTable>
-                </b:panel>
+                </h:form>
+            </b:panel>
 
-            </h:form>
 
+ <ui:include src="CheckColumns.xhtml"/>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>

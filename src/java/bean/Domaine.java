@@ -86,7 +86,9 @@ public class Domaine implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Domaine[ id=" + id + " ]";
+        return nom;
     }
+
+   
 
 }

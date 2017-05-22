@@ -16,11 +16,11 @@
                     <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 420px">
                         <b:panelGrid columns="2" rendered="#{courrierArriveeController.items != null}">
                             <p:outputLabel value="N° enregistrement   :" for="n_enregistrement1" />
-                            <p:selectBooleanCheckbox id="n_enregistrement1" value="#{courrierArriveeController.n_enCheck}"  />
+                            <p:selectBooleanCheckbox id="n_enregistrement1" value="#{courrierArriveeController.n_enCheck}"   />
                             <p:outputLabel value="N° enregistrement DRHMG   :" for="n_enregistrementDRHMG1" />
-                            <p:selectBooleanCheckbox id="n_enregistrementDRHMG1" value="#{courrierArriveeController.n_DRHMGCheck}"  />
+                            <p:selectBooleanCheckbox id="n_enregistrementDRHMG1" value="#{courrierArriveeController.n_DRHMGCheck}" immediate="true" />
                             <p:outputLabel value="N° enregistrement BOW_TRANS_RLAN  :" for="n_enregistrementBOW_TRANS_RLAN1" />
-                            <p:selectBooleanCheckbox id="n_enregistrementBOW_TRANS_RLAN1" value="#{courrierArriveeController.n_BOW_TRANS_RLANcheck}"  />
+                            <p:selectBooleanCheckbox id="n_enregistrementBOW_TRANS_RLAN1" value="#{courrierArriveeController.n_BOW_TRANS_RLANcheck}" immediate="true" />
                             <p:outputLabel value="CodeA_V  :" for="codeA_V1" />
                             <p:selectBooleanCheckbox id="codeA_V1" value="#{courrierArriveeController.codeA_Vcheck}"  />
                             <p:outputLabel value="Date Enregistrement   :" for="dateEnregistrement1" />

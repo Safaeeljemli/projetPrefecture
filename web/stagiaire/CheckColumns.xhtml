@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StagiaireCheckDlg" widgetVar="StagiaireCheckDialog" modal="true" resizable="false" appendTo="@(body)" header="">
+            <h:form id="StagiaireCheckForm">
+                <h:panelGroup >
+
+                    <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 420px">
+                        <b:panelGrid columns="2" rendered="#{stageController.items != null}">
+                            <p:outputLabel value="Nom :" for="nom" />
+                            <p:selectBooleanCheckbox id="nom" value="#{stagiaireController.nomB}"   />
+                            <p:outputLabel value="Prenom :" for="prenom" />
+                            <p:selectBooleanCheckbox id="prenom" value="#{stagiaireController.prenomB}"   />
+                            <p:outputLabel value="Cin :" for="cin" />
+                            <p:selectBooleanCheckbox id="cin" value="#{stagiaireController.cinB}"   />
+                            <p:outputLabel value="Tel :" for="tel" />
+                            <p:selectBooleanCheckbox id="tel" value="#{stagiaireController.numTelB}"   />
+                            <p:outputLabel value="Mail :" for="mail" />
+                            <p:selectBooleanCheckbox id="mail" value="#{stagiaireController.mailB}"   />
+                            <p:outputLabel value=" dateDebut:" for="debut" />
+                            <p:selectBooleanCheckbox id="debut" value="#{stagiaireController.dateDebutB}"   />
+                            <p:outputLabel value="  dateFin:" for="fin" />
+                            <p:selectBooleanCheckbox id="fin" value="#{stagiaireController.dateFinB}"   />
+                            <p:outputLabel value="Etablissement :" for="ecole" />
+                            <p:selectBooleanCheckbox id="ecole" value="#{stagiaireController.ecoleB}"   />
+                            <p:outputLabel value="Encadrent :" for="encadrant" />
+                            <p:selectBooleanCheckbox id="encadrant" value="#{stagiaireController.encadrantB}"   />
+                            <p:outputLabel value="Sexe :" for="genre" />
+                            <p:selectBooleanCheckbox id="genre" value="#{stagiaireController.genreB}"   />
+                            <p:outputLabel value="Division :" for="dep" />
+                            <p:selectBooleanCheckbox id="dep" value="#{stagiaireController.depB}"   />
+                            <p:outputLabel value="TypeStage :" for="type" />
+                            <p:selectBooleanCheckbox id="type" value="#{stagiaireController.typeB}"   />
+                            <p:outputLabel value="Filiere :" for="filiere" />
+                            <p:selectBooleanCheckbox id="filiere" value="#{stagiaireController.filiereB}"   />
+                        </b:panelGrid>
+                    </b:panel>
+
+                    <p:commandButton  value="Show" update=":StagiaireListForm:datalist,:growl" oncomplete="handleSubmit(args,'StagiaireCheckDialog');"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
