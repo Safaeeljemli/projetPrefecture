@@ -58,31 +58,45 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         clone(courrierArrivee, cloned);
         return cloned;
     }
+    
+    public List<CourrierArrivee> findCourrier(ModeTraitement modeTR){
+        System.out.println("tttetetd");
+        String query ="SELECT s FROM CourrierArrivee s WHERE 1=1";
+        if(modeTR !=null){
+            System.out.println("zzzzzzzzzzze");
+            query += SearchUtil.addConstraint("s", "modeTraitement", "=", modeTR);
+        }
+        return em.createQuery(query).getResultList();
+    }
 
-    public List<CourrierArrivee> findCourrierArrivee(Date dateC,  Date dateDRHMG,  Date dateBTR, String codeA_V,SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement) {
+    public List<CourrierArrivee> findCourrierArrivee(Date dateC,  Date dateDRHMG,  Date dateBTR, String codeA_V,SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement,Long n_DRHMG) {
         System.out.println("facaaade");
-        String query = "Select ca FROM CourrierArrivee ca WHERE 1=1";
+        String query = "Select c FROM CourrierArrivee c WHERE 1=1";
         if (dateC != null) {
-            query += " AND ca.dateCreation = '" + DateUtil.convertUtilToSql(dateC) + "'";
+            query +=SearchUtil.addConstraintDate("c", "dateEnregistrement", "=",  DateUtil.convertUtilToSql(dateC) );
+//            query += " AND c.dateCreation = '" + DateUtil.convertUtilToSql(dateC) + "'";
         }
         if (dateDRHMG != null) {
-            query += " AND ca.dateEnregistrementDRHMG = '" + DateUtil.convertUtilToSql(dateDRHMG) + "'";
+            query += " AND c.dateEnregistrementDRHMG = '" + DateUtil.convertUtilToSql(dateDRHMG) + "'";
         }
         if (dateBTR != null) {
-            query += " AND ca.dateEnregistrementBOW_TRANS_RLAN = '" + DateUtil.convertUtilToSql(dateBTR) + "'";
+            query += " AND c.dateEnregistrementBOW_TRANS_RLAN = '" + DateUtil.convertUtilToSql(dateBTR) + "'";
         }
         if (codeA_V != null) {
-            query += SearchUtil.addConstraint("ca", "codeA_V", "=", codeA_V);
+            query += SearchUtil.addConstraint("c", "codeA_V", "=", codeA_V);
+        }
+        if (n_DRHMG != null) {
+            query += SearchUtil.addConstraint("c", "n_enregistrementDRHMG", "=", n_DRHMG);
         }
         if(sousClasse!= null){
-            query += SearchUtil.addConstraint("ca", "sousClasse.id", "=", sousClasse.getId());
+            query +=" AND c.sousClasse.id='"+ sousClasse.getId()+"'" ;
         }
         if (expediteur != null) {
-            query += SearchUtil.addConstraint("ca", "destinataireExpediteur.id", "=", expediteur.getId());
+            query += SearchUtil.addConstraint("c","destinataireExpediteur.id","=",expediteur.getId());
         }
 
         if (modeTraitement != null) {
-            query += SearchUtil.addConstraint("ca", "modeTraitement.id", "=", modeTraitement.getId());
+            query += " AND c.modeTraitement.id='"+ modeTraitement.getId()+"'" ;
         }
         return em.createQuery(query).getResultList();
 

@@ -46,21 +46,19 @@ public class CourrierArriveeController implements Serializable {
     private service.CourrierArriveeFacade ejbFacade;
     private List<CourrierArrivee> items = null;
     private CourrierArrivee selected;
-    private CourrierArrivee item;
 
     private String errorMessage = "";
     private Date dateC;
     private Date dateDRHMG;
     private Date dateBTR;
     private String codeA_V;
-    private DestinataireExpediteur expediteur = null;
+    private DestinataireExpediteur thisExpediteur = null;
     private ModeTraitement modeTraitement = null;
     private CourrierProduit courrierProduit = null;
     private Classe classe = null;
     private SousClasse sousClasse = null;
-    private String annee = "17";
-    private String type;
     private String abrev;
+    private Long n_DRHMG;
 
     private boolean dateDRHMGcheck = false;
     private boolean expediteurCheck = true;
@@ -88,7 +86,15 @@ public class CourrierArriveeController implements Serializable {
     public CourrierArriveeController() {
     }
 
+    public Long getN_DRHMG() {
+        return n_DRHMG;
+    }
+
     // getter & setter
+    public void setN_DRHMG(Long n_DRHMG) {
+        this.n_DRHMG = n_DRHMG;
+    }
+
     public boolean isOptionCheck() {
         return optionCheck;
     }
@@ -201,31 +207,12 @@ public class CourrierArriveeController implements Serializable {
         this.modeTraitementCheck = modeTraitementCheck;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getAnnee() {
-        return annee;
-    }
-
-    public void setAnnee(String annee) {
-        this.annee = annee;
-    }
-
-    public CourrierArrivee getItem() {
-        return item;
-    }
-
-    public void setItem(CourrierArrivee item) {
-        this.item = item;
-    }
+    
 
     public SousClasse getSousClasse() {
+        if(sousClasse==null){
+            sousClasse= new SousClasse();
+        }
         return sousClasse;
     }
 
@@ -234,6 +221,9 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public Classe getClasse() {
+        if(classe== null){
+            classe= new Classe();
+        }
         return classe;
     }
 
@@ -281,15 +271,21 @@ public class CourrierArriveeController implements Serializable {
         this.codeA_V = codeA_V;
     }
 
-    public DestinataireExpediteur getExpediteur() {
-        return expediteur;
+    public DestinataireExpediteur getThisExpediteur() {
+        if(thisExpediteur==null){
+            thisExpediteur = new DestinataireExpediteur();
+        }
+        return thisExpediteur;
     }
 
-    public void setExpediteur(DestinataireExpediteur expediteur) {
-        this.expediteur = expediteur;
+    public void setThisExpediteur(DestinataireExpediteur thisExpediteur) {
+        this.thisExpediteur = thisExpediteur;
     }
 
     public ModeTraitement getModeTraitement() {
+        if (modeTraitement==null) {
+            modeTraitement = new ModeTraitement();
+        }
         return modeTraitement;
     }
 
@@ -298,6 +294,9 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public CourrierArrivee getSelected() {
+        if(selected==null){
+            selected = new CourrierArrivee();
+        }
         return selected;
     }
 
@@ -336,19 +335,6 @@ public class CourrierArriveeController implements Serializable {
     }
 
     //methods 
-    public void testError() {
-        String s = "" + selected.getN_enregistrementDRHMG();
-
-        System.out.println("s = " + s);
-        System.out.println("selected = " + selected.getN_enregistrementDRHMG());
-        if (!s.matches("\\d+")) {
-            System.out.println("ssss test");
-//            setErrorMessage("error");
-            FacesContext.getCurrentInstance().addMessage("CourrierArriveeCreateForm", new FacesMessage("the input must be a Number"));
-
-        }
-        setErrorMessage("");
-    }
 
     public void findSousClasseByClasse() {
         try {
@@ -359,12 +345,15 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public void findCourrierArrivee() {
-        System.out.println("haaaa");
-        items = getFacade().findCourrierArrivee( dateC, dateDRHMG, dateBTR,  codeA_V, sousClasse, expediteur, modeTraitement);
+        System.out.println("controller find");
+        items = null;
+//        items = getFacade().findCourrier(modeTraitement);
+        items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, codeA_V, sousClasse, thisExpediteur, modeTraitement,n_DRHMG);
         if (items == null) {
-//            items = ejbFacade.findAll();
+            System.out.println("no found");
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
+            System.out.println("succeee");
             JsfUtil.addSuccessMessage("successe");
         }
     }
@@ -402,7 +391,7 @@ public class CourrierArriveeController implements Serializable {
         dateDRHMG = null;
         dateBTR = null;
         codeA_V = null;
-        expediteur = null;
+        thisExpediteur = null;
         modeTraitement = null;
         return selected;
     }
@@ -416,13 +405,13 @@ public class CourrierArriveeController implements Serializable {
 //        dateMaxBTR = null;
 //        dateMaxBTR = null;
 //        codeA_V = null;
-//        expediteur = null;
+//        thisExpediteur = null;
 //        modeTraitement = null;
 //        initializeEmbeddableKey();
 //    }
     public void refresh() {
         selected = null;
-//        items = null;
+        items = ejbFacade.findAll();
         setClasse(null);
         setCodeA_V(null);
 //        setCourrierProduit(null);
@@ -430,11 +419,13 @@ public class CourrierArriveeController implements Serializable {
         setDateBTR(null);
         setDateC(null);
         setSousClasse(null);
+        setModeTraitement(null);
+        setThisExpediteur(null);
     }
 
-    public void initialiseCode() {
-        selected.setCodeA_V("'" + sousClasse.getNom() + abrev + annee + "'");
-    }
+//    public void initialiseCode() {
+//        selected.setCodeA_V("'" + sousClasse.getNom() + abrev + annee + "'");
+//    }
 
     public void create() {
         selected.setCodeA_V(ejbFacade.generateCodeA(abrev, selected.getDateEnregistrement(), 12));
