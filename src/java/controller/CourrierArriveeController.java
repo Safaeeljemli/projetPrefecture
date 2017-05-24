@@ -51,7 +51,7 @@ public class CourrierArriveeController implements Serializable {
     private Date dateC;
     private Date dateDRHMG;
     private Date dateBTR;
-    private String codeA_V;
+    private String codeA=null;
     private DestinataireExpediteur thisExpediteur = null;
     private ModeTraitement modeTraitement = null;
     private CourrierProduit courrierProduit = null;
@@ -263,12 +263,12 @@ public class CourrierArriveeController implements Serializable {
         this.dateBTR = dateBTR;
     }
 
-    public String getCodeA_V() {
-        return codeA_V;
+    public String getCodeA() {
+        return codeA;
     }
 
-    public void setCodeA_V(String codeA_V) {
-        this.codeA_V = codeA_V;
+    public void setCodeA(String codeA) {
+        this.codeA = codeA;
     }
 
     public DestinataireExpediteur getThisExpediteur() {
@@ -348,7 +348,7 @@ public class CourrierArriveeController implements Serializable {
         System.out.println("controller find");
         items = null;
 //        items = getFacade().findCourrier(modeTraitement);
-        items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, codeA_V, sousClasse, thisExpediteur, modeTraitement,n_DRHMG);
+        items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, sousClasse, thisExpediteur, modeTraitement,codeA);
         if (items == null) {
             System.out.println("no found");
             JsfUtil.addSuccessMessage("No Data Found");
@@ -390,7 +390,7 @@ public class CourrierArriveeController implements Serializable {
         dateC = null;
         dateDRHMG = null;
         dateBTR = null;
-        codeA_V = null;
+        codeA = null;
         thisExpediteur = null;
         modeTraitement = null;
         return selected;
@@ -404,7 +404,7 @@ public class CourrierArriveeController implements Serializable {
 //        dateMinDRHMG = null;
 //        dateMaxBTR = null;
 //        dateMaxBTR = null;
-//        codeA_V = null;
+//        codeA = null;
 //        thisExpediteur = null;
 //        modeTraitement = null;
 //        initializeEmbeddableKey();
@@ -412,13 +412,13 @@ public class CourrierArriveeController implements Serializable {
     public void refresh() {
         selected = null;
         items = ejbFacade.findAll();
+        setSousClasse(null);
         setClasse(null);
-        setCodeA_V(null);
+        setCodeA(null);
 //        setCourrierProduit(null);
         setDateDRHMG(null);
         setDateBTR(null);
         setDateC(null);
-        setSousClasse(null);
         setModeTraitement(null);
         setThisExpediteur(null);
     }

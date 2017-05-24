@@ -15,16 +15,12 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="CourrierProduitSearchForm">
-                <b:panel title="Rechercher des Courriers Produit " class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;"  >
+
+            <b:panel title="Rechercher des Courriers Produit " class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;"  >
+                <h:form id="CourrierProduitSearchForm">
                     <b:panelGrid columns="6" >
 
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Code P/V" for="codeP" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="codeP" value="#{courrierProduitController.codeP_V}" title="codeP/V"   />
-                        </p:column>
+
 
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Destinataire" for="destinataire" />
@@ -46,65 +42,53 @@
                             </p:selectOneMenu>
                         </p:column>
 
-                        <!--date de Creation-->
-                        <p:column>
-                            <p:outputLabel value="Date Creation:" />
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Etat:" for="etat" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Min:" for="dateMinC" />
+                            <p:selectOneMenu id="etat" value="#{courrierProduitController.etat}" >
+                                <f:selectItem itemValue="0" itemLabel="Tous"/>
+                                <f:selectItem itemValue="1" itemLabel="Signée"/>
+                                <f:selectItem itemValue="2" itemLabel="Non Signée"/>
+                            </p:selectOneMenu>
+                        </p:column>
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date envoi pour validation:" for="dateEnValidation" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateMinC" value="#{courrierProduitController.dateMinC}" navigator="true" pattern="dd/MM/yyyy " >
+                            <p:calendar id="dateEnValidation" value="#{courrierProduitController.dateEnValidation}" navigator="true" pattern="dd/MM/yyyy " >
                             </p:calendar> 
                         </p:column>
 
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Max:" for="dateMaxC" />
+                            <p:outputLabel value="Date RetourDoc:" for="dateRetourDoc" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateMaxC" value="#{courrierProduitController.dateMaxC}" navigator="true" pattern="dd/MM/yyyy " >
+                            <p:calendar id="dateRetourDoc" value="#{courrierProduitController.dateRetourDoc}" navigator="true" pattern="dd/MM/yyyy " >
                             </p:calendar> 
                         </p:column>
 
-                        <!--date d'enregistrement DRHMG-->
-                        <p:column>
-                            <p:outputLabel value="Date Enregistrement DRHMG:" />
+
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date envoi au BOW_TRANS:" for="dateEnBOW_TRANS" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Min:" for="dateMinDRHMG" />
+                            <p:calendar id="dateEnBOW_TRANS" value="#{courrierProduitController.dateEnBOW_TRANS}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar> 
+                        </p:column>
+                        <!--test-->
+                        <p:column styleClass="text-font">
+                            <p:outputLabel value="Date ReMinuteBOW_TRANS:" for="dateReMinuteBOW_TRANS" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateMinDRHMG" value="#{courrierProduitController.dateMinC}" navigator="true" pattern="dd/MM/yyyy " >
+                            <p:calendar id="dateReMinuteBOW_TRANS" value="#{courrierProduitController.dateReMinuteBOW_TRANS}" navigator="true" pattern="dd/MM/yyyy " >
                             </p:calendar> 
                         </p:column>
 
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Max:" for="dateMaxDRHMG" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMaxDRHMG" value="#{courrierProduitController.dateMaxC}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar> 
-                        </p:column>
 
-                        <!--date d'enregistrement BOW_TRANS_RLAN-->
-                        <p:column>
-                            <p:outputLabel value="Date Enregistrement BTR:" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Min:" for="dateMinBTR" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMinBTR" value="#{courrierProduitController.dateMinBTR}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar> 
-                        </p:column>
+                        <!--dgf-->
 
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Max:" for="dateMaxBTR" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateMaxBTR" value="#{courrierProduitController.dateMaxBTR}" navigator="true" pattern="dd/MM/yyyy " >
-                            </p:calendar> 
-                        </p:column>
 
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Classe" for="classe" />
@@ -127,29 +111,21 @@
                             </p:selectOneMenu>
                         </p:column>
 
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Etat:" for="etat" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:selectOneMenu id="etat" value="#{courrierProduitController.etat}" >
-                                <f:selectItem itemValue="0" itemLabel="Tous"/>
-                                <f:selectItem itemValue="1" itemLabel="Signée"/>
-                                <f:selectItem itemValue="2" itemLabel="Non Signée"/>
-                            </p:selectOneMenu>
-                        </p:column>
+
 
 
                     </b:panelGrid>
                     <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
                         <br></br>
                         <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierProduitController.findCourrierProduit()}" ></b:commandButton>
-                        <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierProduitController.refresh()}" update="CourrierProduitSearchForm" ></b:commandButton>
+                        <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierProduitController.refresh()}" update="CourrierProduitSearchForm,:CourrierProduitListForm" ></b:commandButton>
                     </div>
-                </b:panel>
-            </h:form>
+                </h:form>
+            </b:panel>
+            <br/>
 
             <b:panel title=" Courrier Produit " class="panel-primary" style="text-align: center;" >
-                     <h:form id="CourrierProduitListForm">
+                <h:form id="CourrierProduitListForm">
 
                     <div align="center">
                         <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
@@ -160,10 +136,15 @@
                                  selectionMode="single" selection="#{courrierProduitController.selected}"
                                  rowKey="#{item.n_dordre}"
                                  rows="10"
+                                 widgetVar="courrierProduitTable"
+                                 emptyMessage="No cars found with given criteria" filteredValue="#{courrierProduitController.filteredCourrierP}"
                                  >
                         <f:facet name="header">  
                             <h:outputText value="Liste des Courriers Produits"/>  
-
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('courrierProduitTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
                             <div >
                                 <h:commandLink styleClass="icon-file-excel">
 

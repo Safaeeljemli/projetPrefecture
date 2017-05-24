@@ -36,8 +36,6 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         super(CourrierArrivee.class);
     }
 
-    
-
     public void clone(CourrierArrivee courrierSource, CourrierArrivee courrierDestination) {
         courrierDestination.setObjet(courrierSource.getObjet());
         courrierDestination.setCodeA_V(courrierSource.getCodeA_V());
@@ -58,23 +56,24 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         clone(courrierArrivee, cloned);
         return cloned;
     }
-    
-    public List<CourrierArrivee> findCourrier(ModeTraitement modeTR){
+
+    public List<CourrierArrivee> findCourrier(ModeTraitement modeTR) {
         System.out.println("tttetetd");
-        String query ="SELECT s FROM CourrierArrivee s WHERE 1=1";
-        if(modeTR !=null){
+        String query = "SELECT s FROM CourrierArrivee s WHERE 1=1";
+        if (modeTR != null) {
             System.out.println("zzzzzzzzzzze");
             query += SearchUtil.addConstraint("s", "modeTraitement", "=", modeTR);
         }
         return em.createQuery(query).getResultList();
     }
 
-    public List<CourrierArrivee> findCourrierArrivee(Date dateC,  Date dateDRHMG,  Date dateBTR, String codeA_V,SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement,Long n_DRHMG) {
+    public List<CourrierArrivee> findCourrierArrivee(Date dateC, Date dateDRHMG, Date dateBTR, SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement, String codeA) {
         System.out.println("facaaade");
         String query = "Select c FROM CourrierArrivee c WHERE 1=1";
         if (dateC != null) {
-            query +=SearchUtil.addConstraintDate("c", "dateEnregistrement", "=",  DateUtil.convertUtilToSql(dateC) );
-//            query += " AND c.dateCreation = '" + DateUtil.convertUtilToSql(dateC) + "'";
+//            query +=SearchUtil.addConstraintDate("c", "dateEnregistrement", "=",  DateUtil.convertUtilToSql(dateC) );
+            query += " AND c.dateEnregistrement = '" + DateUtil.convertUtilToSql(dateC) + "'";
+            System.out.println("" + DateUtil.convertUtilToSql(dateC));
         }
         if (dateDRHMG != null) {
             query += " AND c.dateEnregistrementDRHMG = '" + DateUtil.convertUtilToSql(dateDRHMG) + "'";
@@ -82,21 +81,18 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         if (dateBTR != null) {
             query += " AND c.dateEnregistrementBOW_TRANS_RLAN = '" + DateUtil.convertUtilToSql(dateBTR) + "'";
         }
-        if (codeA_V != null) {
-            query += SearchUtil.addConstraint("c", "codeA_V", "=", codeA_V);
-        }
-        if (n_DRHMG != null) {
-            query += SearchUtil.addConstraint("c", "n_enregistrementDRHMG", "=", n_DRHMG);
-        }
-        if(sousClasse!= null){
-            query +=" AND c.sousClasse.id='"+ sousClasse.getId()+"'" ;
+        if (sousClasse != null) {
+            query += " AND c.sousClasse.id='" + sousClasse.getId() + "'";
         }
         if (expediteur != null) {
-            query += SearchUtil.addConstraint("c","destinataireExpediteur.id","=",expediteur.getId());
+            query += SearchUtil.addConstraint("c", "destinataireExpediteur.id", "=", expediteur.getId());
         }
 
         if (modeTraitement != null) {
-            query += " AND c.modeTraitement.id='"+ modeTraitement.getId()+"'" ;
+            query += " AND c.modeTraitement.id='" + modeTraitement.getId() + "'";
+        }
+        if (codeA != null) {
+            query += SearchUtil.addConstraint("c", "codeA_V", "=", codeA);
         }
         return em.createQuery(query).getResultList();
 
@@ -108,5 +104,4 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         return code;
     }
 
-    
 }

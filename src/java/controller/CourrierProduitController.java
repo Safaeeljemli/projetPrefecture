@@ -43,13 +43,12 @@ public class CourrierProduitController implements Serializable {
     @EJB
     private service.CourrierProduitFacade ejbFacade;
     private List<CourrierProduit> items = null;
+    private List<CourrierProduit> filteredCourrierP = null;
     private CourrierProduit selected;
-    private Date dateMinC;
-    private Date dateMaxC;
-    private Date dateMinDRHMG;
-    private Date dateMaxDRHMG;
-    private Date dateMinBTR;
-    private Date dateMaxBTR;
+    private Date dateEnValidation;
+    private Date dateRetourDoc;
+    private Date dateEnBOW_TRANS;
+    private Date dateReMinuteBOW_TRANS;
     private int etat;
     private Finalite finalite;
     private String codeP_V;
@@ -59,20 +58,20 @@ public class CourrierProduitController implements Serializable {
     private SousClasse sousClasse = null;
 
     private boolean n_ordreCheck;
-    private boolean dateCrtCheck;
+    private boolean dateCrtCheck = true;
     private boolean objetCheck;
     private boolean dateEnvValiCheck;
     private boolean dateRetrCheck;
-    private boolean etatCheck;
-    private boolean codePCheck;
+    private boolean etatCheck = true;
+    private boolean codePCheck = true;
     private boolean raisonCheck;
     private boolean dateEnvoiAuBTCheck;
     private boolean dateEnvoiParBTCheck;
     private boolean dateRetMinutBTCheck;
     private boolean n_EnvoiParBTCheck;
-    private boolean sousClasseCheck;
+    private boolean sousClasseCheck = true;
     private boolean finaliteCheck;
-    private boolean destinataireCheck;
+    private boolean destinataireCheck = true;
     private boolean courrierArriveeCodeCheck;
     private boolean optionCheck;
 
@@ -86,6 +85,14 @@ public class CourrierProduitController implements Serializable {
     private SousClasseFacade sousClasseFacade;
 
     public CourrierProduitController() {
+    }
+
+    public List<CourrierProduit> getFilteredCourrierP() {
+        return filteredCourrierP;
+    }
+
+    public void setFilteredCourrierP(List<CourrierProduit> filteredCourrierP) {
+        this.filteredCourrierP = filteredCourrierP;
     }
 
     public boolean isOptionCheck() {
@@ -248,52 +255,36 @@ public class CourrierProduitController implements Serializable {
         this.etat = etat;
     }
 
-    public Date getDateMinC() {
-        return dateMinC;
+    public Date getDateEnValidation() {
+        return dateEnValidation;
     }
 
-    public void setDateMinC(Date dateMinC) {
-        this.dateMinC = dateMinC;
+    public void setDateEnValidation(Date dateEnValidation) {
+        this.dateEnValidation = dateEnValidation;
     }
 
-    public Date getDateMaxC() {
-        return dateMaxC;
+    public Date getDateRetourDoc() {
+        return dateRetourDoc;
     }
 
-    public void setDateMaxC(Date dateMaxC) {
-        this.dateMaxC = dateMaxC;
+    public void setDateRetourDoc(Date dateRetourDoc) {
+        this.dateRetourDoc = dateRetourDoc;
     }
 
-    public Date getDateMinDRHMG() {
-        return dateMinDRHMG;
+    public Date getDateEnBOW_TRANS() {
+        return dateEnBOW_TRANS;
     }
 
-    public void setDateMinDRHMG(Date dateMinDRHMG) {
-        this.dateMinDRHMG = dateMinDRHMG;
+    public void setDateEnBOW_TRANS(Date dateEnBOW_TRANS) {
+        this.dateEnBOW_TRANS = dateEnBOW_TRANS;
     }
 
-    public Date getDateMaxDRHMG() {
-        return dateMaxDRHMG;
+    public Date getDateReMinuteBOW_TRANS() {
+        return dateReMinuteBOW_TRANS;
     }
 
-    public void setDateMaxDRHMG(Date dateMaxDRHMG) {
-        this.dateMaxDRHMG = dateMaxDRHMG;
-    }
-
-    public Date getDateMinBTR() {
-        return dateMinBTR;
-    }
-
-    public void setDateMinBTR(Date dateMinBTR) {
-        this.dateMinBTR = dateMinBTR;
-    }
-
-    public Date getDateMaxBTR() {
-        return dateMaxBTR;
-    }
-
-    public void setDateMaxBTR(Date dateMaxBTR) {
-        this.dateMaxBTR = dateMaxBTR;
+    public void setDateReMinuteBOW_TRANS(Date dateReMinuteBOW_TRANS) {
+        this.dateReMinuteBOW_TRANS = dateReMinuteBOW_TRANS;
     }
 
     public CourrierProduit getSelected() {
@@ -363,7 +354,8 @@ public class CourrierProduitController implements Serializable {
     }
 
     public void findCourrierProduit() {
-        items = ejbFacade.findCourrierProduit(dateMinC, dateMaxC, dateMinDRHMG, dateMinDRHMG, dateMaxBTR, dateMaxBTR, codeP_V, finalite, destinataire);
+        items = null;
+        items = ejbFacade.findCourrierProduit(dateEnValidation, dateRetourDoc, dateEnBOW_TRANS, dateReMinuteBOW_TRANS, finalite, destinataire);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
@@ -404,12 +396,10 @@ public class CourrierProduitController implements Serializable {
         setCodeP_V(null);
         setEtat(0);
         setFinalite(null);
-        setDateMaxBTR(null);
-        setDateMaxC(null);
-        setDateMaxDRHMG(null);
-        setDateMinBTR(null);
-        setDateMinC(null);
-        setDateMinDRHMG(null);
+        setDateRetourDoc(null);
+        setDateEnBOW_TRANS(null);
+        setDateReMinuteBOW_TRANS(null);
+        setDateEnValidation(null);
         setDestinataire(null);
     }
 
@@ -435,7 +425,7 @@ public class CourrierProduitController implements Serializable {
     }
 
     public void create() {
-        selected.setCodeP_V(ejbFacade.generateCodeP(abrev,selected.getDateCreation(), 12));
+        selected.setCodeP_V(ejbFacade.generateCodeP(abrev, selected.getDateCreation(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));

@@ -59,35 +59,29 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         return cloned;
     }
 
-    public List<CourrierProduit> findCourrierProduit(Date dateMinC, Date dateMaxC, Date dateMinDRHMG, Date dateMaxDRHMG, Date dateMinBTR, Date dateMaxBTR, String codeP_V, Finalite finalite, DestinataireExpediteur destinataire) {
+    public List<CourrierProduit> findCourrierProduit(Date dateEnValidation, Date dateRetourDoc, Date dateEnBOW_TRANS, Date dateReMinuteBOW_TRANS, Finalite finalite, DestinataireExpediteur destinataire) {
         String query = "Select cp FROM CourrierProduit cp WHERE 1=1";
-        if (dateMinC != null) {
-            query += " AND cp.dateCreation >=" + dateMinC;
+        if (dateEnValidation != null) {
+            query += " AND cp.dateEnvoiePourValidation = '" + dateEnValidation+ "'";
         }
-        if (dateMaxC != null) {
-            query += " AND cp.dateCreation <=" + dateMaxC;
+        if (dateRetourDoc != null) {
+            query += " AND cp.dateRetourDocument = '" + dateRetourDoc + "'";
         }
-        if (dateMinDRHMG != null) {
-            query += " AND cp.dateEnregistrementDRHMG >= " + dateMinDRHMG;
+        if (dateEnBOW_TRANS != null) {
+            query += " AND cp.dateEnvoiAuBOW_TRANS = '" + dateEnBOW_TRANS+ "'";
         }
-        if (dateMaxDRHMG != null) {
-            query += " AND cp.dateEnregistrementDRHMG <= " + dateMaxDRHMG;
+        if (dateReMinuteBOW_TRANS != null) {
+            query += " AND cp.dateRetourDeLaMinuteDuBOW_TRANS = '" + dateReMinuteBOW_TRANS+ "'";
         }
-        if (dateMinBTR != null) {
-            query += " AND cp.dateEnregistrementBOW_TRANS_RLAN >= " + dateMinBTR;
-        }
-        if (dateMaxBTR != null) {
-            query += " AND cp.dateEnregistrementBOW_TRANS_RLAN <= " + dateMaxBTR;
-        }
-        if (codeP_V != null) {
-            query += SearchUtil.addConstraint("cp", "codeP_V", "=", codeP_V);
-        }
+//        if (codeP_V != null) {
+//            query += SearchUtil.addConstraint("cp", "codeP_V", "=", codeP_V);
+//        }
         if (finalite != null) {
             query += SearchUtil.addConstraint("cp", "finalite.id", "=", finalite.getId());
         }
 
         if (destinataire != null) {
-            query += SearchUtil.addConstraint("cp", "destinataire.id", "=", destinataire.getId());
+            query += SearchUtil.addConstraint("cp", "destinataireExpediteur.id", "=", destinataire.getId());
         }
         return em.createQuery(query).getResultList();
 
@@ -99,6 +93,4 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         return code;
     }
 
-   
 }
-

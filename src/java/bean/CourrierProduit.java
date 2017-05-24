@@ -26,10 +26,12 @@ public class CourrierProduit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long n_dordre;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateCreation;
+
     private String codeP_V;
     private String objet;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateCreation;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEnvoiePourValidation;
