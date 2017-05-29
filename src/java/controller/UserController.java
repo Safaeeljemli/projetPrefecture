@@ -34,6 +34,20 @@ public class UserController implements Serializable {
     public UserController() {
     }
 
+    
+    public String genaratePasswrd() {
+        if (!selected.getEmail().equals("")) {
+            int res = ejbFacade.sendPW(selected.getEmail());
+            if (res < 0) {
+                JsfUtil.addErrorMessage("there is a problem");
+            } else {
+                JsfUtil.addSuccessMessage("loook your email");
+                return "/index?faces-redirect=true";
+            }
+        }
+        return null;
+    }
+    
     //CONNEXION
      public String seConnecter() {
          System.out.println("test user");

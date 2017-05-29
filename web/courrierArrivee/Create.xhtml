@@ -18,13 +18,13 @@
                             <p:inputText id="n_enregistrement"  placeholder="number"  value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrement}" />
                             <p:outputLabel id="labelError" value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementDRHMG} #{courrierArriveeController.errorMessage}" for="n_enregistrementDRHMG" >
                             </p:outputLabel>
-                            
+
                             <p:inputText id="n_enregistrementDRHMG" validatorMessage="error type" value="#{courrierArriveeController.selected.n_enregistrementDRHMG}"  placeholder="number" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementDRHMG}" >
                             </p:inputText>
-                            
+
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementBOW_TRANS_RLAN}" for="n_enregistrementBOW_TRANS_RLAN" />
                             <p:inputText id="n_enregistrementBOW_TRANS_RLAN"  placeholder="number"  value="#{courrierArriveeController.selected.n_enregistrementBOW_TRANS_RLAN}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrementBOW_TRANS_RLAN}" />
-                            
+
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementDRHMG}" for="dateEnregistrementDRHMG" />
                             <p:calendar id="dateEnregistrementDRHMG" pattern="MM/dd/yyyy" value="#{courrierArriveeController.selected.dateEnregistrementDRHMG}" title="#{bundle.EditCourrierArriveeTitle_dateEnregistrementDRHMG}"  />
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_dateEnregistrementBOW_TRANS_RLAN}" for="dateEnregistrementBOW_TRANS_RLAN" />
@@ -43,33 +43,67 @@
                             </p:inputText>
 
                             <p:outputLabel value="Abreviation" for="Abreviation" />
-                            <p:inputText id="Abreviation" value="#{courrierArriveeController.abrev}" title="#{bundle.CreateCourrierArriveeTitle_codeA_V}" />
-                            <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_destinataireExpediteur}" for="destinataireExpediteur" />
-                            <p:selectOneMenu id="destinataireExpediteur" value="#{courrierArriveeController.selected.destinataireExpediteur}" >
-                                <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
-                                               var="destinataireExpediteurItem"
-                                               itemValue="#{destinataireExpediteurItem}"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_modeTraitement}" for="modeTraitement" />
-                            <p:selectOneMenu id="modeTraitement" value="#{courrierArriveeController.selected.modeTraitement}" >
-                                <f:selectItems value="#{modeTraitementController.itemsAvailableSelectOne}"
-                                               var="modeTraitementItem"
-                                               itemValue="#{modeTraitementItem}"/>
-                            </p:selectOneMenu>
 
+                            <p:inputText id="Abreviation" value="#{courrierArriveeController.abrev}" title="#{bundle.CreateCourrierArriveeTitle_codeA_V}" />
+
+
+                            <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_destinataireExpediteur}" for="destinataireExpediteur" />
+                            <h:panelGroup >
+
+                                <p:selectOneMenu id="destinataireExpediteur" value="#{courrierArriveeController.selected.destinataireExpediteur}" >
+
+                                    <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
+                                                   var="destinataireExpediteurItem"
+                                                   itemValue="#{destinataireExpediteurItem}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton  icon="ui-icon-plus" actionListener="#{destinataireExpediteurController.prepareCreate}" update=":DestinataireExpediteurCreateForm" oncomplete="PF('DestinataireExpediteurCreateDialog').show()"/>
+                            </h:panelGroup>
+                            <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_modeTraitement}" for="modeTraitement" />
+                            <h:panelGroup id="modeTraitementCreate">
+                                <p:selectOneMenu id="modeTraitement" value="#{courrierArriveeController.selected.modeTraitement}" >
+                                    <f:selectItems value="#{modeTraitementController.itemsAvailableSelectOne}"
+                                                   var="modeTraitementItem"
+                                                   itemValue="#{modeTraitementItem}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton id="uiu" icon="ui-icon-plus"   actionListener="#{modeTraitementController.prepareCreate}" update=":ModeTraitementCreateForm" oncomplete="PF('ModeTraitementCreateDialog').show()">
+                                    <!--<f:ajax  execute="@this" render="modeTraitement" />-->
+                                </p:commandButton>
+                            </h:panelGroup>
+                            <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_sousClasse}" for="classe" />
+                            <h:panelGroup>
+                                <p:selectOneMenu id="classe"   value="#{courrierArriveeController.classe}" >
+                                    <p:ajax listener="#{courrierArriveeController.findSousClasseByClasse()}"  update="sousClasse" />
+                                    <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                    <f:selectItems value="#{courrierArriveeController.classesAvailableSelectOne}" var="itemClasse" itemValue="#{itemClasse}" itemLabel="#{itemClasse.nom}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton id="clss" icon="ui-icon-plus"  actionListener="#{classeController.prepareCreate}" update=":ClasseCreateForm,:CourrierArriveeCreateForm" oncomplete="PF('ClasseCreateDialog').show()"/>
+                            </h:panelGroup>
                             <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_sousClasse}" for="sousClasse" />
-                            <p:selectOneMenu id="sousClasse" value="#{courrierArriveeController.selected.sousClasse}" >
-                                <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"
-                                               var="sousClasseItem"
-                                               itemValue="#{sousClasseItem}"/>
-                            </p:selectOneMenu>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="sousClasse" value="#{courrierArriveeController.selected.sousClasse}" >
+                                    <f:selectItems value="#{courrierArriveeController.classe.sousClasses}"
+                                                   var="sousClasseItem"
+                                                   itemValue="#{sousClasseItem}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton id="createButton" icon="ui-icon-plus"  actionListener="#{sousClasseController.prepareCreate}" update=":SousClasseCreateForm" oncomplete="PF('SousClasseCreateDialog').show()"/>
+                            </h:panelGroup>
+                            <p:outputLabel value="File" for="file" />
+                            <h:inputFile id="file" value="#{courrierArrivee.selected.file}">
+                                <!--<f:ajax listener="{courrierArrivee.save}" />-->
+                            </h:inputFile>
+
                         </b:panelGrid>
-                        <p:commandButton actionListener="#{courrierArriveeController.create}" value="#{bundle.Save}" update="display,:CourrierArriveeListForm:datalist,:growl" oncomplete="handleSubmit(args,'CourrierArriveeCreateDialog');"/>
-                        <p:commandButton value="#{bundle.Cancel}" onclick="CourrierArriveeCreateDialog.hide()"/>
+                        <center>
+                            <p:commandButton actionListener="#{courrierArriveeController.create}" value="#{bundle.Save}" update="display,:CourrierArriveeListForm:datalist,:growl" oncomplete="handleSubmit(args,'CourrierArriveeCreateDialog');"/>
+                            <p:commandButton value="#{bundle.Cancel}" onclick="CourrierArriveeCreateDialog.hide()"/>
+                        </center>
                     </b:panel>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
+        <ui:include src="../destinataireExpediteur/Create.xhtml"/>
+        <ui:include src="../modeTraitement/Create.xhtml"/>
+        <ui:include src="../classe/Create.xhtml"/>
+        <ui:include src="../sousClasse/Create.xhtml"/>
     </ui:composition>
 </html>

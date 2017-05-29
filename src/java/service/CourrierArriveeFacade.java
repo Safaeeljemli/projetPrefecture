@@ -9,11 +9,16 @@ import bean.CourrierArrivee;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import controller.util.DateUtil;
 import controller.util.SearchUtil;
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -72,7 +77,7 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         String query = "Select c FROM CourrierArrivee c WHERE 1=1";
         if (dateC != null) {
 //            query +=SearchUtil.addConstraintDate("c", "dateEnregistrement", "=",  DateUtil.convertUtilToSql(dateC) );
-            query += " AND c.dateEnregistrement = '" + DateUtil.convertUtilToSql(dateC) + "'";
+            query += " AND c.dateEnregistrement <= '" + DateUtil.convertUtilToSql(dateC) + "'";
             System.out.println("" + DateUtil.convertUtilToSql(dateC));
         }
         if (dateDRHMG != null) {
@@ -103,5 +108,16 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         code = sousClasse + abrv + DateUtil.convrtStringDate(dateCreation, "yy") + "A";
         return code;
     }
+    
+//     public CourrierArrivee imprimer() {
+//        Document document= new Document();
+//        ByteArrayOutputStream bas= new ByteArrayOutputStream();
+//        
+//            PdfWriter.getInstance(document, bas);
+//            document.add
+//            
+//        
+//    }
+//    
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -46,6 +47,8 @@ public class CourrierArrivee implements Serializable {
     private SousClasse sousClasse;
     @OneToMany(mappedBy = "courrierArrivee")
     private List<CourrierProduit> courrierProduits;
+    @OneToOne(mappedBy = "courrierArrivee")
+    private File file;
 
     public List<CourrierProduit> getCourrierProduits() {
         return courrierProduits;
@@ -149,6 +152,14 @@ public class CourrierArrivee implements Serializable {
 
     public void setSousClasse(SousClasse sousClasse) {
         this.sousClasse = sousClasse;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     @Override

@@ -288,6 +288,9 @@ public class CourrierProduitController implements Serializable {
     }
 
     public CourrierProduit getSelected() {
+        if(selected==null){
+            selected=new CourrierProduit();
+        }
         return selected;
     }
 
@@ -392,16 +395,22 @@ public class CourrierProduitController implements Serializable {
 
     public void refresh() {
         selected = null;
-        items = null;
-        setCodeP_V(null);
-        setEtat(0);
-        setFinalite(null);
-        setDateRetourDoc(null);
-        setDateEnBOW_TRANS(null);
-        setDateReMinuteBOW_TRANS(null);
-        setDateEnValidation(null);
-        setDestinataire(null);
+        items = ejbFacade.findAll();
+//        setCodeP_V(null);
+//        setEtat(0);
+//        setFinalite(null);
+//        setDateRetourDoc(null);
+//        setDateEnBOW_TRANS(null);
+//        setDateReMinuteBOW_TRANS(null);
+//        setDateEnValidation(null);
+//        setDestinataire(null);
     }
+    
+     public void refreshCreate(){
+        setSelected(null);
+        JsfUtil.addSuccessMessage("Enregisrement annulé");
+    }
+    
 
 //     public void prepareView() {
 //        selected = null;
@@ -428,8 +437,7 @@ public class CourrierProduitController implements Serializable {
         selected.setCodeP_V(ejbFacade.generateCodeP(abrev, selected.getDateCreation(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierProduitCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            getItems().add(ejbFacade.clone(selected));
-            //ystem.out.println("***" + selected.getModeTraitement().getNom());
+            getItems().add(ejbFacade.clone(selected));//ystem.out.println("***" + selected.getModeTraitement().getNom());
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }

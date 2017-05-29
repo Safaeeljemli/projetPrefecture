@@ -45,7 +45,7 @@
                             <p:outputLabel value="Date Creation:" for="dateC" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateC" value="#{courrierArriveeController.dateC}" navigator="true" pattern="dd/MM/yyyy" >
+                            <p:calendar id="dateC" value="#{courrierArriveeController.dateC}" navigator="true" pattern="MM/dd/yyyy" >
                             </p:calendar> 
                         </p:column>
 
@@ -55,7 +55,7 @@
                             <p:outputLabel value="Date DRHMG:" for="dateDRHMG" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateDRHMG" value="#{courrierArriveeController.dateDRHMG}" navigator="true" pattern="dd/MM/yyyy" >
+                            <p:calendar id="dateDRHMG" value="#{courrierArriveeController.dateDRHMG}" navigator="true" pattern="MM/dd/yyyy" >
                             </p:calendar> 
                         </p:column>
 
@@ -63,7 +63,7 @@
                             <p:outputLabel value="Date BTR:" for="dateBTR" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateBTR" value="#{courrierArriveeController.dateBTR}" navigator="true" pattern="dd/MM/yyyy " >
+                            <p:calendar id="dateBTR" value="#{courrierArriveeController.dateBTR}" navigator="true" pattern="MM/dd/yyyy " >
                             </p:calendar> 
                         </p:column>
 
@@ -104,35 +104,33 @@
 
             <br/>
 
+            <h:form>
+                <p:commandButton value="Report" action="#{courrierArriveeController.createPdf()}" icon="icon-report" />
+            </h:form>
+            <h:form id="form">
+                <p:messages showSummary="true" showDetail="true"/>
+            </h:form>
+<!--            <h:form>
+                <h:inputFile value="{courrierArrivee.selected.file}">
+                    <f:ajax listener="{courrierArrivee.save}" />
+                </h:inputFile>
+            </h:form>-->
+
+
             <b:panel title=" Courrier Arrivee " class="panel-primary" style="text-align: center;" >
                 <h:form id="CourrierArriveeListForm">
                     <div align="center">
                         <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.prepareCreate}" update=":CourrierArriveeCreateForm" oncomplete="PF('CourrierArriveeCreateDialog').show()" />
                         <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
                     </div>
+
+                    <br/>
                     <br/>
                     <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item" 
                                  selectionMode="single" selection="#{courrierArriveeController.selected}"
                                  rowKey="#{item.n_enregistrement}"
                                  rows="10" 
                                  >
-
-                        <f:facet name="header">  
-                            <h:outputText value="Liste des Courriers Arrivees"/>  
-
-                            <div >
-                                <h:commandLink styleClass="icon-file-excel">
-
-                                    <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
-                                    <p:dataExporter type="xls" target="datalist"  fileName="Liste des Courrier Arrivée" postProcessor="#{courrierArriveeController.postProcessXLS}" />
-                                </h:commandLink>
-
-                                <h:commandLink styleClass="icon-file-pdf">
-                                    <h:graphicImage class="imagelink" id="imag2" value="/resources/images/icone-pdf.png" title="pdf" style="width:30px;height:30px" ></h:graphicImage>
-                                    <p:dataExporter type="pdf"  target="datalist" fileName="Liste des Courrier Arrivée" preProcessor="#{courrierArriveeController.preProcessPDF}" />
-                                </h:commandLink>
-                            </div>
-                        </f:facet> 
                         <p:column rendered="#{courrierArriveeController.n_enCheck eq true}" sortBy="#{item.n_enregistrement}" >
                             <f:facet name="header">
                                 <h:outputText value="_n_enregistrement"/>
@@ -214,6 +212,12 @@
                                 <h:outputText value="#{bundle.ListCourrierArriveeTitle_sousClasse}"/>
                             </f:facet>
                             <h:outputText value="#{item.sousClasse.nom}"/>
+                        </p:column>
+                        <p:column   >
+                            <f:facet name="header">
+                                <h:outputText value="File"/>
+                            </f:facet>
+                            <h:outputText value="#{item.file}"/>
                         </p:column>
                         <p:column   rendered="#{courrierArriveeController.optionCheck eq true}" >
                             <f:facet name="header">

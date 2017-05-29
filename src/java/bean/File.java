@@ -6,35 +6,26 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author safa
  */
 @Entity
-public class Classe implements Serializable {
+public class File implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nom;
-    @OneToMany(mappedBy = "classe")
-    private List<SousClasse> sousClasses;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToOne
+    private CourrierArrivee courrierArrivee;
 
     public String getNom() {
         return nom;
@@ -44,12 +35,20 @@ public class Classe implements Serializable {
         this.nom = nom;
     }
 
-    public List<SousClasse> getSousClasses() {
-        return sousClasses;
+    public CourrierArrivee getCourrierArrivee() {
+        return courrierArrivee;
     }
 
-    public void setSousClasses(List<SousClasse> sousClasses) {
-        this.sousClasses = sousClasses;
+    public void setCourrierArrivee(CourrierArrivee courrierArrivee) {
+        this.courrierArrivee = courrierArrivee;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -62,10 +61,10 @@ public class Classe implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Classe)) {
+        if (!(object instanceof File)) {
             return false;
         }
-        Classe other = (Classe) object;
+        File other = (File) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -74,7 +73,7 @@ public class Classe implements Serializable {
 
     @Override
     public String toString() {
-        return nom;
+        return "bean.File[ id=" + id + " ]";
     }
 
 }

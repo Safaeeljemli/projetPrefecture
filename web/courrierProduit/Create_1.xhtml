@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Create"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <b:panel >
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-1"></div>
+                    <h:form id="CourrierProduitCreateForm">
+                        <h:panelGroup id="display">
+                            <b:panelGrid columns="2" rendered="#{courrierProduitController.selected != null}"  >
+                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                    <h:panelGrid id="propritairePanel" columns="2" cellpadding="6" >
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_n_dordre}" for="n_dordre" />
+                                        <p:inputText id="n_dordre" value="#{courrierProduitController.selected.n_dordre}" title="#{bundle.CreateCourrierProduitTitle_n_dordre}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_n_EnvoiParBOW_TRANS}" for="n_EnvoiParBOW_TRANS" />
+                                        <p:inputText id="n_EnvoiParBOW_TRANS" value="#{courrierProduitController.selected.n_EnvoiParBOW_TRANS}" title="#{bundle.CreateCourrierProduitTitle_n_EnvoiParBOW_TRANS}" />
+                                        <p:outputLabel value="Abreviation" for="Abreviation" />
+                                        <p:inputText id="Abreviation" value="#{courrierProduitController.abrev}" title="#{bundle.CreateCourrierProduitTitle_codeP_V}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_objet}" for="objet" />
+                                        <p:inputText id="objet" value="#{courrierProduitController.selected.objet}" title="#{bundle.CreateCourrierProduitTitle_objet}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_etat}" for="etat" />
+                                        <p:selectOneMenu id="etat"   value="#{courrierProduitController.selected.etat}" title="#{bundle.CreateCourrierProduitTitle_etat}">
+                                            <f:selectItem itemValue="-1" itemLabel="--SELECT--"></f:selectItem>
+                                            <f:selectItem itemValue="1" itemLabel="signé" />
+                                            <f:selectItem itemValue="2" itemLabel="non signé"/>
+                                            <f:ajax event="change" execute="@this" render=":raisonSignatureLabel" />
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                </p:fieldset>
+                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                    <h:panelGrid id="ooo" columns="2" cellpadding="6" >
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateCreation}" for="dateCreation" />
+                                        <p:calendar id="dateCreation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.EditCourrierProduitTitle_dateCreation}"  />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiePourValidation}" for="dateEnvoiePourValidation" />
+                                        <p:calendar id="dateEnvoiePourValidation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiePourValidation}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiePourValidation}"/>
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateRetourDocument}" for="dateRetourDocument" />
+                                        <p:calendar id="dateRetourDocument" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateRetourDocument}" title="#{bundle.EditCourrierProduitTitle_dateRetourDocument}" />
+
+
+
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiAuBOW_TRANS}" for="dateEnvoiAuBOW_TRANS" />
+                                        <p:calendar id="dateEnvoiAuBOW_TRANS" pattern="MM/dd/yyyy" navigator="true" value="#{courrierProduitController.selected.dateEnvoiAuBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiAuBOW_TRANS}" />
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateEnvoiParBOW_TRANS}" for="dateEnvoiParBOW_TRANS" />
+                                        <p:calendar id="dateEnvoiParBOW_TRANS" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateEnvoiParBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateEnvoiParBOW_TRANS}" navigator="true"/>
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateRetourDeLaMinuteDuBOW_TRANS}" for="dateRetourDeLaMinuteDuBOW_TRANS" />
+                                        <p:calendar id="dateRetourDeLaMinuteDuBOW_TRANS" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateRetourDeLaMinuteDuBOW_TRANS}" title="#{bundle.EditCourrierProduitTitle_dateRetourDeLaMinuteDuBOW_TRANS}" navigator="true"/>
+                                    </h:panelGrid>
+                                </p:fieldset>
+
+                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                    <h:panelGrid id="uii" columns="2" cellpadding="6" >
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_finalite}" for="finalite" />
+                                        <p:selectOneMenu id="finalite" value="#{courrierProduitController.selected.finalite}" >
+                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
+                                            <f:selectItems value="#{finaliteController.itemsAvailableSelectOne}"
+                                                           var="finaliteItem"
+                                                           itemValue="#{finaliteItem}"/>
+                                        </p:selectOneMenu>
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_destinataireExpediteur}" for="destinataireExpediteur" />
+                                        <p:selectOneMenu id="destinataireExpediteur" value="#{courrierProduitController.selected.destinataireExpediteur}" >
+                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
+                                            <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
+                                                           var="destinataireExpediteurItem"
+                                                           itemValue="#{destinataireExpediteurItem}"/>
+                                        </p:selectOneMenu>
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_courrierArrivee}" for="courrierArrivee" />
+                                        <p:selectOneMenu id="courrierArrivee" value="#{courrierProduitController.selected.courrierArrivee}" >
+                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
+                                            <f:selectItems value="#{courrierArriveeController.itemsAvailableSelectOne}"
+                                                           var="courrierArriveeItem"
+                                                           itemValue="#{courrierArriveeItem}"/>
+                                        </p:selectOneMenu>
+                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_sousClasse}" for="sousClasse" />
+                                        <p:selectOneMenu id="sousClasse" value="#{courrierProduitController.selected.sousClasse}" >
+                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
+                                            <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"
+                                                           var="sousClasseItem"
+                                                           itemValue="#{sousClasseItem}"/>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                </p:fieldset>
+                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                    <h:panelGrid id="iii" columns="2" cellpadding="6" >
+
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            </b:panelGrid>
+                            <center>
+                                <p:commandButton actionListener="#{courrierProduitController.create()}" value="#{bundle.Save}" update=":CourrierProduitCreateForm,:growl"/>
+                                <p:commandButton value="#{bundle.Cancel}"  actionListener="#{courrierProduitController.refreshCreate()}" update=":CourrierProduitCreateForm" />
+                            </center>
+                        </h:panelGroup>
+                    </h:form>
+                </div>s
+            </b:panel>
+        </ui:define>
+
+    </ui:composition>
+</html>

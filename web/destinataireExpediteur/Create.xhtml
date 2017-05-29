@@ -14,10 +14,8 @@
                     <p:panelGrid columns="2" rendered="#{destinataireExpediteurController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateDestinataireExpediteurLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{destinataireExpediteurController.selected.nom}" title="#{bundle.CreateDestinataireExpediteurTitle_nom}" />
-                        <p:outputLabel value="#{bundle.CreateDestinataireExpediteurLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{destinataireExpediteurController.selected.id}" title="#{bundle.CreateDestinataireExpediteurTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{destinataireExpediteurController.create}" value="#{bundle.Save}" update="display,:DestinataireExpediteurListForm:datalist,:growl" oncomplete="handleSubmit(args,'DestinataireExpediteurCreateDialog');"/>
+                    <p:commandButton actionListener="#{destinataireExpediteurController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'DestinataireExpediteurCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DestinataireExpediteurCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

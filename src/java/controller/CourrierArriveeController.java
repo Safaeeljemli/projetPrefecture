@@ -6,13 +6,30 @@ import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
-import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
+import com.itextpdf.io.IOException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.Font;
+import com.lowagie.text.pdf.PdfTable;
+import static com.sun.xml.internal.ws.api.pipe.Fiber.current;
+import static com.sun.xml.ws.api.pipe.Fiber.current;
+//import com.lowagie.text.Document;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import service.CourrierArriveeFacade;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,17 +39,10 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
 import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.ModeTraitementFacade;
@@ -51,7 +61,7 @@ public class CourrierArriveeController implements Serializable {
     private Date dateC;
     private Date dateDRHMG;
     private Date dateBTR;
-    private String codeA=null;
+    private String codeA = null;
     private DestinataireExpediteur thisExpediteur = null;
     private ModeTraitement modeTraitement = null;
     private CourrierProduit courrierProduit = null;
@@ -73,6 +83,7 @@ public class CourrierArriveeController implements Serializable {
     private boolean dateBOW_TRANS_RLANcheck = true;
     private boolean sousClasseCheck = true;
     private boolean optionCheck = true;
+    private boolean testCheck = true;
 
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
@@ -84,6 +95,14 @@ public class CourrierArriveeController implements Serializable {
     private SousClasseFacade sousClasseFacade;
 
     public CourrierArriveeController() {
+    }
+
+    public boolean isTestCheck() {
+        return testCheck;
+    }
+
+    public void setTestCheck(boolean testCheck) {
+        this.testCheck = testCheck;
     }
 
     public Long getN_DRHMG() {
@@ -207,11 +226,9 @@ public class CourrierArriveeController implements Serializable {
         this.modeTraitementCheck = modeTraitementCheck;
     }
 
-    
-
     public SousClasse getSousClasse() {
-        if(sousClasse==null){
-            sousClasse= new SousClasse();
+        if (sousClasse == null) {
+            sousClasse = new SousClasse();
         }
         return sousClasse;
     }
@@ -221,8 +238,8 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public Classe getClasse() {
-        if(classe== null){
-            classe= new Classe();
+        if (classe == null) {
+            classe = new Classe();
         }
         return classe;
     }
@@ -272,7 +289,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public DestinataireExpediteur getThisExpediteur() {
-        if(thisExpediteur==null){
+        if (thisExpediteur == null) {
             thisExpediteur = new DestinataireExpediteur();
         }
         return thisExpediteur;
@@ -283,7 +300,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public ModeTraitement getModeTraitement() {
-        if (modeTraitement==null) {
+        if (modeTraitement == null) {
             modeTraitement = new ModeTraitement();
         }
         return modeTraitement;
@@ -294,7 +311,7 @@ public class CourrierArriveeController implements Serializable {
     }
 
     public CourrierArrivee getSelected() {
-        if(selected==null){
+        if (selected == null) {
             selected = new CourrierArrivee();
         }
         return selected;
@@ -335,7 +352,6 @@ public class CourrierArriveeController implements Serializable {
     }
 
     //methods 
-
     public void findSousClasseByClasse() {
         try {
             getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
@@ -348,7 +364,7 @@ public class CourrierArriveeController implements Serializable {
         System.out.println("controller find");
         items = null;
 //        items = getFacade().findCourrier(modeTraitement);
-        items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, sousClasse, thisExpediteur, modeTraitement,codeA);
+        items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, sousClasse, thisExpediteur, modeTraitement, codeA);
         if (items == null) {
             System.out.println("no found");
             JsfUtil.addSuccessMessage("No Data Found");
@@ -358,35 +374,104 @@ public class CourrierArriveeController implements Serializable {
         }
     }
 
-    public void postProcessXLS(Object document) {
-        HSSFWorkbook wb = (HSSFWorkbook) document;
-        HSSFSheet sheet = wb.getSheetAt(0);
-        CellStyle style = wb.createCellStyle();
-        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+    public static final String RESULT = "results/part1/chapter01/hello.pdf";
 
-        for (Row row : sheet) {
-            for (Cell cell : row) {
-                cell.setCellValue(cell.getStringCellValue().toUpperCase());
-                cell.setCellStyle(style);
-            }
-        }
+    public void createPdf() throws DocumentException, IOException, FileNotFoundException {
+        String filename = "eesttt";
+    // step 1
+        Document document = new Document();
+        // step 2
+        PdfWriter.getInstance(document, new FileOutputStream(filename));
+        // step 3
+        document.open();
+        // step 4
+        document.add(new Paragraph("Hello World!"));
+        // step 5
+        document.close();
     }
 
-    public void preProcessPDF(Object document) {
-
-        Document doc = (Document) document;
-        doc.setPageSize(PageSize.LEGAL.rotate());
-        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
-        doc.addHeader("azerr", "aeaze");
-        doc.addAuthor("autt");
-        doc.addSubject("sujet");
-        doc.addCreationDate(); // this did not work either.
-
-    }
-
+//    public String preparePdf() {
+//        try {
+//            ByteArrayOutputStream output = new ByteArrayOutputStream();
+//
+//            Font fontHeader = new Font(Font.BOLD, 20, Font.BOLD);
+//            Font fontLine = new Font(Font.BOLD, 14);
+//            Font fontLineBold = new Font(Font.BOLD, 14, Font.BOLD);
+//
+//            Document document = new Document();
+//            PdfWriter.getInstance(document, output);
+//            document.open();
+//
+//            //Writing document
+//            Chunk preface = new Chunk("GERAL", fontHeader);
+//            document.add(preface);
+//
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(current.getData());
+//            int year = cal.get(Calendar.YEAR);
+//            int month = 1 + cal.get(Calendar.MONTH);
+//            int day = cal.get(Calendar.DAY_OF_MONTH);
+//            String dateStr = day + "/" + month + "/" + year;
+//            Paragraph dataAndHour = new Paragraph(dateStr, fontLine);
+//            document.add(dataAndHour);
+//
+//            document.close();
+//            pdfContent = new DefaultStreamedContent(new ByteArrayInputStream(output.toByteArray()), "application/pdf");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "/views/view_atividade_pdf";
+//    }
+//    public void imprimer() throws DocumentException {
+//        Document document = new Document();
+//        ByteArrayOutputStream bas = new ByteArrayOutputStream();
+//        PdfWriter.getInstance(document, bas);
+//        document.open();
+//        document.add(new Paragraph("test para \n"));
+//        Date newDate= new Date();
+//        String dateString= " newDate";
+//        document.add(new Paragraph("date : "+dateString));
+////        PdfTable table = new PdfTable();
+//        PdfPCell cell= new PdfPCell(new Paragraph("qsdfghjk", FontFactory.getFont("arial", 8, Font.BOLD, BaseColor.YELLOW)));
+////        cell.setHor
+//        
+//        
+//        
+//    }
+//    public void postProcessXLS(Object document) {
+//        HSSFWorkbook wb = (HSSFWorkbook) document;
+//        HSSFSheet sheet = wb.getSheetAt(0);
+//        CellStyle style = wb.createCellStyle();
+//        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+//
+//        for (Row row : sheet) {
+//            for (Cell cell : row) {
+//                cell.setCellValue(cell.getStringCellValue().toUpperCase());
+//                cell.setCellStyle(style);
+//            }
+//        }
+//    }
+//
+//    public void preProcessPDF(Object document) throws FileNotFoundException, DocumentException {
+//
+//        Document doc =new Document();
+//        PdfWriter.getInstance(doc,new FileOutputStream("test.pdf"));
+//        doc.open();
+//        doc.add(new Paragraph("df"));
+////        doc.setPageSize(PageSize.LEGAL.rotate());
+////        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
+////        doc.addHeader("azerr", "aeaze");
+////        doc.addAuthor("autt");
+////        doc.addSubject("sujet");
+////        doc.addCreationDate(); // this did not work either.
+//
+//    }
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
+        abrev = null;
         dateC = null;
         dateDRHMG = null;
         dateBTR = null;
@@ -423,10 +508,16 @@ public class CourrierArriveeController implements Serializable {
         setThisExpediteur(null);
     }
 
+    public void refreshCreate(){
+        setSelected(null);
+        JsfUtil.addSuccessMessage("Enregisrement annulé");
+    }
+    
 //    public void initialiseCode() {
 //        selected.setCodeA_V("'" + sousClasse.getNom() + abrev + annee + "'");
 //    }
-
+    
+    
     public void create() {
         selected.setCodeA_V(ejbFacade.generateCodeA(abrev, selected.getDateEnregistrement(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));

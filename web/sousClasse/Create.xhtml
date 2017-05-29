@@ -12,8 +12,6 @@
             <h:form id="SousClasseCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sousClasseController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateSousClasseLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{sousClasseController.selected.id}" title="#{bundle.CreateSousClasseTitle_id}" />
                         <p:outputLabel value="#{bundle.CreateSousClasseLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{sousClasseController.selected.nom}" title="#{bundle.CreateSousClasseTitle_nom}" />
                         <p:outputLabel value="#{bundle.CreateSousClasseLabel_classe}" for="classe" />
@@ -23,8 +21,10 @@
                                            itemValue="#{classeItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{sousClasseController.create}" value="#{bundle.Save}" update="display,:SousClasseListForm:datalist,:growl" oncomplete="handleSubmit(args,'SousClasseCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="SousClasseCreateDialog.hide()"/>
+                    <center>
+                        <p:commandButton actionListener="#{sousClasseController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'SousClasseCreateDialog');"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="SousClasseCreateDialog.hide()"/>
+                    </center>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
