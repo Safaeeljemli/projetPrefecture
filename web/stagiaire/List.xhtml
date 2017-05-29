@@ -22,14 +22,14 @@
                     <b:panelGrid columns="6" >
 
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Debut" for="dateDebut" />
+                            <p:outputLabel value="Date Debut Min:" for="dateDebut" />
                         </p:column>
                         <p:column styleClass="text-font">
                             <p:calendar id="dateDebut" value="#{stagiaireController.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
                             </p:calendar>
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Fin:" for="dateFin" />
+                            <p:outputLabel value="Date Fin Max:" for="dateFin" />
                         </p:column>
                         <p:column styleClass="text-font">
                             <p:calendar id="dateFin" value="#{stagiaireController.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
@@ -96,12 +96,12 @@
             <b:panel title=" Stagiaires " class="panel-primary"  >
                 <h:form id="StagiaireListForm">
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Ajouter Stagiaire" ajax="true" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{stagiaireController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('StagiaireCreateDialog').show()" />
+                        <b:commandButton id="createButton" style="width: 200px" value="Ajouter Stagiaire" ajax="true" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{stagiaireController.redirectToCreate()}"  />
                         <b:commandButton id="chowColumnsButton" style="width: 200px" value="colonnes a afficher" icon-awesome="glyphicon-refresh" icon-spin="lg" class="btn-primary"   update=":StagiaireCheckForm" oncomplete="PF('StagiaireCheckDialog').show()" />
 
                     </div>
 
-                    <p:dataTable value="#{stagiaireController.items}" var="item" id="datalist">
+                    <p:dataTable value="#{stagiaireController.items}" var="item" id="datalist"  widgetVar="datalist" filteredValue="#{stagiaireController.filteredStagiaire}">
                         <f:facet name="header"  >
 
                             <div >
@@ -119,49 +119,49 @@
                             </div>
 
                         </f:facet>
-                        <p:column sortBy="#{item.nom}" rendered="#{stagiaireController.nomB eq true}">
+                        <p:column sortBy="#{item.nom}" rendered="#{stagiaireController.nomB eq true}" filterBy="#{item.nom}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.prenom}" rendered="#{stagiaireController.prenomB eq true}">
+                        <p:column sortBy="#{item.prenom}" rendered="#{stagiaireController.prenomB eq true}" filterBy="#{item.prenom}" filterStyle="display:none" >
                             <f:facet name="header">
                                 <h:outputText value="Prenom"/>
                             </f:facet>
                             <h:outputText value="#{item.prenom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.departement.nom}" rendered="#{stagiaireController.depB eq true}">
+                        <p:column sortBy="#{item.departement.nom}" rendered="#{stagiaireController.depB eq true}" filterBy="#{item.departement.nom}" filterStyle="display:none">
                             <f:facet name="header" >
                                 <h:outputText value="Division"/>
                             </f:facet>
                             <h:outputText value="#{item.departement.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.cin}" rendered="#{stagiaireController.cinB eq true}">
+                        <p:column sortBy="#{item.cin}" rendered="#{stagiaireController.cinB eq true}" filterBy="#{item.cin}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Cin"/>
                             </f:facet>
                             <h:outputText value="#{item.cin}"/>
                         </p:column>
-                        <p:column sortBy="#{item.genre}" rendered="#{stagiaireController.genreB eq true}">
+                        <p:column sortBy="#{item.genre}" rendered="#{stagiaireController.genreB eq true}" filterBy="#{item.genre}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Genre"/>
                             </f:facet>
                             <h:outputText value="#{item.genre}"/>
                         </p:column>
-                        <p:column sortBy="#{item.mail}" rendered="#{stagiaireController.mailB eq true}">
+                        <p:column sortBy="#{item.mail}" rendered="#{stagiaireController.mailB eq true}" filterBy="#{item.mail}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Mail"/>
                             </f:facet>
                             <h:outputText value="#{item.mail}"/>
                         </p:column>
-                        <p:column sortBy="#{item.numTel}" rendered="#{stagiaireController.numTelB eq true}">
+                        <p:column sortBy="#{item.numTel}" rendered="#{stagiaireController.numTelB eq true}" filterBy="#{item.numTel}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="NumTel"/>
                             </f:facet>
                             <h:outputText value="#{item.numTel}"/>
                         </p:column>
-                        <p:column sortBy="#{item.dateDebut}" rendered="#{stagiaireController.dateDebutB eq true}">
+                        <p:column sortBy="#{item.dateDebut}" rendered="#{stagiaireController.dateDebutB eq true}" filterBy="#{item.dateDebut}" filterStyle="display:none">
                             <f:facet name="header" >
                                 <h:outputText value="DateDebut"/>
                             </f:facet>
@@ -169,7 +169,7 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column sortBy="#{item.dateFin}" rendered="#{stagiaireController.dateFinB eq true}">
+                        <p:column sortBy="#{item.dateFin}" rendered="#{stagiaireController.dateFinB eq true}" filterBy="#{item.dateFin}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="DateFin"/>
                             </f:facet>
@@ -177,25 +177,25 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column sortBy="#{item.ecoleStagiaire.nom} " rendered="#{stagiaireController.ecoleB eq true}">
+                        <p:column sortBy="#{item.ecoleStagiaire.nom} " rendered="#{stagiaireController.ecoleB eq true}" filterBy="#{item.ecoleStagiaire.nom}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Etablissement"/>
                             </f:facet>
                             <h:outputText value="#{item.ecoleStagiaire.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.domaine.nom}" rendered="#{stagiaireController.filiereB eq true}">
+                        <p:column sortBy="#{item.domaine.nom}" rendered="#{stagiaireController.filiereB eq true}" filterBy="#{item.domaine.nom}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Filière"/>
                             </f:facet>
                             <h:outputText value="#{item.domaine.nom}"/>
                         </p:column>
-                        <p:column rendered="#{stagiaireController.encadrantB eq true}">
+                        <p:column rendered="#{stagiaireController.encadrantB eq true}" filterBy="#{item.encadrant.nom}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Encadrant"/>
                             </f:facet>
                             <h:outputText value="#{item.encadrant.nom}"/>
                         </p:column>
-                        <p:column sortBy="#{item.stage.typeStage}"  rendered="#{stagiaireController.typeB eq true}">
+                        <p:column sortBy="#{item.stage.typeStage}"  rendered="#{stagiaireController.typeB eq true}" filterBy="#{item.stage.typeStage}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Type Stage"/>
                             </f:facet>
@@ -209,7 +209,7 @@
                             <p:commandButton class="OptionButton" id="pdfButton"   icon="fa fa-file-pdf-o" action="#{stagiaireController.generatPdf(item)}" ajax="false"/>
                             <b:commandButton actionListener="#{stagiaireController.update()}" value=""  icon-awesome="fa-refresh"  update=":growl,:StagiaireListForm:datalist" oncomplete="PF('StagiaireEditDialog').show()"/>
                             <p:growl id="message" showDetail="true" />
-                            <p:commandButton  value="" id="deleteButton"  icon="ui-icon-trash" actionListener="#{stagiaireController.destroy(item)}" update=":growl,:StagiaireListForm:datalist,message"  >
+                            <p:commandButton  value="" id="deleteButton"  icon="ui-icon-trash"  actionListener="#{stagiaireController.destroy(item)}" update=":growl,:StagiaireListForm:datalist,message"  >
                                 <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                             </p:commandButton>
 

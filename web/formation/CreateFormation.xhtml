@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">  
+          <ui:define name="title">
+            <h:outputText value="ListFormationTitle"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+        <h:form id="FormationCreateForm">
+            
+            <!--<h:panelGroup id="display">-->
+            <b:panel title="Ajouter une formation" class="panel-primary" style="center" >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Nom:" for="nom" />
+                    <p:inputText id="nom" value="#{formationController.selected.nom}" title="#{bundle.CreateFormationTitle_nom}" />
+                    <p:outputLabel value="date Debut"  />
+                            <p:calendar id="dateDebut" value="#{formationController.selected.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar>
+                    <p:outputLabel value="date Fin"  />
+                    <p:calendar id="dateFin" value="#{formationController.selected.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar>
+                    <p:outputLabel value="Lieu de la formation:" for="lieuFormation" />
+                    <p:selectOneMenu id="lieuFormation" value="#{formationController.selected.lieuFormation}" >
+                         <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                        <f:selectItems value="#{lieuFormationController.itemsAvailableSelectOne}"
+                                       var="lieuFormationItem"
+                                       itemValue="#{lieuFormationItem}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Organiser par:" for="organismeFormation" />
+                    <p:selectOneMenu id="organismeFormation" value="#{formationController.selected.organismeFormation}" >
+                   <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                        <f:selectItems value="#{organismeFormationController.itemsAvailableSelectOne}"
+                                       var="organismeFormationItem"
+                                       itemValue="#{organismeFormationItem}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Formateur:" for="formateur" />
+                    <p:selectOneMenu id="formateur" value="#{formationController.selected.formateur}" >
+                        <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                        <f:selectItems value="#{formateurController.itemsAvailableSelectOne}"
+                                       var="formateurItem"
+                                       itemValue="#{formateurItem}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton actionListener="#{formationController.create}" value="#{bundle.Save}" />
+            </b:panel>
+        </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

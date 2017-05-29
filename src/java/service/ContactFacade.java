@@ -5,8 +5,8 @@
  */
 package service;
 
-import bean.Departement;
-import bean.Employee;
+import bean.Contact;
+import bean.Formation;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author PC
  */
 @Stateless
-public class EmployeeFacade extends AbstractFacade<Employee> {
+public class ContactFacade extends AbstractFacade<Contact> {
 
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
@@ -27,10 +27,11 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         return em;
     }
 
-    public EmployeeFacade() {
-        super(Employee.class);
+    public ContactFacade() {
+        super(Contact.class);
     }
-     public  List<Employee> findEncadrentByDepartement(Departement departement){
-        return  em.createQuery("SELECT e FROM Employee e WHERE e.departement.id='"+departement.getId()+"'").getResultList();
-}
+    public List<Contact> findParticipant(Formation formation){
+       return em.createQuery("SELECT c FROM Contact c WHERE c.formation.id ="+formation.getId()).getResultList();
+    }
+    
 }

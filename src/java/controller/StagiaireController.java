@@ -50,6 +50,7 @@ public class StagiaireController implements Serializable {
     private Ecole selectedE;
     private Domaine selectedD;
     private List<Stagiaire> items;
+    private List<Stagiaire> filteredStagiaire;
     private Stagiaire selected;
     //recherche Stagiaire
     private int typeStage;
@@ -75,6 +76,7 @@ public class StagiaireController implements Serializable {
     private  boolean filiereB;
     
     private DomaineController controllerD;
+    private EcoleController controllerE;
     public StagiaireController() {
     }
     
@@ -82,8 +84,18 @@ public class StagiaireController implements Serializable {
         return selected;
     }
 
+    public Domaine getSelectedD() {
+        if(selectedD== null){
+            selectedD= new Domaine();
+        }
+        return selectedD;
+    }
+
+    public void setSelectedD(Domaine selectedD) {
+        this.selectedD = selectedD;
+    }
+
     public Ecole getSelectedE() {
-        
         return selectedE;
     }
 
@@ -91,13 +103,14 @@ public class StagiaireController implements Serializable {
         this.selectedE = selectedE;
     }
 
-    public Domaine getSelectedD() {
-        return selectedD;
+    public List<Stagiaire> getFilteredStagiaire() {
+        return filteredStagiaire;
     }
 
-    public void setSelectedD(Domaine selectedD) {
-        this.selectedD = selectedD;
+    public void setFilteredStagiaire(List<Stagiaire> filteredStagiaire) {
+        this.filteredStagiaire = filteredStagiaire;
     }
+    
     
 
     public boolean isFiliereB() {
@@ -120,6 +133,15 @@ public class StagiaireController implements Serializable {
     public void setSelected(Stagiaire selected) {
         this.selected = selected;
     }
+
+    public EcoleController getControllerE() {
+        return controllerE;
+    }
+
+    public void setControllerE(EcoleController controllerE) {
+        this.controllerE = controllerE;
+    }
+    
     
     protected void setEmbeddableKeys() {
     }
@@ -172,7 +194,7 @@ public class StagiaireController implements Serializable {
     
     public void refresh() {
         selected = null;
-        items = null;
+        items = ejbFacade.findAll();
         setTypeStage(0);
         setEcole(null);
         setDateDebut(null);
@@ -335,6 +357,11 @@ public class StagiaireController implements Serializable {
     public void setGenreB(boolean genreB) {
         this.genreB = genreB;
     }
+    ////redirect
+    public void redirectToCreate() throws IOException {
+        SessionUtil.redirectNoXhtml("/Project/faces/Stagiaire/CreateStagiaire.xhtml");
+    }
+    ////pdf
         public void postProcessXLS(Object document) {
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet sheet = wb.getSheetAt(0);

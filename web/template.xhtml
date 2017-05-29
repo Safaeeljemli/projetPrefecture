@@ -42,6 +42,10 @@
                             <p:menuitem value="Stage" outcome="/stage/List.xhtml" />
                             <p:menuitem value="Stagiaire" outcome="/stagiaire/List.xhtml" />
                             <p:menuitem value="User" outcome="/user/List.xhtml" />
+                            <p:menuitem value="Formation" outcome="/formation/List.xhtml" />
+                            <p:menuitem value="Formateur" outcome="/formateur/List.xhtml" />
+                            <p:menuitem value="Lieu de Formation" outcome="/lieuFormation/List.xhtml" />
+                            
                         </p:submenu>
                         <p:submenu label="Courrier">
                                 <p:menuitem value="Arrivee" outcome="/courrierArrivee/List.xhtml" />
@@ -53,6 +57,7 @@
                             </p:submenu>
                         </p:submenu>
                         <p:menuitem value="Stagiaire" outcome="/stagiaire/List.xhtml" />
+                        <p:menuitem value="Formation" outcome="/formation/List.xhtml" />
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
 

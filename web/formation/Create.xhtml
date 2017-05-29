@@ -12,23 +12,21 @@
             <h:form id="FormationCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{formationController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateFormationLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{formationController.selected.id}" title="#{bundle.CreateFormationTitle_id}" />
-                        <p:outputLabel value="#{bundle.CreateFormationLabel_nom}" for="nom" />
+                        <p:outputLabel value="Nom:" for="nom" />
                         <p:inputText id="nom" value="#{formationController.selected.nom}" title="#{bundle.CreateFormationTitle_nom}" />
-                        <p:outputLabel value="#{bundle.CreateFormationLabel_lieuFormation}" for="lieuFormation" />
+                        <p:outputLabel value="Lieu de la formation:" for="lieuFormation" />
                         <p:selectOneMenu id="lieuFormation" value="#{formationController.selected.lieuFormation}" >
                             <f:selectItems value="#{lieuFormationController.itemsAvailableSelectOne}"
                                            var="lieuFormationItem"
                                            itemValue="#{lieuFormationItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateFormationLabel_organismeFormation}" for="organismeFormation" />
+                        <p:outputLabel value="Organiser par:" for="organismeFormation" />
                         <p:selectOneMenu id="organismeFormation" value="#{formationController.selected.organismeFormation}" >
                             <f:selectItems value="#{organismeFormationController.itemsAvailableSelectOne}"
                                            var="organismeFormationItem"
                                            itemValue="#{organismeFormationItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateFormationLabel_formateur}" for="formateur" />
+                        <p:outputLabel value="Formateur:" for="formateur" />
                         <p:selectOneMenu id="formateur" value="#{formationController.selected.formateur}" >
                             <f:selectItems value="#{formateurController.itemsAvailableSelectOne}"
                                            var="formateurItem"

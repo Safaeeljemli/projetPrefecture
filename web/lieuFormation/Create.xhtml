@@ -12,8 +12,6 @@
             <h:form id="LieuFormationCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lieuFormationController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateLieuFormationLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{lieuFormationController.selected.id}" title="#{bundle.CreateLieuFormationTitle_id}" />
                         <p:outputLabel value="#{bundle.CreateLieuFormationLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{lieuFormationController.selected.nom}" title="#{bundle.CreateLieuFormationTitle_nom}" />
                         <p:outputLabel value="#{bundle.CreateLieuFormationLabel_adresse}" for="adresse" />

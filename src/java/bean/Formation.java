@@ -6,11 +6,15 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -30,6 +34,13 @@ public class Formation implements Serializable {
     private OrganismeFormation organismeFormation;
     @ManyToOne
     private  Formateur formateur;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateDebut;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateFin;
+    @ManyToMany
+    private List<Contact> participants;
+   ///getter and setter et fct predefinis
     public Long getId() {
         return id;
     }
@@ -37,6 +48,15 @@ public class Formation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public List<Contact> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<Contact> participants) {
+        this.participants = participants;
+    }
+    
 
     @Override
     public int hashCode() {
@@ -89,6 +109,24 @@ public class Formation implements Serializable {
     public void setFormateur(Formateur formateur) {
         this.formateur = formateur;
     }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    
 
     @Override
     public String toString() {

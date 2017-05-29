@@ -22,6 +22,9 @@ import javax.persistence.OneToOne;
 @Entity
 public class Employee implements Serializable {
 
+    @OneToOne(mappedBy = "employe")
+    private Contact contact;
+
    
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,7 +46,6 @@ public class Employee implements Serializable {
     private List<Stagiaire> stagiaires;
     @OneToMany(mappedBy = "responsable")
     private List<Stage> stages;
-
     public String getNom() {
         return nom;
     }
