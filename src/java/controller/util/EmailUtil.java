@@ -23,7 +23,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailUtil {
  
      public static boolean sendMail(String from, String password, String message, String to, String subject) throws MessagingException {
-        System.out.println("hanii :D");
+        System.out.println("========= SEND MAIL ==========");
         String host = "smtp.gmail.com";
         Properties props = System.getProperties();
         props.put("mail.smtp.starttls.enable", "true");
@@ -31,7 +31,8 @@ public class EmailUtil {
         props.put("mail.smtp.user", from);
         props.put("mail.smtp.password", password);
         props.put("mail.smtp.port", 587);
-        props.put("mail.smtp.connectiontimeout", 30000);
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.put("mail.smtp.connectiontimeout", 10000);
         props.put("mail.smtp.auth", "true");
         Session session = Session.getDefaultInstance(props, null);
         MimeMessage mimeMessage = new MimeMessage(session);

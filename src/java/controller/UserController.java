@@ -37,10 +37,13 @@ public class UserController implements Serializable {
     
     public String genaratePasswrd() {
         if (!selected.getEmail().equals("")) {
+            System.out.println("email"+selected.getEmail());
             int res = ejbFacade.sendPW(selected.getEmail());
             if (res < 0) {
+                System.out.println("ee error");
                 JsfUtil.addErrorMessage("there is a problem");
             } else {
+                
                 JsfUtil.addSuccessMessage("loook your email");
                 return "/index?faces-redirect=true";
             }
@@ -55,11 +58,11 @@ public class UserController implements Serializable {
         int res1 = (int) res[0];
         if (res1 < 0) {
             JsfUtil.addErrorMessage("le code de l'erreur " + res1);
-            return "/index?faces-redirect=true";
+            return "/login?faces-redirect=true";
         } else {
             SessionUtil.registerUser(selected);
            // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
-            return "/home/accueil?faces-redirect=true";
+            return "/secured/home/accueil?faces-redirect=true";
         }
      }
      

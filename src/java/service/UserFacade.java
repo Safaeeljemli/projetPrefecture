@@ -60,6 +60,42 @@ public class UserFacade extends AbstractFacade<User> {
         return clone;
     }
 
+//    public int seConnnecter(User user) {
+//        System.out.println(user);
+//        if (user == null || user.getLogin() == null) {
+//            System.out.println("-5");
+//            return -5;
+//        } else {
+//            User loadedUser = null;
+//            loadedUser = find(user.getLogin());
+//            if (loadedUser == null) {
+//                return -4;
+//            } else if (loadedUser.isBlocked() == true) {
+//                return -2;
+//            } else if (!loadedUser.getPasswrd().equals(HashageUtil.sha256(user.getPasswrd()))) {
+//                if (loadedUser.getNbrCnx() < 3) {
+//                    loadedUser.setNbrCnx(loadedUser.getNbrCnx() + 1);
+//                } else if (loadedUser.getNbrCnx() >= 3) {
+//                    loadedUser.setBlocked(true);
+//                    edit(loadedUser);
+//                }
+//                return -3;
+//            } else {
+//                loadedUser.setNbrCnx(0);
+//                edit(loadedUser);
+//                user = clone(loadedUser);
+//                if (SessionUtil.registerUser(user)) {
+//                    Device device = DeviceUtil.getDevice(user);
+//                    deviceFacade.verifieDeviceAndCreate(device);
+//                    historyFacade.createHistoryElement(user, 1);
+//                    return 1;
+//                } else {
+//                    return -1;
+//                }
+//            }
+//        }
+//    }
+
     public Object[] seConnecter(User user, Device device) {
         if (user == null || user.getLogin() == null) {
             JsfUtil.addErrorMessage("Veuilliez saisir votre login");
@@ -115,19 +151,22 @@ public class UserFacade extends AbstractFacade<User> {
 
     public int sendPW(String email) {
         User user = findByEmail(email);
+        System.out.println("" + user.getEmail());
         if (user == null) {
+            System.out.println("user prob");
             return -1;
         } else {
             String pw = RandomStringUtil.generate();
             String msg = "Bienvenu Mr. " + user.getNom() + ",<br/>"
-                    + "D'après votre demande de reinitialiser le mot de passe de votre compte TaxeSejour, nous avons generer ce mot de passe pour vous.\n"
+                    + "D'après votre demande de reinitialiser le mot de passe de votre compte Utilisateur, nous avons generer ce mot de passe pour vous.\n"
                     + "<br/><br/>"
                     + "      Nouveau Mot de Passe: <br/><center><b>"
                     + pw
                     + "</b></center><br/><br/><b><i>PS:</i></b>  SVP changer ce mot de passe apres que vous avez connecter pour des raison du securité .<br/> Cree votre propre mot de passe";
             try {
-                EmailUtil.sendMail("eljemlisafae@gmail.com", "Project Wilaya", msg, email, "Demande de reanitialisation du mot de pass");
+                EmailUtil.sendMail("wilaya.marrakech.asfi@gmail.com", "wilayaAsfi", msg, email, "Demande de reanitialisation du mot de pass");
             } catch (MessagingException ex) {
+                System.out.println("-2");
                 //  Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
                 return -2;
             }
@@ -139,16 +178,18 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
-     public User findByEmail(String email) {
+    public User findByEmail(String mail) {
         try {
-            User user = (User) em.createQuery("select u from User u where u.email LIKE '" + email + "'").getSingleResult();
+            String req = "SELECT u FROM User u WHERE u.email LIKE '%" + mail + "%'";
+            User user = (User) em.createQuery(req).getSingleResult();
             if (user != null) {
                 return user;
             }
         } catch (Exception e) {
-            return null;
+            System.out.println("Makaynch had User");
+            System.out.println(e.getMessage());
+
         }
         return null;
     }
-
 }

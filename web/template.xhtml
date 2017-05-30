@@ -25,39 +25,39 @@
             <p:layoutUnit position="north" size="65" >
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="#{bundle.Home}" outcome="/home/accueil.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="#{bundle.Home}" outcome="/secured/home/accueil.xhtml" icon="ui-icon-home"/>
                         <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
-                            <p:menuitem value="CourrierArrivee" outcome="/courrierArrivee/List.xhtml" />
-                            <p:menuitem value="CourrierProduit" outcome="/courrierProduit/List.xhtml" />
-                            <p:menuitem value="Departement" outcome="/departement/List.xhtml" />
-                            <p:menuitem value="Device" outcome="/device/List.xhtml" />
-                            <p:menuitem value="Domaine" outcome="/domaine/List.xhtml" />
-                            <p:menuitem value="Echelle" outcome="/echelle/List.xhtml" />
-                            <p:menuitem value="Echelon" outcome="/echelon/List.xhtml" />
-                            <p:menuitem value="Ecole" outcome="/ecole/List.xhtml" />
-                            <p:menuitem value="Employee" outcome="/employee/List.xhtml" />
-                            <p:menuitem value="History" outcome="/history/List.xhtml" />
-                            <p:menuitem value="SousClasse" outcome="/sousClasse/List.xhtml" />
-                            <p:menuitem value="Stage" outcome="/stage/List.xhtml" />
-                            <p:menuitem value="Stagiaire" outcome="/stagiaire/List.xhtml" />
-                            <p:menuitem value="User" outcome="/user/List.xhtml" />
-                            <p:menuitem value="Formation" outcome="/formation/List.xhtml" />
-                            <p:menuitem value="Formateur" outcome="/formateur/List.xhtml" />
-                            <p:menuitem value="Lieu de Formation" outcome="/lieuFormation/List.xhtml" />
+                            <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
+                            <p:menuitem value="CourrierArrivee" outcome="/secured/courrierArrivee/List.xhtml" />
+                            <p:menuitem value="CourrierProduit" outcome="/secured/courrierProduit/List.xhtml" />
+                            <p:menuitem value="Departement" outcome="/secured/departement/List.xhtml" />
+                            <p:menuitem value="Device" outcome="/secured/device/List.xhtml" />
+                            <p:menuitem value="Domaine" outcome="/secured/domaine/List.xhtml" />
+                            <p:menuitem value="Echelle" outcome="/secured/echelle/List.xhtml" />
+                            <p:menuitem value="Echelon" outcome="/secured/echelon/List.xhtml" />
+                            <p:menuitem value="Ecole" outcome="/secured/ecole/List.xhtml" />
+                            <p:menuitem value="Employee" outcome="/secured/employee/List.xhtml" />
+                            <p:menuitem value="History" outcome="/secured/history/List.xhtml" />
+                            <p:menuitem value="SousClasse" outcome="/secured/sousClasse/List.xhtml" />
+                            <p:menuitem value="Stage" outcome="/secured/stage/List.xhtml" />
+                            <p:menuitem value="Stagiaire" outcome="/secured/stagiaire/List.xhtml" />
+                            <p:menuitem value="User" outcome="/secured/user/List.xhtml" />
+                            <p:menuitem value="Formation" outcome="/secured/formation/List.xhtml" />
+                            <p:menuitem value="Formateur" outcome="/secured/formateur/List.xhtml" />
+                            <p:menuitem value="Lieu de Formation" outcome="/secured/lieuFormation/List.xhtml" />
                             
                         </p:submenu>
                         <p:submenu label="Courrier">
-                                <p:menuitem value="Arrivee" outcome="/courrierArrivee/List.xhtml" />
-                                <p:menuitem value="Produit" outcome="/courrierProduit/List.xhtml" />
+                                <p:menuitem value="Arrivee" outcome="/secured/courrierArrivee/List.xhtml" />
+                                <p:menuitem value="Produit" outcome="/secured/courrierProduit/List.xhtml" />
                             <p:submenu label="Paramétrage">
-                                <p:menuitem value="Classe" outcome="/classe/List.xhtml" />
-                                <p:menuitem value="Destinataire/Expediteur" outcome="/destinataireExpediteur/List.xhtml" />
-                                <p:menuitem value="Finalité" outcome="/finalite/List.xhtml" />
+                                <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
+                                <p:menuitem value="Destinataire/Expediteur" outcome="/secured/destinataireExpediteur/List.xhtml" />
+                                <p:menuitem value="Finalité" outcome="/secured/finalite/List.xhtml" />
                             </p:submenu>
                         </p:submenu>
-                        <p:menuitem value="Stagiaire" outcome="/stagiaire/List.xhtml" />
-                        <p:menuitem value="Formation" outcome="/formation/List.xhtml" />
+                        <p:menuitem value="Stagiaire" outcome="/secured/stagiaire/List.xhtml" />
+                        <p:menuitem value="Formation" outcome="/secured/formation/List.xhtml" />
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
 

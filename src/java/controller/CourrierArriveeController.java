@@ -7,29 +7,19 @@ import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
 import com.itextpdf.io.IOException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfTable;
-import static com.sun.xml.internal.ws.api.pipe.Fiber.current;
-import static com.sun.xml.ws.api.pipe.Fiber.current;
 //import com.lowagie.text.Document;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import controller.util.SessionUtil;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import service.CourrierArriveeFacade;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -480,27 +470,16 @@ public class CourrierArriveeController implements Serializable {
         modeTraitement = null;
         return selected;
     }
+    public void redirectToCreate() throws IOException, java.io.IOException {
+        SessionUtil.redirectNoXhtml("/Project/faces/courrierArrivee/CreateCourrierArrivee.xhtml");
+    }
 
-//    public void prepareView() {
-//        selected = null;
-//        dateMinC = null;
-//        dateMaxC = null;
-//        dateMinDRHMG = null;
-//        dateMinDRHMG = null;
-//        dateMaxBTR = null;
-//        dateMaxBTR = null;
-//        codeA = null;
-//        thisExpediteur = null;
-//        modeTraitement = null;
-//        initializeEmbeddableKey();
-//    }
     public void refresh() {
         selected = null;
         items = ejbFacade.findAll();
         setSousClasse(null);
         setClasse(null);
         setCodeA(null);
-//        setCourrierProduit(null);
         setDateDRHMG(null);
         setDateBTR(null);
         setDateC(null);
