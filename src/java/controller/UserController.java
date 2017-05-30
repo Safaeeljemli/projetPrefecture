@@ -58,7 +58,7 @@ public class UserController implements Serializable {
         int res1 = (int) res[0];
         if (res1 < 0) {
             JsfUtil.addErrorMessage("le code de l'erreur " + res1);
-            return "/login?faces-redirect=true";
+            return "/index?faces-redirect=true";
         } else {
             SessionUtil.registerUser(selected);
            // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
