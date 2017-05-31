@@ -5,6 +5,7 @@ import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.Finalite;
 import bean.SousClasse;
+import com.itextpdf.io.IOException;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierProduitFacade;
@@ -25,6 +26,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
+import controller.util.SessionUtil;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -348,6 +350,10 @@ public class CourrierProduitController implements Serializable {
         return finaliteFacade.findAll();
     }
 
+     public void redirectToCreate() throws IOException, java.io.IOException {
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/courrierProduit/CreateCourrierProduit.xhtml");
+    }
+    
     public void findSousClasseByClasse() {
         try {
             getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));

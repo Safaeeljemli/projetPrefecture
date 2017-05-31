@@ -2,6 +2,7 @@ package controller;
 
 import bean.User;
 import controller.util.DeviceUtil;
+import controller.util.HashageUtil;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
@@ -34,26 +35,25 @@ public class UserController implements Serializable {
     public UserController() {
     }
 
-    
     public String genaratePasswrd() {
         if (!selected.getEmail().equals("")) {
-            System.out.println("email"+selected.getEmail());
+            System.out.println("email" + selected.getEmail());
             int res = ejbFacade.sendPW(selected.getEmail());
             if (res < 0) {
                 System.out.println("ee error");
                 JsfUtil.addErrorMessage("there is a problem");
             } else {
-                
+
                 JsfUtil.addSuccessMessage("loook your email");
                 return "/index?faces-redirect=true";
             }
         }
         return null;
     }
-    
+
     //CONNEXION
-     public String seConnecter() {
-         System.out.println("test user");
+    public String seConnecter() {
+        System.out.println("test user");
         Object[] res = ejbFacade.seConnecter(selected, DeviceUtil.getDevice());
         int res1 = (int) res[0];
         if (res1 < 0) {
@@ -61,20 +61,19 @@ public class UserController implements Serializable {
             return "/index?faces-redirect=true";
         } else {
             SessionUtil.registerUser(selected);
-           // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
+            // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
             return "/secured/home/accueil?faces-redirect=true";
         }
-     }
-     
-     // se deconnecter
-     
-      public void seDeConnnecter() throws IOException {
+    }
+
+    // se deconnecter
+    public void seDeConnnecter() throws IOException {
         ejbFacade.seDeConnnecter();
         SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
     }
-     
+
     public User getSelected() {
-        if(selected== null){
+        if (selected == null) {
             selected = new User();
         }
         return selected;
@@ -94,16 +93,24 @@ public class UserController implements Serializable {
         return ejbFacade;
     }
 
-    public User prepareCreate() {
-        selected = new User();
-        initializeEmbeddableKey();
-        return selected;
+//    public User prepareCreate() {
+//        selected = new User();
+//        initializeEmbeddableKey();
+//        return selected;
+//    }
+    public void prepareCreate() {
+        selected = null;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+        if (selected != null) {
+            getSelected().setPasswrd(HashageUtil.sha256(getSelected().getPasswrd()));
+            getFacade().create(getSelected());
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
+            items.add(getFacade().clone(selected));
+            selected = null;
+        } else {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
@@ -111,11 +118,14 @@ public class UserController implements Serializable {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
     }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UserDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+    public void destroy(User user) {
+        System.out.println("User Controller");
+        int res = ejbFacade.deleteUser(user);
+        if (res > 0) {
+            JsfUtil.addSuccessMessage("User Deleted");
+            items = null;
+        } else {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
@@ -123,6 +133,7 @@ public class UserController implements Serializable {
         if (items == null) {
             items = getFacade().findAll();
         }
+        items.remove(SessionUtil.getConnectedUser());
         return items;
     }
 
@@ -206,6 +217,5 @@ public class UserController implements Serializable {
         }
 
     }
-     
 
 }

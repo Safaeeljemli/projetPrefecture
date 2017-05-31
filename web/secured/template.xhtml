@@ -45,19 +45,33 @@
                             <p:menuitem value="Formation" outcome="/secured/formation/List.xhtml" />
                             <p:menuitem value="Formateur" outcome="/secured/formateur/List.xhtml" />
                             <p:menuitem value="Lieu de Formation" outcome="/secured/lieuFormation/List.xhtml" />
-                            
+
                         </p:submenu>
-                        <p:submenu label="Courrier">
-                                <p:menuitem value="Arrivee" outcome="/secured/courrierArrivee/List.xhtml" />
-                                <p:menuitem value="Produit" outcome="/secured/courrierProduit/List.xhtml" />
-                            <p:submenu label="Paramétrage">
-                                <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
-                                <p:menuitem value="Destinataire/Expediteur" outcome="/secured/destinataireExpediteur/List.xhtml" />
+                        <p:submenu icon="ui-icon-mail-open" label="Gestion Courrier Arrivee">
+                            <p:menuitem icon="ui-icon-search" value="Recherche" outcome="/secured/courrierArrivee/List.xhtml" />
+                            <p:menuitem icon="fa-save" value="créer" outcome="/secured/courrierArrivee/CreateCourrierArrivee.xhtml" />
+
+                        </p:submenu>
+                        <p:submenu icon="ui-icon-mail-closed" label="Gestion Courrier Produit">
+                            <p:menuitem icon="ui-icon-search" value="Recherche" outcome="/secured/courrierProduit/List.xhtml" />
+                            <p:menuitem  value="créer" outcome="/secured/courrierProduit/CreateCourrierProduit.xhtml" />
+                        </p:submenu>
+                        <p:submenu icon="fa fa-cog" label="Paramétrage">
+                            <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
+                            <p:submenu  label="Courrier Arrivée">
+                                <p:menuitem value="Expediteur" outcome="/secured/destinataireExpediteur/List.xhtml" />
                                 <p:menuitem value="Finalité" outcome="/secured/finalite/List.xhtml" />
                             </p:submenu>
+                            <p:submenu  label="Courrier Produit">
+                                <p:menuitem value="Destinataire" outcome="/secured/destinataireExpediteur/List.xhtml" />
+                                <p:menuitem value="Finalité" outcome="/secured/finalite/List.xhtml" />
+                            </p:submenu>
+
                         </p:submenu>
-                        <p:menuitem value="Stagiaire" outcome="/secured/stagiaire/List.xhtml" />
-                        <p:menuitem value="Formation" outcome="/secured/formation/List.xhtml" />
+
+
+                        <p:menuitem icon="fa fa-users" value="Gestion Stagiaire" outcome="/secured/stagiaire/List.xhtml" />
+                        <p:menuitem icon="fa fa-user-plus" value="Gestion Formation" outcome="/secured/formation/List.xhtml" />
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
 

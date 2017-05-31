@@ -4,31 +4,46 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition>
 
         <p:dialog id="UserEditDlg" widgetVar="UserEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUserTitle}">
             <h:form id="UserEditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{userController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditUserLabel_login}" for="login" />
-                        <p:inputText id="login" value="#{userController.selected.login}" title="#{bundle.EditUserTitle_login}" />
-                        <p:outputLabel value="#{bundle.EditUserLabel_passwrd}" for="passwrd" />
-                        <p:inputText id="passwrd" value="#{userController.selected.passwrd}" title="#{bundle.EditUserTitle_passwrd}" />
-                        <p:outputLabel value="#{bundle.EditUserLabel_nom}" for="nom" />
-                        <p:inputText id="nom" value="#{userController.selected.nom}" title="#{bundle.EditUserTitle_nom}" />
-                        <p:outputLabel value="#{bundle.EditUserLabel_prenom}" for="prenom" />
-                        <p:inputText id="prenom" value="#{userController.selected.prenom}" title="#{bundle.EditUserTitle_prenom}" />
-                        <p:outputLabel value="#{bundle.EditUserLabel_email}" for="email" />
-                        <p:inputText id="email" value="#{userController.selected.email}" title="#{bundle.EditUserTitle_email}" />
-                        <p:outputLabel value="#{bundle.EditUserLabel_tel}" for="tel" />
-                        <p:inputText id="tel" value="#{userController.selected.tel}" title="#{bundle.EditUserTitle_tel}" />
-                        <p:outputLabel value="#{bundle.EditUserLabel_nbrCnx}" for="nbrCnx" />
-                        <p:inputText id="nbrCnx" value="#{userController.selected.nbrCnx}" title="#{bundle.EditUserTitle_nbrCnx}" />
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{userController.update}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UserEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="UserEditDialog.hide()"/>
+                   <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
+                        <p:outputLabel value="Nom" for="nom" />
+                        <p:inputText id="nom" value="#{userController.selected.nom}" >
+                            <f:validateRegex pattern="[A-Za-z ]*" />
+                        </p:inputText>
+                        <p:outputLabel value="Prenom" for="prenom" />
+                        <p:inputText id="prenom" value="#{userController.selected.prenom}" >
+                            <f:validateRegex pattern="[A-Za-z ]*" />
+                        </p:inputText>
+                        <p:outputLabel value="Email" for="email" />
+                        <p:inputText id="email" value="#{userController.selected.email}" >
+                            <!--<f:validator validatorId="emailValidator" />-->
+                        </p:inputText>
+
+                        <p:outputLabel value="Tel" for="tel" />
+                        <p:inputText id="tel" value="#{userController.selected.tel}"  >
+                            <f:validateRegex pattern="[0-9]*"/>
+                            <f:validateLength minimum="10" maximum="10" />
+                        </p:inputText>
+
+                        <p:outputLabel value="#{bundle.CreateUserLabel_login}" for="login" />
+                        <p:inputText disabled="true" id="login" value="#{userController.selected.login}" title="#{bundle.CreateUserTitle_login}" />
+
+
+<!--                        <p:outputLabel value="Blocker" for="blocked" />
+                        <p:selectBooleanCheckbox id="blocked" value="{userController.selected.blocked}"  />
+                        
+                        <p:outputLabel value="Admin" for="adminn" />
+                        <p:selectBooleanCheckbox id="adminn" value="{userController.selected.adminn}"  />
+                        -->
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{userController.update}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:hGrowl" oncomplete="handleSubmit(args, 'UserEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

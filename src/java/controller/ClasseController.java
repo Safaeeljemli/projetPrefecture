@@ -1,11 +1,13 @@
 package controller;
 
 import bean.Classe;
+import bean.SousClasse;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.ClasseFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.SousClasseFacade;
 
 @Named("classeController")
 @SessionScoped
@@ -28,10 +31,52 @@ public class ClasseController implements Serializable {
     private List<Classe> items = null;
     private Classe selected;
 
+    private Classe thisClasse;
+    private List<SousClasse> sousClasses;
+    private SousClasse sousClasseToCreate;
+
+    @EJB
+    private SousClasseFacade sousClasseFacade;
+
     public ClasseController() {
     }
 
+    public Classe getThisClasse() {
+        if(thisClasse==null)
+            thisClasse= new Classe();
+        return thisClasse;
+    }
+
+    public void setThisClasse(Classe thisClasse) {
+        this.thisClasse = thisClasse;
+    }
+
+    
+    public List<SousClasse> getSousClasses() {
+        if (sousClasses == null) {
+            sousClasses = new ArrayList<>();
+        }
+        return sousClasses;
+    }
+
+    public SousClasse getSousClasseToCreate() {
+        if(sousClasseToCreate==null)
+            sousClasseToCreate = new SousClasse();
+        return sousClasseToCreate;
+    }
+
+    public void setSousClasseToCreate(SousClasse sousClasseToCreate) {
+        this.sousClasseToCreate = sousClasseToCreate;
+    }
+
+    public void setSousClasses(List<SousClasse> sousClasses) {
+        this.sousClasses = sousClasses;
+    }
+
     public Classe getSelected() {
+        if (selected == null) {
+            selected = new Classe();
+        }
         return selected;
     }
 
@@ -49,12 +94,35 @@ public class ClasseController implements Serializable {
         return ejbFacade;
     }
 
-    public Classe prepareCreate() {
-        selected = new Classe();
-        initializeEmbeddableKey();
-        return selected;
+    public List<Classe> getClassesAvailableSelectOne() {
+        return getFacade().findAll();
     }
 
+    public void findSousClasseByClasse(Classe classe) {
+        thisClasse=classe;
+        try {
+            classe.setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("veiller choisire une classe");
+        }
+    }
+
+    public void prepareCreate() {
+        selected = new Classe();
+        initializeEmbeddableKey();
+//        return selected;
+    }
+    public void prepareCreateSousClasse() {
+       sousClasseToCreate = new SousClasse();
+        sousClasseToCreate.setClasse(thisClasse);
+    }
+    
+
+//    public Classe prepareCreate() {
+//        selected = new Classe();
+//        initializeEmbeddableKey();
+//        return selected;
+//    }
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClasseCreated"));
         if (!JsfUtil.isValidationFailed()) {

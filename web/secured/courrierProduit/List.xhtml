@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:b="http://bootsfaces.net/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="../template.xhtml">
 
 
         <ui:define name="title">
@@ -128,7 +128,7 @@
                 <h:form id="CourrierProduitListForm">
 
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.prepareCreate}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
+                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.redirectToCreate()}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
                         <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierProduitCheckForm" oncomplete="PF('CourrierProduitCheckDialog').show()" />
                     </div>
 

@@ -95,7 +95,6 @@ public class UserFacade extends AbstractFacade<User> {
 //            }
 //        }
 //    }
-
     public Object[] seConnecter(User user, Device device) {
         if (user == null || user.getLogin() == null) {
             JsfUtil.addErrorMessage("Veuilliez saisir votre login");
@@ -192,4 +191,15 @@ public class UserFacade extends AbstractFacade<User> {
         }
         return null;
     }
+
+    public int deleteUser(User user) {
+        System.out.println("User facade ");
+        historyFacade.deleteHistoryForUser(user);
+        User loadedUser = find(user.getLogin());
+        user.setPasswrd(loadedUser.getPasswrd());
+        remove(user);
+        return 1;
+
+    }
+
 }

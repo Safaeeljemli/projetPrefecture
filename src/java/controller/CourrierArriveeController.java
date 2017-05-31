@@ -471,7 +471,7 @@ public class CourrierArriveeController implements Serializable {
         return selected;
     }
     public void redirectToCreate() throws IOException, java.io.IOException {
-        SessionUtil.redirectNoXhtml("/Project/faces/courrierArrivee/CreateCourrierArrivee.xhtml");
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/courrierArrivee/CreateCourrierArrivee.xhtml");
     }
 
     public void refresh() {
