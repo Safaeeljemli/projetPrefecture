@@ -104,18 +104,6 @@
 
             <br/>
 
-            <h:form>
-                <p:commandButton value="Report" action="#{courrierArriveeController.createPdf()}" icon="icon-report" />
-            </h:form>
-            <h:form id="form">
-                <p:messages showSummary="true" showDetail="true"/>
-            </h:form>
-<!--            <h:form>
-                <h:inputFile value="{courrierArrivee.selected.file}">
-                    <f:ajax listener="{courrierArrivee.save}" />
-                </h:inputFile>
-            </h:form>-->
-
 
             <b:panel title=" Courrier Arrivee " class="panel-primary" style="text-align: center;" >
                 <h:form id="CourrierArriveeListForm">
@@ -123,7 +111,7 @@
                         <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.redirectToCreate()}"  />
                         <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
                     </div>
-
+                        <b:commandButton value="Report" action="#{courrierArriveeController.createPDF()}" ajax="false" icon="icon-report" />
                     <br/>
                     <br/>
                     <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item" 

@@ -7,15 +7,9 @@ import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
 import com.itextpdf.io.IOException;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-//import com.lowagie.text.Document;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import service.CourrierArriveeFacade;
 
@@ -37,6 +31,10 @@ import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.ModeTraitementFacade;
 import service.SousClasseFacade;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.util.ArrayList;
 
 @Named("courrierArriveeController")
 @SessionScoped
@@ -75,6 +73,9 @@ public class CourrierArriveeController implements Serializable {
     private boolean optionCheck = true;
     private boolean testCheck = true;
 
+    private int i = 0;
+    private List myDataList = new ArrayList<>();
+
     @EJB
     private DestinataireExpediteurFacade destinataireExpediteurFacade;
     @EJB
@@ -84,7 +85,27 @@ public class CourrierArriveeController implements Serializable {
     @EJB
     private SousClasseFacade sousClasseFacade;
 
+    private static String file;
+
+    
+//    private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+//            Font.BOLD);
+//    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+//            Font.NORMAL, BaseColor.RED);
+//    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+//            Font.BOLD);
+//    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+//            Font.BOLD);
+
     public CourrierArriveeController() {
+    }
+
+    public List getMyDataList() {
+        return myDataList = items;
+    }
+
+    public void setMyDataList(List myDataList) {
+        this.myDataList = myDataList;
     }
 
     public boolean isTestCheck() {
@@ -364,100 +385,25 @@ public class CourrierArriveeController implements Serializable {
         }
     }
 
-    public static final String RESULT = "results/part1/chapter01/hello.pdf";
+//    public static final String RESULT = "results/part1/chapter01/hello.pdf";
+    public void createPDF() {
+        try {
+            Document document = new Document();
+            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Courriers Arrivées"+Integer.toString(i)+".pdf";
+            i++;
+            PdfWriter.getInstance(document, new FileOutputStream(file));
 
-    public void createPdf() throws DocumentException, IOException, FileNotFoundException {
-        String filename = "eesttt";
-    // step 1
-        Document document = new Document();
-        // step 2
-        PdfWriter.getInstance(document, new FileOutputStream(filename));
-        // step 3
-        document.open();
-        // step 4
-        document.add(new Paragraph("Hello World!"));
-        // step 5
-        document.close();
+//          ejbFacade.initFile();
+            document.open();
+//            ejbFacade.addMetaData(document);
+            ejbFacade.addTitlePage(document, items, expediteurCheck, motsCleCheck, objetCheck, modeTraitementCheck, n_DRHMGCheck, n_enCheck, n_BOW_TRANS_RLANcheck, codeA_Vcheck, dateEnregcheck, dateBOW_TRANS_RLANcheck, sousClasseCheck);
+//            ejbFacade.addContent(document);
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-//    public String preparePdf() {
-//        try {
-//            ByteArrayOutputStream output = new ByteArrayOutputStream();
-//
-//            Font fontHeader = new Font(Font.BOLD, 20, Font.BOLD);
-//            Font fontLine = new Font(Font.BOLD, 14);
-//            Font fontLineBold = new Font(Font.BOLD, 14, Font.BOLD);
-//
-//            Document document = new Document();
-//            PdfWriter.getInstance(document, output);
-//            document.open();
-//
-//            //Writing document
-//            Chunk preface = new Chunk("GERAL", fontHeader);
-//            document.add(preface);
-//
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(current.getData());
-//            int year = cal.get(Calendar.YEAR);
-//            int month = 1 + cal.get(Calendar.MONTH);
-//            int day = cal.get(Calendar.DAY_OF_MONTH);
-//            String dateStr = day + "/" + month + "/" + year;
-//            Paragraph dataAndHour = new Paragraph(dateStr, fontLine);
-//            document.add(dataAndHour);
-//
-//            document.close();
-//            pdfContent = new DefaultStreamedContent(new ByteArrayInputStream(output.toByteArray()), "application/pdf");
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return "/views/view_atividade_pdf";
-//    }
-//    public void imprimer() throws DocumentException {
-//        Document document = new Document();
-//        ByteArrayOutputStream bas = new ByteArrayOutputStream();
-//        PdfWriter.getInstance(document, bas);
-//        document.open();
-//        document.add(new Paragraph("test para \n"));
-//        Date newDate= new Date();
-//        String dateString= " newDate";
-//        document.add(new Paragraph("date : "+dateString));
-////        PdfTable table = new PdfTable();
-//        PdfPCell cell= new PdfPCell(new Paragraph("qsdfghjk", FontFactory.getFont("arial", 8, Font.BOLD, BaseColor.YELLOW)));
-////        cell.setHor
-//        
-//        
-//        
-//    }
-//    public void postProcessXLS(Object document) {
-//        HSSFWorkbook wb = (HSSFWorkbook) document;
-//        HSSFSheet sheet = wb.getSheetAt(0);
-//        CellStyle style = wb.createCellStyle();
-//        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
-//
-//        for (Row row : sheet) {
-//            for (Cell cell : row) {
-//                cell.setCellValue(cell.getStringCellValue().toUpperCase());
-//                cell.setCellStyle(style);
-//            }
-//        }
-//    }
-//
-//    public void preProcessPDF(Object document) throws FileNotFoundException, DocumentException {
-//
-//        Document doc =new Document();
-//        PdfWriter.getInstance(doc,new FileOutputStream("test.pdf"));
-//        doc.open();
-//        doc.add(new Paragraph("df"));
-////        doc.setPageSize(PageSize.LEGAL.rotate());
-////        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
-////        doc.addHeader("azerr", "aeaze");
-////        doc.addAuthor("autt");
-////        doc.addSubject("sujet");
-////        doc.addCreationDate(); // this did not work either.
-//
-//    }
     public CourrierArrivee prepareCreate() {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
@@ -470,6 +416,7 @@ public class CourrierArriveeController implements Serializable {
         modeTraitement = null;
         return selected;
     }
+
     public void redirectToCreate() throws IOException, java.io.IOException {
         SessionUtil.redirectNoXhtml("/Project/faces/secured/courrierArrivee/CreateCourrierArrivee.xhtml");
     }
@@ -487,16 +434,14 @@ public class CourrierArriveeController implements Serializable {
         setThisExpediteur(null);
     }
 
-    public void refreshCreate(){
+    public void refreshCreate() {
         setSelected(null);
         JsfUtil.addSuccessMessage("Enregisrement annulé");
     }
-    
+
 //    public void initialiseCode() {
 //        selected.setCodeA_V("'" + sousClasse.getNom() + abrev + annee + "'");
 //    }
-    
-    
     public void create() {
         selected.setCodeA_V(ejbFacade.generateCodeA(abrev, selected.getDateEnregistrement(), 12));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
