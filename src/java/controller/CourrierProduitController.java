@@ -6,6 +6,7 @@ import bean.DestinataireExpediteur;
 import bean.Finalite;
 import bean.SousClasse;
 import com.itextpdf.io.IOException;
+import com.itextpdf.text.pdf.PdfWriter;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.CourrierProduitFacade;
@@ -27,6 +28,7 @@ import javax.faces.convert.FacesConverter;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
 import controller.util.SessionUtil;
+import java.io.FileOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -76,6 +78,8 @@ public class CourrierProduitController implements Serializable {
     private boolean destinataireCheck = true;
     private boolean courrierArriveeCodeCheck;
     private boolean optionCheck;
+    private static String file;
+    private int i=0;
 
     @EJB
     private FinaliteFacade finaliteFacade;
@@ -290,8 +294,8 @@ public class CourrierProduitController implements Serializable {
     }
 
     public CourrierProduit getSelected() {
-        if(selected==null){
-            selected=new CourrierProduit();
+        if (selected == null) {
+            selected = new CourrierProduit();
         }
         return selected;
     }
@@ -350,10 +354,10 @@ public class CourrierProduitController implements Serializable {
         return finaliteFacade.findAll();
     }
 
-     public void redirectToCreate() throws IOException, java.io.IOException {
+    public void redirectToCreate() throws IOException, java.io.IOException {
         SessionUtil.redirectNoXhtml("/Project/faces/secured/courrierProduit/CreateCourrierProduit.xhtml");
     }
-    
+
     public void findSousClasseByClasse() {
         try {
             getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
@@ -373,30 +377,18 @@ public class CourrierProduitController implements Serializable {
 
     }
 
-    public void postProcessXLS(Object document) {
-        HSSFWorkbook wb = (HSSFWorkbook) document;
-        HSSFSheet sheet = wb.getSheetAt(0);
-        CellStyle style = wb.createCellStyle();
-        style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
-
-        for (Row row : sheet) {
-            for (Cell cell : row) {
-                cell.setCellValue(cell.getStringCellValue().toUpperCase());
-                cell.setCellStyle(style);
-            }
+    public void createPDF() {
+        try {
+            com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Courriers Produits" + Integer.toString(i) + ".pdf";
+            i++;
+            PdfWriter.getInstance(document, new FileOutputStream(file));
+            document.open();
+            ejbFacade.addTitlePage(document, items, n_ordreCheck, dateCrtCheck , objetCheck, dateEnvValiCheck, dateRetrCheck, etatCheck ,raisonCheck , codePCheck ,  dateEnvoiAuBTCheck, dateEnvoiParBTCheck, dateRetMinutBTCheck,n_EnvoiParBTCheck,sousClasseCheck,finaliteCheck ,destinataireCheck,courrierArriveeCodeCheck );
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    public void preProcessPDF(Object document) {
-
-        Document doc = (Document) document;
-        doc.setPageSize(PageSize.LEGAL.rotate());
-        doc.addTitle("Informe"); // i tried to add a title with this , but it did not work.
-        doc.addHeader("azerr", "aeaze");
-        doc.addAuthor("autt");
-        doc.addSubject("sujet");
-        doc.addCreationDate(); // this did not work either.
-
     }
 
     public void refresh() {
@@ -411,12 +403,11 @@ public class CourrierProduitController implements Serializable {
 //        setDateEnValidation(null);
 //        setDestinataire(null);
     }
-    
-     public void refreshCreate(){
+
+    public void refreshCreate() {
         setSelected(null);
         JsfUtil.addSuccessMessage("Enregisrement annulé");
     }
-    
 
 //     public void prepareView() {
 //        selected = null;

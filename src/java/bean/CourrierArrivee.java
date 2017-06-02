@@ -33,6 +33,9 @@ public class CourrierArrivee implements Serializable {
     private String motsCle;
     private String codeA_V;
     private String objet;
+
+    private String photo;
+
     private Long n_enregistrementDRHMG;
     private Long n_enregistrementBOW_TRANS_RLAN;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -56,6 +59,14 @@ public class CourrierArrivee implements Serializable {
 
     public void setCourrierProduits(List<CourrierProduit> courrierProduits) {
         this.courrierProduits = courrierProduits;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public Long getN_enregistrementDRHMG() {

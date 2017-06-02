@@ -16,7 +16,7 @@
 
         <ui:define name="body">
 
-            <b:panel title="Rechercher des Courriers Produit " class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;"  >
+            <b:panel look="info" title="Rechercher des Courriers Produit " class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;"  >
                 <h:form id="CourrierProduitSearchForm">
                     <b:panelGrid columns="6" >
 
@@ -124,39 +124,24 @@
             </b:panel>
             <br/>
 
-            <b:panel title=" Courrier Produit " class="panel-primary" style="text-align: center;" >
+            <b:panel  title=" Courrier Produit " class="panel-primary" style="text-align: center;" >
                 <h:form id="CourrierProduitListForm">
 
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.redirectToCreate()}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
-                        <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierProduitCheckForm" oncomplete="PF('CourrierProduitCheckDialog').show()" />
+                        <b:commandButton id="createButton"  value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.redirectToCreate()}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
+                        <b:commandButton id="chowColunmsButton" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierProduitCheckForm" oncomplete="PF('CourrierProduitCheckDialog').show()" />
                     </div>
+                    <b:commandButton  value="Report" action="#{courrierProduitController.createPDF()}" ajax="false" icon="icon-report" />
+                    <br/>
+                    <br/>
 
                     <p:dataTable id="datalist" value="#{courrierProduitController.items}" var="item"
                                  selectionMode="single" selection="#{courrierProduitController.selected}"
                                  rowKey="#{item.n_dordre}"
                                  rows="10"
-                                 widgetVar="courrierProduitTable"
-                                 emptyMessage="No cars found with given criteria" filteredValue="#{courrierProduitController.filteredCourrierP}"
                                  >
                         <f:facet name="header">  
                             <h:outputText value="Liste des Courriers Produits"/>  
-                            <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('courrierProduitTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                            </p:outputPanel>
-                            <div >
-                                <h:commandLink styleClass="icon-file-excel">
-
-                                    <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
-                                    <p:dataExporter type="xls" target="datalist"  fileName="Liste Courrier Produit" postProcessor="#{courrierProduitController.postProcessXLS}" />
-                                </h:commandLink>
-
-                                <h:commandLink styleClass="icon-file-pdf">
-                                    <h:graphicImage class="imagelink" id="imag2" value="/resources/images/icone-pdf.png" title="pdf" style="width:30px;height:30px" ></h:graphicImage>
-                                    <p:dataExporter type="pdf"  target="datalist" fileName="Liste Courrier Produit" preProcessor="#{courrierProduitController.preProcessPDF}" />
-                                </h:commandLink>
-                            </div>
                         </f:facet> 
 
                         <p:column rendered="#{courrierProduitController.n_ordreCheck eq true}" sortBy="#{item.n_dordre}">
@@ -274,19 +259,18 @@
                             <f:facet name="header">
                                 <h:outputText value="Option"/>
                             </f:facet>
-                            <p:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierProduitController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" />
+                            <b:commandButton style="margin: 1% 1% 1% 1%;" id="view" look="info" value="" ajax="true" icon-awesome="fa-info"   actionListener="#{courrierProduitController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierProduitViewForm" oncomplete="PF('CourrierProduitViewDialog').show()" />
                             <p:growl id="message" showDetail="true" />
-                            <p:commandButton  value="" onclick="return confirme();" id="deleteButton"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  >
+                            <p:commandButton style="height: 15px" icon="ui-icon-trash" value="" onclick="return confirme();" id="deleteButtonq"  actionListener="#{courrierProduitController.destroy(item)}" update=":growl,:CourrierProduitListForm:datalist"  >
                                 <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                             </p:commandButton>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="" update=":CourrierProduitEditForm" oncomplete="PF('CourrierProduitEditDialog').show()" disabled="#{empty courrierProduitController.selected}"/>
+                            <b:commandButton id="edit" style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{courrierProduitController.setSelected(item)}"  update=":CourrierProduitEditForm" oncomplete="PF('CourrierProduitEditDialog').show()" disabled="#{empty courrierProduitController.selected}"/>
 
 
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                             </p:confirmDialog>
-
                         </p:column>
                     </p:dataTable>
                 </h:form>

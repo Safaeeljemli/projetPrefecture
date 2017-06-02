@@ -16,7 +16,7 @@
 
         <ui:define name="body">
 
-            <b:panel title="Recherche des Courriers Arrivéees" class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;" >
+            <b:panel look="info" title="Recherche des Courriers Arrivéees" class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;" >
                 <h:form id="CourrierProduitSearchForm">
                     <b:panelGrid columns="6">
                         <!--test-->
@@ -105,13 +105,13 @@
             <br/>
 
 
-            <b:panel title=" Courrier Arrivee " class="panel-primary" style="text-align: center;" >
+            <b:panel  title=" Courrier Arrivee " class="panel-primary" style="text-align: center;" >
                 <h:form id="CourrierArriveeListForm">
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.redirectToCreate()}"  />
-                        <b:commandButton id="chowColunmsButton" style="width: 200px" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
+                        <b:commandButton id="createButton"  value="Create" icon-awesome="fa-floppy-o" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.redirectToCreate()}"  />
+                        <b:commandButton id="chowColunmsButton"  value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
                     </div>
-                        <b:commandButton value="Report" action="#{courrierArriveeController.createPDF()}" ajax="false" icon="icon-report" />
+                        <b:commandButton look="info" value="Report" action="#{courrierArriveeController.createPDF()}" ajax="false" icon="icon-report" />
                     <br/>
                     <br/>
                     <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item" 
@@ -119,6 +119,9 @@
                                  rowKey="#{item.n_enregistrement}"
                                  rows="10" 
                                  >
+                        <f:facet name="header">  
+                            <h:outputText value="Liste des Courriers Arrivées"/>  
+                        </f:facet> 
                         <p:column rendered="#{courrierArriveeController.n_enCheck eq true}" sortBy="#{item.n_enregistrement}" >
                             <f:facet name="header">
                                 <h:outputText value="_n_enregistrement"/>
@@ -211,11 +214,11 @@
                             <f:facet name="header">
                                 <h:outputText value="Option"/>
                             </f:facet>
-                            <p:commandButton  class="OptionButton" value="" id="viewButton" actionListener="#{courrierArriveeController.setSelected(item)}"   icon=" fa fa-eye" update=":growl,CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" />
+                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info" actionListener="#{courrierArriveeController.setSelected(item)}"    update=":growl,CourrierArriveeViewForm" oncomplete="PF('CourrierArriveeViewDialog').show()" />
 
                             <p:growl id="message" showDetail="true" />
 
-                            <p:commandButton  value=""  id="deleteButton"    actionListener="#{courrierArriveeController.destroy(item)}" update=":growl,:CourrierArriveeListForm:datalist"   >
+                            <p:commandButton  value=""  id="deleteButtona"   icon="ui-icon-trash"  actionListener="#{courrierArriveeController.destroy(item)}" update=":growl,:CourrierArriveeListForm:datalist"   >
                                 <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                             </p:commandButton>
 
@@ -226,9 +229,8 @@
 
 
 
-                            <p:commandButton id="editButton"   icon="fa-refresh" value="" update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" disabled="#{empty courrierArriveeController.selected}"/>
+                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{courrierArriveeController.setSelected(item)}"  update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" />
                         </p:column>
-
 
                     </p:dataTable>
 

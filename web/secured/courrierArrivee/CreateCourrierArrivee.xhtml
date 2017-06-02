@@ -17,7 +17,7 @@
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-1"></div>
                     <!--<div class="ui-grid-col-4">-->
-                    <h:form id="CourrierArriveeCreateForm">
+                    <h:form id="CourrierArriveeCreateForm" enctype="multipart/form-data" >
                         <h:panelGroup id="display">
                             <b:panelGrid columns="2" rendered="#{courrierArriveeController.selected != null}">
                                 <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
@@ -104,21 +104,20 @@
                                     </h:panelGrid>
                                 </p:fieldset>
                                 <p:fieldset legend="information" style="text-align: center;margin-top: 5%; margin-left: 20%;margin-right:20%;">
-                                    <!--                                    <h:panelGrid id="fileCourrier" columns="2" cellpadding="6" >
-                                                                            <p:outputLabel value="File" for="file1" />
-                                                                            <h:inputFile id="file1" value="{courrierArrivee.selected.file}">
-                                                                                <f:ajax listener="{courrierArrivee.save}" />
-                                                                            </h:inputFile>
-                                                                            <p:outputLabel value="File" for="file2" />
-                                                                            <h:inputFile id="file2" value="{courrierArrivee.selected.file}">
-                                                                                <f:ajax listener="{courrierArrivee.save}" />
-                                                                            </h:inputFile>
-                                    
-                                                                        </h:panelGrid>-->
+                                    <h:panelGrid id="fileCourrier" columns="2" cellpadding="6" >
+
+                                        <p:outputLabel value="File"  />
+                                        <!--<p:fileUpload id="ss" mode="simple"  value="{courrierArriveeController.uploadedFile}" sizeLimit="1000000"  allowTypes="/(\.|\/)(pdf)$/" />-->
+                                        <p:fileUpload id="photo" 
+                                                      value="#{courrierArriveeController.uploadedFile}" mode="simple" dragDropSupport="false"
+                                                      update="messages" allowTypes="/(\.|\/)(pdf)$/" required="true" requiredMessage="Erreur, Choisir une PHOTO" >
+                                            <p:growl id="messages" showDetail="true" />
+                                        </p:fileUpload>
+                                    </h:panelGrid>
                                 </p:fieldset>
                             </b:panelGrid>
                             <center>
-                                <p:commandButton actionListener="#{courrierArriveeController.create()}" style="margin: 10px" value="#{bundle.Save}" update="display,:CourrierArriveeCreateForm,:growl" />
+                                <p:commandButton ajax="false" actionListener="#{courrierArriveeController.create()}" style="margin: 10px" value="#{bundle.Save}" update="display,:CourrierArriveeCreateForm,:growl" />
                                 <p:commandButton value="#{bundle.Cancel}"  actionListener="#{courrierArriveeController.refreshCreate()}" update=":CourrierArriveeCreateForm" />
                             </center>
                         </h:panelGroup>

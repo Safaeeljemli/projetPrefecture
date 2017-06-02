@@ -10,6 +10,7 @@ import com.itextpdf.io.IOException;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
+import controller.util.ServerConfigUtil;
 import java.io.FileOutputStream;
 import service.CourrierArriveeFacade;
 
@@ -27,6 +28,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+
+import org.primefaces.event.FileUploadEvent;
 import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.ModeTraitementFacade;
@@ -35,6 +38,7 @@ import service.SousClasseFacade;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.util.ArrayList;
+import org.primefaces.model.UploadedFile;
 
 @Named("courrierArriveeController")
 @SessionScoped
@@ -57,7 +61,8 @@ public class CourrierArriveeController implements Serializable {
     private SousClasse sousClasse = null;
     private String abrev;
     private Long n_DRHMG;
-
+    private UploadedFile uploadedFile ;
+    
     private boolean dateDRHMGcheck = false;
     private boolean expediteurCheck = true;
     private boolean motsCleCheck = true;
@@ -87,7 +92,7 @@ public class CourrierArriveeController implements Serializable {
 
     private static String file;
 
-    
+    private List<FileUploadEvent> fileUploadEvents = new ArrayList<>();
 //    private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
 //            Font.BOLD);
 //    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -100,6 +105,23 @@ public class CourrierArriveeController implements Serializable {
     public CourrierArriveeController() {
     }
 
+    public List<FileUploadEvent> getFileUploadEvents() {
+        return fileUploadEvents;
+    }
+
+    public void setFileUploadEvents(List<FileUploadEvent> fileUploadEvents) {
+        this.fileUploadEvents = fileUploadEvents;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+    
+    
     public List getMyDataList() {
         return myDataList = items;
     }
@@ -374,7 +396,6 @@ public class CourrierArriveeController implements Serializable {
     public void findCourrierArrivee() {
         System.out.println("controller find");
         items = null;
-//        items = getFacade().findCourrier(modeTraitement);
         items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, sousClasse, thisExpediteur, modeTraitement, codeA);
         if (items == null) {
             System.out.println("no found");
@@ -385,23 +406,29 @@ public class CourrierArriveeController implements Serializable {
         }
     }
 
-//    public static final String RESULT = "results/part1/chapter01/hello.pdf";
     public void createPDF() {
         try {
             Document document = new Document();
-            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Courriers Arrivées"+Integer.toString(i)+".pdf";
+            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Courriers Arrivées" + Integer.toString(i) + ".pdf";
             i++;
             PdfWriter.getInstance(document, new FileOutputStream(file));
-
-//          ejbFacade.initFile();
             document.open();
-//            ejbFacade.addMetaData(document);
             ejbFacade.addTitlePage(document, items, expediteurCheck, motsCleCheck, objetCheck, modeTraitementCheck, n_DRHMGCheck, n_enCheck, n_BOW_TRANS_RLANcheck, codeA_Vcheck, dateEnregcheck, dateBOW_TRANS_RLANcheck, sousClasseCheck);
-//            ejbFacade.addContent(document);
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void upload(FileUploadEvent event) throws IOException {
+
+        System.out.println("locale upload ::: " + event.getFile().getFileName());
+        selected.setPhoto(event.getFile().getFileName());
+        System.out.println("path--->" + selected.getPhoto());
+        fileUploadEvents.add(event);
+
+        System.out.println("list event :: " + fileUploadEvents);
+
     }
 
     public CourrierArrivee prepareCreate() {
@@ -438,17 +465,31 @@ public class CourrierArriveeController implements Serializable {
         setSelected(null);
         JsfUtil.addSuccessMessage("Enregisrement annulé");
     }
+     public void upoadFiles() {
+        System.out.println("IN");
+        if (uploadedFile != null) {
+            System.out.println("ulpoad null");
 
-//    public void initialiseCode() {
-//        selected.setCodeA_V("'" + sousClasse.getNom() + abrev + annee + "'");
-//    }
-    public void create() {
+            String nameOfUp = uploadedFile.getFileName();
+            System.out.println(nameOfUp);
+            ServerConfigUtil.upload(uploadedFile, nameOfUp);
+            System.out.println("controller");
+            
+        }
+    }
+    public void create() throws java.io.IOException {
+        upoadFiles();
         selected.setCodeA_V(ejbFacade.generateCodeA(abrev, selected.getDateEnregistrement(), 12));
+//        selected.setPhoto(fileUploadEvents.get(0).getFile().getFileName() + "");
+//        selected.setPhoto(uploadedFile.getFileName() + "");        
+//ServerConfigUtil.upload(fileUploadEvents.get(0).getFile(), ServerConfigUtil.getCheminePhoto(selected, true), selected.getPhoto());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CourrierArriveeCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
+        fileUploadEvents = null;
+        fileUploadEvents = new ArrayList<>();
     }
 
     public void update() {
