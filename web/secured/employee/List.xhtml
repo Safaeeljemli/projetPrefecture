@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="../template.xhtml">
 
@@ -12,84 +13,94 @@
         <ui:define name="title">
             <h:outputText value="#{bundle.ListEmployeeTitle}"></h:outputText>
         </ui:define>
+        <f:metadata>
+            <f:viewAction action="#{employeeController.prepareCreate()}" />
+        </f:metadata>
 
         <ui:define name="body">
+            <b:growl id="hGrowl" />
             <h:form id="EmployeeListForm">
-                <p:panel header="#{bundle.ListEmployeeTitle}">
-                    <p:dataTable id="datalist" value="#{employeeController.items}" var="item"
-                                 selectionMode="single" selection="#{employeeController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+                <div class="ui-grid ui-grid-responsive">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-1"></div>
+                        <div class="ui-grid-col-10">
+                            <b:panel look="info"  collapsible="false" title="Users" style="margin-top: 5%;position: relative;align-self: center;">
+                                <b:dataTable ajax="true" id="datalist" value="#{employeeController.items}" var="item">
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nom}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_numPoste}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.numPoste}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_prenom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.prenom}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_cin}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cin}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_typeEmployee}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.typeEmployee}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_mail}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.mail}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_numTel}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.numTel}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_departement}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.departement}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_id}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn class="colData">
+                                        <f:facet name="header">
+                                            <h:outputText value="Option"/>
+                                        </f:facet>
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"  actionListener="#{employeeController.setSelected(item)}" update=":EmployeeViewForm" oncomplete="PF('EmployeeViewDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{employeeController.setSelected(item)}" update=":EmployeeEditForm" oncomplete="PF('EmployeeEditDialog').show()" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;"  look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"   actionListener="#{employeeController.destroy(item)}" update=":hGrowl,datalist" />
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                                <f:facet name="footer">
+                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true" value="#{bundle.Create}" actionListener="#{userController.prepareCreate}" update=":EmployeeCreateForm" oncomplete="PF('EmployeeCreateDialog').show()" />
+                                </f:facet>
+                            </b:panel>
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_numPoste}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numPoste}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_prenom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.prenom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_cin}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cin}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_typeEmployee}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.typeEmployee}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_mail}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.mail}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_numTel}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numTel}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_departement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.departement}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListEmployeeTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{employeeController.prepareCreate}" update=":EmployeeCreateForm" oncomplete="PF('EmployeeCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":EmployeeViewForm" oncomplete="PF('EmployeeViewDialog').show()" disabled="#{empty employeeController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EmployeeEditForm" oncomplete="PF('EmployeeEditDialog').show()" disabled="#{empty employeeController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{employeeController.destroy}" update=":growl,datalist" disabled="#{empty employeeController.selected}"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
+                        </div>
+                        <div class="ui-grid-col-1"></div>
+                    </div>
+                </div>
             </h:form>
+
+
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>

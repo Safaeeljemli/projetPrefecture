@@ -472,7 +472,7 @@ public class CourrierArriveeController implements Serializable {
 
             String nameOfUp = uploadedFile.getFileName();
             System.out.println(nameOfUp);
-            ServerConfigUtil.upload(uploadedFile, nameOfUp);
+            ServerConfigUtil.upload(uploadedFile,"C:\\Users\\safa\\Desktop\\test", nameOfUp);
             System.out.println("controller");
             
         }

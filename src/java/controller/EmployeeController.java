@@ -49,10 +49,13 @@ public class EmployeeController implements Serializable {
         return ejbFacade;
     }
 
-    public Employee prepareCreate() {
+//    public Employee prepareCreate() {
+//        selected = new Employee();
+//        initializeEmbeddableKey();
+//        return selected;
+//    }
+    public void prepareCreate() {
         selected = new Employee();
-        initializeEmbeddableKey();
-        return selected;
     }
 
     public void create() {

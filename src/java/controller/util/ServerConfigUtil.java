@@ -19,9 +19,10 @@ import org.primefaces.model.UploadedFile;
  */
 public class ServerConfigUtil {
 
-    private static String rootPath = "C:\\Users\\safa\\Desktop\\test";
-    public static void upload(UploadedFile uploadedFile, String nameOfUploadeFile) {
+    private static String rootPath ;
+    public static void upload(UploadedFile uploadedFile,String patt, String nameOfUploadeFile) {
         try {
+            rootPath=patt;
             String fileSavePath = rootPath + "\\" + nameOfUploadeFile;
             InputStream fileContent = uploadedFile.getInputstream();
             Path path = new File(fileSavePath).toPath();
