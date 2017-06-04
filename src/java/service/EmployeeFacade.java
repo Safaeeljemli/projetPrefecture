@@ -30,7 +30,10 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
     public EmployeeFacade() {
         super(Employee.class);
     }
-     public  List<Employee> findEncadrentByDepartement(Departement departement){
-        return  em.createQuery("SELECT e FROM Employee e WHERE e.departement.id='"+departement.getId()+"'").getResultList();
-}
+
+    public List<Employee> findEncadrentByDepartement(Departement departement) {
+        return em.createQuery("SELECT e FROM Employee e WHERE e.departement.id='" + departement.getId() + "'").getResultList();
+    }
+    
+    
 }

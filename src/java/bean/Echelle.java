@@ -6,10 +6,12 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -22,6 +24,11 @@ public class Echelle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String nom;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date debutEchellon;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date finEchellon;
 
     public Long getId() {
         return id;
@@ -29,6 +36,30 @@ public class Echelle implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Date getDebutEchellon() {
+        return debutEchellon;
+    }
+
+    public void setDebutEchellon(Date debutEchellon) {
+        this.debutEchellon = debutEchellon;
+    }
+
+    public Date getFinEchellon() {
+        return finEchellon;
+    }
+
+    public void setFinEchellon(Date finEchellon) {
+        this.finEchellon = finEchellon;
     }
 
     @Override
@@ -55,5 +86,5 @@ public class Echelle implements Serializable {
     public String toString() {
         return "bean.Echelle[ id=" + id + " ]";
     }
-    
+
 }

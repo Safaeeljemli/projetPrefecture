@@ -1,5 +1,6 @@
 package controller;
 
+import bean.Departement;
 import bean.Employee;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
@@ -27,11 +28,28 @@ public class EmployeeController implements Serializable {
     private service.EmployeeFacade ejbFacade;
     private List<Employee> items = null;
     private Employee selected;
+    private Departement departement;
+    @EJB
+    private service.DepartementFacade departementFacade;
 
     public EmployeeController() {
     }
 
+    public Departement getDepartement() {
+        if (departement == null) {
+            departement = new Departement();
+        }
+        return departement;
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
+    }
+
     public Employee getSelected() {
+        if (selected == null) {
+            selected = new Employee();
+        }
         return selected;
     }
 
@@ -54,6 +72,29 @@ public class EmployeeController implements Serializable {
 //        initializeEmbeddableKey();
 //        return selected;
 //    }
+    public void refresh() {
+        selected = null;
+        items = ejbFacade.findAll();
+        setDepartement(null);
+    }
+
+    public List<Departement> getDepartementAvailableSelectOne() {
+        return departementFacade.findAll();
+    }
+
+    public void findEmployee() {
+        System.out.println("controller find");
+        items = null;
+        items = getFacade().findEncadrentByDepartement(departement);
+        if (items == null) {
+            System.out.println("no found");
+            JsfUtil.addSuccessMessage("No Data Found");
+        } else {
+            System.out.println("succeee");
+            JsfUtil.addSuccessMessage("successe");
+        }
+    }
+
     public void prepareCreate() {
         selected = new Employee();
     }

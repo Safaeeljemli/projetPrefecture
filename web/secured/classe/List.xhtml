@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition template="../template.xhtml">
 
@@ -13,45 +14,85 @@
             <h:outputText value="#{bundle.ListClasseTitle}"></h:outputText>
         </ui:define>
 
+
         <ui:define name="body">
-            <h:form id="ClasseListForm">
-                <p:panel header="#{bundle.ListClasseTitle}">
-                    <p:dataTable id="datalist" value="#{classeController.items}" var="item"
-                                 selectionMode="single" selection="#{classeController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+            <div class="ui-grid">
+                <div class="ui-grid ui-grid-responsive">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-1"></div>
+                        <div class="ui-grid-col-10">
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                            <b:panel look="info"  collapsible="false" title="Classe" style="position: relative;align-self: center;">
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-4">
+                                        <div class="ui-grid-col-1"></div>
+                                        <h:form id="ClasseListForm">
+                                            <b:panel look="info"  collapsible="false" title="Classe" style="margin-top: 3%;position: relative;align-self: center;">
+                                                <b:dataTable ajax="true" page-length="5" page-length-menu="[5,10,15]" searching="false"  id="datalist" value="#{classeController.classesAvailableSelectOne}" var="item"  >
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListClasseTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListClasseTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{classeController.prepareCreate}" update=":ClasseCreateForm" oncomplete="PF('ClasseCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ClasseViewForm" oncomplete="PF('ClasseViewDialog').show()" disabled="#{empty classeController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ClasseEditForm" oncomplete="PF('ClasseEditDialog').show()" disabled="#{empty classeController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{classeController.destroy}" update=":growl,datalist" disabled="#{empty classeController.selected}"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
 
+
+                                                    <b:dataTableColumn class="colData">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="#{bundle.ListClasseTitle_nom}"/>
+                                                        </f:facet>
+                                                        <h:outputText value="#{item.nom}"/>
+                                                    </b:dataTableColumn>
+                                                    <b:dataTableColumn class="colData">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Options"/>
+                                                        </f:facet>
+                                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{classeController.setSelected(item)}" update=":ClasseEditForm" oncomplete="PF('ClasseEditDialog').show()" />
+                                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{classeController.findSousClasseByClasse(item)}" update=":SousClasseListForm:datalist" >
+                                                            <f:ajax  execute="@this" render="SecteurListForm" />
+                                                        </b:commandButton>
+                                                    </b:dataTableColumn>
+                                                </b:dataTable>
+                                                <f:facet name="footer">
+                                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true"  value="Create" actionListener="#{classeController.prepareCreate()}" update=":ClasseCreateForm" oncomplete="PF(':ClasseCreateForm').show()" />
+                                                </f:facet>
+                                            </b:panel>
+                                        </h:form>
+                                    </div>
+
+                                    <div class="ui-grid-col-4">
+                                        <h:form id="SousClasseListForm">
+                                            <b:panel look="info"  collapsible="false" title="Sous Classe" style="margin-top: 3%;position: relative;align-self: center;">
+                                                <b:dataTable ajax="true" page-length="5" page-length-menu="[5,10,15]"  searching="false" id="datalist" value="#{classeController.sousClasses}" var="item" >
+                                                    <b:dataTableColumn class="colData">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Nom"/>
+                                                        </f:facet>
+                                                        <h:outputText value="#{item.nom}"/>
+                                                    </b:dataTableColumn>
+                                                    <b:dataTableColumn class="colData">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Options"/>
+                                                        </f:facet>
+                                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{secteurController.setSelected(item)}" update=":SousClasseEditForm" oncomplete="PF('SousClasseEditDialog').show()" />
+                                                    </b:dataTableColumn>
+                                                </b:dataTable>
+                                                <f:facet name="footer">
+                                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true" value="Create" actionListener="#{classeController.prepareCreateSousClasse()}" update=":SousClasseCreateForm" oncomplete="PF('SousClasseCreateDialog').show()" />
+                                                </f:facet>
+                                            </b:panel>
+                                        </h:form>
+                                    </div>
+
+
+                                </div>
+                            </b:panel>
+
+                        </div>
+                        <div class="ui-grid-col-1"></div>
+                    </div>
+                </div>
+            </div>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
+            <ui:include src="../sousClasse/Create.xhtml"/>
+
         </ui:define>
     </ui:composition>
 

@@ -23,7 +23,7 @@
                                 <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
                                     <h:panelGrid id="propritairePanel" columns="2" cellpadding="6" >
                                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_n_enregistrement}" for="n_enregistrement" />
-                                        <p:inputText id="n_enregistrement"  placeholder="number"  value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrement}" />
+                                        <p:inputText id="n_enregistrement" disabled="true"  placeholder="number"  value="#{courrierArriveeController.selected.n_enregistrement}" title="#{bundle.CreateCourrierArriveeTitle_n_enregistrement}" />
                                         <p:outputLabel id="labelError" value="#{bundle.CreateCourrierArriveeLabel_n_enregistrementDRHMG} #{courrierArriveeController.errorMessage}" for="n_enregistrementDRHMG" >
                                         </p:outputLabel>
 

@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <link rel="shortout icon" type="image/x-icon" href="#{resource['img/logo.png']}" />
     <h:head>
         <title>Accueil</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
@@ -45,15 +46,17 @@
 
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <h:graphicImage class="imagelink"  value="/home/maroc.png"  style="width:30px;height:35px;padding-top: 1%"  ></h:graphicImage>
+                            <h:graphicImage class="imagelink"  value="/resources/images/logo.png"  style="width:75px;height:80px;padding-top: 1%"  ></h:graphicImage>
+                            <h:graphicImage class="imagelink" id="imag" value="/resources/images/marrakechSafi.png"  style="width:80%;height:70px" ></h:graphicImage>
+                            <p:commandLink action="#{userController.seDeConnnecter()}" value="Logout" style="position: absolute;right: 20px;margin: 4px 4px 4px "  ></p:commandLink>
                         </div>
-                        <a class="navbar-brand" href="#">INFORMATISER LA DIVISION</a>
                         <ul class="nav navbar-nav">
-                            <li><p:commandLink class="active" action="/user/Home" value="Home"></p:commandLink></li>
-                            <li><p:commandLink action="#{userController.seDeConnnecter()}" value="Logout"></p:commandLink></li>
+
                         </ul>
                     </div>
                 </nav>
+                <br/>
+                <br/>
                 <br/>
                 <br/>
                 <br/>
@@ -65,12 +68,22 @@
                 </center>
                 <br/>
                 <center>
-                    
+
                     <a href="/Project/faces/secured/stagiaire/List.xhtml">
                         <h:graphicImage class="imagelink" id="imag1" value="/resources/images/stagiaire.jpg" title="Stagiaire" style="width:130px;height:130px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
                     <a href="/Project/faces/secured/courrierArrivee/List.xhtml">
                         <h:graphicImage class="imagelink" id="imag2" value="/resources/images/courrier1.jpg" title="Courrier" style="width:130px;height:130px" ></h:graphicImage>
+                    </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    <a href="/Project/faces/secured/formation/List.xhtml">
+                        <h:graphicImage class="imagelink" id="imag3" value="/resources/images/formation.jpg" title="Formation" style="width:130px;height:130px" ></h:graphicImage>
+                    </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    <br/>
+                    <a href="/Project/faces/secured/employee/List.xhtml">
+                        <h:graphicImage class="imagelink" id="imag4" value="/resources/images/redevable1.png" title="Employées" style="width:130px;height:130px" ></h:graphicImage>
+                    </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    <a href="/Project/faces/secured/user/List.xhtml">
+                        <h:graphicImage class="imagelink" id="imag5" value="/resources/images/users.png" title="Utilisateur" style="width:130px;height:130px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
                 </center>
             </h:form>

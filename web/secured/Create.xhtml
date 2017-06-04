@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmailDlg" widgetVar="EmailDialog" modal="true" resizable="false" appendTo="@(body)" header="Nous-Contactez" >
+            <h:form id="EmailForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
+                        <p:outputLabel value="Objet" for="objet" />
+                        <p:inputText id="objet" value="#{userController.selected.nom}" >
+                            <f:validateRegex pattern="[A-Za-z ]*" />
+                        </p:inputText>
+                        <p:outputLabel value="Message" for="message" />
+                        <p:inputText id="message" value="#{userController.selected.prenom}" >
+                            <f:validateRegex pattern="[A-Za-z ]*" />
+                        </p:inputText>
+                        
+
+                    </h:panelGrid>
+                    <p:commandButton actionListener="Envoyer" value="#{bundle.Save}" update="display" oncomplete="handleSubmit(args,'EmailDialog');"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
