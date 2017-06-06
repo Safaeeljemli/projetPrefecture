@@ -5,6 +5,7 @@ import bean.Formateur;
 import bean.Formation;
 import bean.LieuFormation;
 import bean.OrganismeFormation;
+import bean.Position;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
 import controller.util.JsfUtil;
@@ -33,6 +34,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
+import org.primefaces.model.map.MapModel;
 
 @Named("formationController")
 @SessionScoped
@@ -48,6 +50,8 @@ public class FormationController implements Serializable {
     private service.OrganismeFormationFacade orgFacade;
     @EJB
     private service.ContactFacade contactFacade;
+    @EJB
+    private service.PositionFacade positionFacade;
     private List<Contact> contacts;
     private List<Formation> items = null;
     private Formation selected;
@@ -56,11 +60,18 @@ public class FormationController implements Serializable {
     private LieuFormation lieuF;
     private OrganismeFormation organisme;
     private Formateur formateur;
+    private Position position;
     private boolean nomB;
     private boolean dateB;
     private boolean lieuFB;
     private boolean organismeB;
     private boolean formateurB;
+    private String desabeledPosition = "false";
+    private boolean activateMarkeMethode = true;
+    private boolean isModification = false;
+    private MapModel emptyModel;
+    private Double lat = 0D;
+    private Double lng = 0D;
 
     public FormationController() {
     }
@@ -77,18 +88,22 @@ public class FormationController implements Serializable {
             System.out.println("success");
         }
     }
+
     //////contact f une formation
-    public void findParticipant(Formation formation){
-        contacts=contactFacade.findParticipant(formation);
-         JsfUtil.addSuccessMessage("Success");
+    public void findParticipant(Formation formation) {
+        contacts = contactFacade.findParticipant(formation);
+        JsfUtil.addSuccessMessage("Success");
     }
-     public void redirectToContact() throws IOException {
+
+    public void redirectToContact() throws IOException {
         SessionUtil.redirectNoXhtml("/Project/faces/contact/List.xhtml");
     }
-      public void redirectToCreate() throws IOException {
+
+    public void redirectToCreate() throws IOException {
         SessionUtil.redirectNoXhtml("/Project/faces/formation/CreateFormation.xhtml");
     }
 /////imprimer pdf
+
     public void postProcessXLS(Object document) {
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet sheet = wb.getSheetAt(0);
@@ -115,6 +130,66 @@ public class FormationController implements Serializable {
 
     }
 
+    public void toAddPosition() throws IOException {
+        setDesabeledPosition("false");
+        setIsModification(false);
+        SessionUtil.redirectNoXhtml("Map.xhtml");
+    }
+
+    public void cancelPositionAddition(boolean modification) throws IOException {
+        cancelCreation();
+        if (modification) {
+            setActivateMarkeMethode(false);
+            isModification = false;
+            SessionUtil.redirectNoXhtml("/Project/faces/secured/formation/CreateFormation.xhtml");
+        } else {
+            setActivateMarkeMethode(false);
+            redirect();
+        }
+    }
+
+    public void marke(boolean modification) throws IOException {
+        System.out.println("markk test");
+        if (activateMarkeMethode) {
+            System.out.println("activateMarkeMethode"+activateMarkeMethode);
+            setActivateMarkeMethode(false);
+            getPosition().setLat(getLat());
+            getPosition().setLng(getLng());
+
+            if (modification) {
+                System.out.println("modification "+modification);
+                positionFacade.remove(getSelected().getPosition());
+                getSelected().setPosition(getPosition());
+                positionFacade.create(getPosition());
+                getFacade().edit(getSelected());
+                cancelCreation();
+                isModification = false;
+                System.out.println("map test");
+                SessionUtil.redirectNoXhtml("/Project/faces/secured/formation/CreateFormation.xhtml");
+            } else {
+                getSelected().setPosition(getPosition());
+                positionFacade.create(getPosition());
+                getFacade().edit(getSelected());
+                cancelCreation();
+                redirect();
+            }
+        }
+    }
+
+    public void redirect() throws IOException {
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/formation/CreateFormation.xhtml");
+    }
+
+    public void cancelCreation() {
+        setSelected(null);
+        emptyModel = null;
+    }
+
+//    public void saveLocal() throws IOException {
+//        create();
+//        JsfUtil.addSuccessMessage("add location by Clicking on the local position in the Map");
+//        setDesabeledPosition("false");
+//    }
     ///avaibale ones
     public List<Formateur> getFormateursAvailableSelectMany() {
         return formateurFacade.findAll();
@@ -128,6 +203,50 @@ public class FormationController implements Serializable {
         return orgFacade.findAll();
     }
     ////getter and setter
+
+    public String getDesabeledPosition() {
+        return desabeledPosition;
+    }
+
+    public void setDesabeledPosition(String desabeledPosition) {
+        this.desabeledPosition = desabeledPosition;
+    }
+
+    public Position getPosition() {
+        if (position == null) {
+            position = new Position();
+        }
+        position.setId(positionFacade.generateId("Position", "id"));
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public MapModel getEmptyModel() {
+        return emptyModel;
+    }
+
+    public void setEmptyModel(MapModel emptyModel) {
+        this.emptyModel = emptyModel;
+    }
 
     public List<Contact> getContacts() {
         return contacts;
@@ -226,14 +345,30 @@ public class FormationController implements Serializable {
     }
 
     public Formation getSelected() {
-        if(selected==null){
-            selected= new Formation();
+        if (selected == null) {
+            selected = new Formation();
         }
         return selected;
     }
 
     public void setSelected(Formation selected) {
         this.selected = selected;
+    }
+
+    public boolean isActivateMarkeMethode() {
+        return activateMarkeMethode;
+    }
+
+    public void setActivateMarkeMethode(boolean activateMarkeMethode) {
+        this.activateMarkeMethode = activateMarkeMethode;
+    }
+
+    public boolean isIsModification() {
+        return isModification;
+    }
+
+    public void setIsModification(boolean isModification) {
+        this.isModification = isModification;
     }
 
     protected void setEmbeddableKeys() {
@@ -258,15 +393,14 @@ public class FormationController implements Serializable {
 //            items = null;    // Invalidate list of items to trigger re-query.
 //        }
 //    }
-     public void create() {
+    public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));
             getFacade().create(selected);
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
-     }
-   
+    }
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("FormationUpdated"));

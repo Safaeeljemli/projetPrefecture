@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PositionViewDlg" widgetVar="PositionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPositionTitle}">
+            <h:form id="PositionViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{positionController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPositionLabel_lat}"/>
+                        <h:outputText value="#{positionController.selected.lat}" title="#{bundle.ViewPositionTitle_lat}"/>
+                        <h:outputText value="#{bundle.ViewPositionLabel_lng}"/>
+                        <h:outputText value="#{positionController.selected.lng}" title="#{bundle.ViewPositionTitle_lng}"/>
+                        <h:outputText value="#{bundle.ViewPositionLabel_id}"/>
+                        <h:outputText value="#{positionController.selected.id}" title="#{bundle.ViewPositionTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewPositionLabel_formation}"/>
+                        <h:outputText value="#{positionController.selected.formation}" title="#{bundle.ViewPositionTitle_formation}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PositionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

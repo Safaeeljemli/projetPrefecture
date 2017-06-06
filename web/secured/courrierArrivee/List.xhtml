@@ -114,7 +114,7 @@
                         <b:commandButton look="info" value="Report" action="#{courrierArriveeController.createPDF()}" ajax="false" icon="icon-report" />
                     <br/>
                     <br/>
-                    <p:dataTable id="datalist" value="#{courrierArriveeController.items}" var="item" 
+                    <p:dataTable  id="datalist" value="#{courrierArriveeController.items}" var="item" 
                                  selectionMode="single" selection="#{courrierArriveeController.selected}"
                                  rowKey="#{item.n_enregistrement}"
                                  rows="10" 

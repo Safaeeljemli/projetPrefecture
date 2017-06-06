@@ -31,6 +31,9 @@ public class UserController implements Serializable {
     private service.UserFacade ejbFacade;
     private List<User> items = null;
     private User selected;
+    private User connectedUser;
+    private String objet;
+    private String msgEmail;
 
     public UserController() {
     }
@@ -63,6 +66,15 @@ public class UserController implements Serializable {
             SessionUtil.registerUser(selected);
             // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
             return "/secured/home/accueil?faces-redirect=true";
+        }
+    }
+    public void contactUs() {
+        System.out.println("test user");
+        int res = ejbFacade.contactUs(msgEmail,objet,getConnectedUser());
+        if (res > 0) {
+            JsfUtil.addSuccessMessage("Votre message a été envoyeravec succes " );
+        } else {
+            JsfUtil.addErrorMessage("Erreur de manipulation");
         }
     }
 
@@ -100,6 +112,10 @@ public class UserController implements Serializable {
 //    }
     public void prepareCreate() {
         selected = null;
+    }
+    public void prepareEmail() {
+        objet = null;
+        msgEmail = null;
     }
 
     public void create() {
@@ -163,6 +179,35 @@ public class UserController implements Serializable {
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
+    }
+
+    public String getObjet() {
+        return objet;
+    }
+
+    public void setObjet(String objet) {
+        this.objet = objet;
+    }
+
+    public String getMsgEmail() {
+        return msgEmail;
+    }
+
+    public void setMsgEmail(String msgEmail) {
+        this.msgEmail = msgEmail;
+    }
+    
+    
+
+    public User getConnectedUser() {
+        if (connectedUser == null) {
+            connectedUser = ejbFacade.find(SessionUtil.getConnectedUser().getLogin());
+        }
+        return connectedUser;
+    }
+
+    public void setConnectedUser(User connectedUser) {
+        this.connectedUser = connectedUser;
     }
 
     public User getUser(java.lang.String id) {

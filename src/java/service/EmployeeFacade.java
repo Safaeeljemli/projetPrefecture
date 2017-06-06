@@ -35,5 +35,12 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         return em.createQuery("SELECT e FROM Employee e WHERE e.departement.id='" + departement.getId() + "'").getResultList();
     }
     
+    public int deleteEmloyeee(Employee employee) {
+        System.out.println("User facade ");
+        remove(employee);
+        return 1;
+
+    }
+
     
 }

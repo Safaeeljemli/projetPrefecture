@@ -72,7 +72,7 @@
                                         </h:panelGroup>
                                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_modeTraitement}" for="modeTraitement" />
                                         <h:panelGroup id="modeTraitementCreate">
-                                            <p:commandButton id="uiu" icon="ui-icon-plus"   actionListener="#{modeTraitementController.prepareCreate}" update=":ModeTraitementCreateForm" oncomplete="PF('ModeTraitementCreateDialog').show()">
+                                            <p:commandButton id="uiu" icon="ui-icon-plus"   actionListener="#{modeTraitementController.prepareCreate}" update="@this,:ModeTraitementCreateForm" oncomplete="PF('ModeTraitementCreateDialog').show()">
                                             </p:commandButton>
                                             <p:selectOneMenu id="modeTraitement" value="#{courrierArriveeController.selected.modeTraitement}" >
                                                 <f:selectItems value="#{modeTraitementController.itemsAvailableSelectOne}"

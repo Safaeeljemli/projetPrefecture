@@ -25,18 +25,17 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("**************************************************************************");
         User user = SessionUtil.getConnectedUser();
         if (user == null ) {
-            System.out.println("----------------------------------------------------");
             String contextPath = ((HttpServletRequest) request).getContextPath();
-            ((HttpServletResponse) response).sendRedirect(contextPath+"/faces/index.xhtml");
+            ((HttpServletResponse) response).sendRedirect(contextPath+"/login.xhtml");
+//            ((HttpServletResponse) response).sendRedirect(contextPath+"/Login.xhtml");
         } else {
-            System.out.println("__________________________________________________");
             chain.doFilter(request, response);
         }
 
     }
+
 
     @Override
     public void destroy() {

@@ -24,7 +24,7 @@
                             <div class="ui-grid-col-1"></div>
                             <div class="ui-grid-col-10">
                                 <b:panel look="info"  collapsible="false" title="Users" style="margin-top: 5%;position: relative;align-self: center;">
-                                    <b:dataTable ajax="true" id="datalist" value="#{userController.items}" var="item">
+                                    <b:dataTable selectionMode="single" ajax="true" id="datalist" value="#{userController.items}" var="item">
                                         <b:dataTableColumn class="colData">
                                             <f:facet name="header">
                                                 <h:outputText value="Login"/>
@@ -71,6 +71,7 @@
 
 
             <ui:include src="Create.xhtml"/>
+            <ui:include src="Email.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
         </ui:define>

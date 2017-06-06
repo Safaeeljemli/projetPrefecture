@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="Map"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form>
+                <p:commandButton   id="CancelAddPosition" value="Cancel" action="#{formationController.cancelPositionAddition(formationController.isModification)}" style="margin-bottom:20px;margin-top:20px"  ></p:commandButton>
+            </h:form>
+
+            <h:form  prependId="false">
+                <p:growl id="messages" showDetail="true" life="2000"  />
+
+                <p:gmap center="31.625832802876324,-7.988905906677246" id="mapsearch" zoom="15" type="ROADMAP" model="#{formationController.emptyModel}" widgetVar="mapa" 
+                        style="width:100%;height:400px" onPointClick="handlePointClick(event);" fitBounds="true" >
+                </p:gmap> 
+
+                <p:remoteCommand name="onPoint" actionListener="#{formationController.marke(formationController.isModification)}" update=":growl,lat,lng" oncomplete="markerAddComplete()" />
+
+                <h:inputText id="lat" value="#{formationController.lat}" />
+                <h:inputText id="lng" value="#{formationController.lng}" />
+
+            </h:form>
+
+            <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBDNr0iHK-GjfC5Oj_D3Us6j6a1gxLDAg8" sensor="false"/>
+
+            <script type="text/javascript">
+                var currentMarker = null;
+                function handlePointClick(event) {
+                    if (navigator.geolocation) {
+                        browserSupportFlag = true;
+                        var latlng = event.latLng;
+                        geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({'latLng': latlng}, function (results, status)
+                        {
+                            if (status === google.maps.GeocoderStatus.OK)
+                            {
+                            alert("befor onPoint");
+                                onPoint([{name: 'lng', value: event.latLng.lng()}, {name: 'lat', value: event.latLng.lat()}]);
+                                alert("#{formtionController.lat}"+"dd");
+                            }
+                        });
+
+                    }
+                }
+                function markerAddComplete() {
+//                    alert("onComplete markerAddComplete");
+//                    alert("{localeController.lng}");
+                    if (currentMarker === null) {
+                        currentMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng("#{formationController.lat}", "#{formationController.lng}")
+                        });
+                        PF('mapa').addOverlay(currentMarker);
+                    }
+                    currentMarker.setTitle("#{formationController.selected.nom}");
+                    currentMarker = null;
+                }
+            </script>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -4,6 +4,33 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <context-param>
+        <param-name>net.bootsfaces.get_fontawesome_from_cdn</param-name>
+        <param-value>true</param-value>
+    </context-param>
+     <mime-mapping>  
+        <extension>woff2</extension>  
+        <mime-type>application/x-font-woff2</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>woff</extension>  
+        <mime-type>application/x-font-woff</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>eot</extension>  
+        <mime-type>application/x-font-eot</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>ttf</extension>  
+        <mime-type>application/x-font-ttf</mime-type>  
+    </mime-mapping>
+    <listener>
+        <listener-class>org.ocpsoft.rewrite.servlet.impl.RewriteServletRequestListener</listener-class>
+    </listener>
+     <listener>
+        <listener-class>org.ocpsoft.rewrite.servlet.impl.RewriteServletContextListener</listener-class>
+    </listener>
+
     <filter>
         <filter-name>OCPsoft Rewrite Filter</filter-name>
         <filter-class>org.ocpsoft.rewrite.servlet.RewriteFilter</filter-class>
@@ -53,27 +80,9 @@
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
     </context-param>
-    <context-param>
-        <param-name>net.bootsfaces.get_fontawesome_from_cdn</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <mime-mapping>  
-        <extension>woff2</extension>  
-        <mime-type>application/x-font-woff2</mime-type>  
-    </mime-mapping>
-    <mime-mapping>  
-        <extension>woff</extension>  
-        <mime-type>application/x-font-woff</mime-type>  
-    </mime-mapping>
-    <mime-mapping>  
-        <extension>eot</extension>  
-        <mime-type>application/x-font-eot</mime-type>  
-    </mime-mapping>
-    <mime-mapping>  
-        <extension>ttf</extension>  
-        <mime-type>application/x-font-ttf</mime-type>  
-    </mime-mapping>
-   
+<!--    <welcome-file-list>
+        <welcome-file>secured/home/accueil.xhtml</welcome-file>
+    </welcome-file-list>-->
     <!--    <context-param> 
             <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name> 
             <param-value>false</param-value> 

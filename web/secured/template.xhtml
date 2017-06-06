@@ -15,6 +15,7 @@
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>       
         <h:outputScript library="js" name="jsfcrud.js"/>
+        
     </h:head>
 
     <h:body>
@@ -73,6 +74,7 @@
 
                         <p:menuitem icon="fa fa-users" value="Gestion Stagiaire" outcome="/secured/stagiaire/List.xhtml" />
                         <p:menuitem icon="fa fa-user-plus" value="Gestion Formation" outcome="/secured/formation/List.xhtml" />
+                        <p:menuitem icon="fa fa-user" value="Gestion Employée" outcome="/secured/employee/List.xhtml" />
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
 
@@ -81,9 +83,11 @@
 
             <p:layoutUnit position="south" size="35">
                 <ui:insert name="footer"/>
+                <h:form>
                 <p:outputLabel value="E-Mail : wilaya.marrakech.asfi@gmail.com" style="color: #5F9EA0"/>
-                <p:commandLink action="#{userController.seDeConnnecter()}" value="Contactez-nous" style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 "  ></p:commandLink>
+                <p:commandLink   value="Contactez-nous" actionListener="#{userController.prepareCreate}"  style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 "  ></p:commandLink>
                 <!--<p:outputLabel style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 " value="Contactez-nous"  />-->
+                </h:form>
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
@@ -91,7 +95,7 @@
             </p:layoutUnit>
 
         </p:layout>
-
+        <!--<ui:include src="../user/Email.xhtml"/>-->
     </h:body>
 
 </html>

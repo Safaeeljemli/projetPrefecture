@@ -55,7 +55,7 @@
                         <b:panel look="info"  collapsible="false" title="Employées" style="margin-top: 5%;position: relative;align-self: center;">
                             
                             <h:form id="EmployeeListForm">
-                                <b:dataTable ajax="true" id="datalist" value="#{employeeController.items}" var="item">
+                                <b:dataTable selectionMode="single" ajax="true" id="datalist" value="#{employeeController.items}" var="item">
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
                                             <h:outputText value="#{bundle.ListEmployeeTitle_nom}"/>
@@ -117,6 +117,7 @@
                                         <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"  actionListener="#{employeeController.setSelected(item)}" update=":EmployeeViewForm" oncomplete="PF('EmployeeViewDialog').show()" />
                                         <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{employeeController.setSelected(item)}" update=":EmployeeEditForm" oncomplete="PF('EmployeeEditDialog').show()" />
                                         <b:commandButton style="margin: 1% 1% 1% 1%;"  look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"   actionListener="#{employeeController.destroy(item)}" update=":hGrowl,datalist" />
+                                        <b:commandButton style="margin: 1% 1% 1% 1%;"  look="info" value="" ajax="true" id="congeButton" icon-awesome="fa-trash-o"   actionListener="#{employeeController.demanderConge(item)}" update=":hGrowl,datalist" />
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <f:facet name="footer">

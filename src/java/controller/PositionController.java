@@ -1,10 +1,9 @@
 package controller;
 
-import bean.Departement;
-import bean.Employee;
+import bean.Position;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
-import service.EmployeeFacade;
+import service.PositionFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,40 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("employeeController")
+@Named("positionController")
 @SessionScoped
-public class EmployeeController implements Serializable {
+public class PositionController implements Serializable {
 
     @EJB
-    private service.EmployeeFacade ejbFacade;
-    private List<Employee> items = null;
-    private Employee selected;
-    private Departement departement;
-    @EJB
-    private service.DepartementFacade departementFacade;
+    private service.PositionFacade ejbFacade;
+    private List<Position> items = null;
+    private Position selected;
 
-    public EmployeeController() {
+    public PositionController() {
     }
 
-    public Departement getDepartement() {
-        if (departement == null) {
-            departement = new Departement();
-        }
-        return departement;
-    }
-
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
-    }
-
-    public Employee getSelected() {
-        if (selected == null) {
-            selected = new Employee();
-        }
+    public Position getSelected() {
         return selected;
     }
 
-    public void setSelected(Employee selected) {
+    public void setSelected(Position selected) {
         this.selected = selected;
     }
 
@@ -63,73 +45,36 @@ public class EmployeeController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private EmployeeFacade getFacade() {
+    private PositionFacade getFacade() {
         return ejbFacade;
     }
 
-//    public Employee prepareCreate() {
-//        selected = new Employee();
-//        initializeEmbeddableKey();
-//        return selected;
-//    }
-    public void refresh() {
-        selected = null;
-        items = ejbFacade.findAll();
-        setDepartement(null);
-    }
-
-    public List<Departement> getDepartementAvailableSelectOne() {
-        return departementFacade.findAll();
-    }
-
-    public void findEmployee() {
-        System.out.println("controller find");
-        items = null;
-        items = getFacade().findEncadrentByDepartement(departement);
-        if (items == null) {
-            System.out.println("no found");
-            JsfUtil.addSuccessMessage("No Data Found");
-        } else {
-            System.out.println("succeee");
-            JsfUtil.addSuccessMessage("successe");
-        }
-    }
-
-    public void prepareCreate() {
-        selected = new Employee();
+    public Position prepareCreate() {
+        selected = new Position();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EmployeeCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PositionCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EmployeeUpdated"));
-    }
-    
-    public void destroy(Employee employee) {
-        System.out.println("User Controller");
-        int res = ejbFacade.deleteEmloyeee(employee);
-        if (res > 0) {
-            JsfUtil.addSuccessMessage("User Deleted");
-            items = null;
-        } else {
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-        }
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("PositionUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("EmployeeDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PositionDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Employee> getItems() {
+    public List<Position> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -164,29 +109,29 @@ public class EmployeeController implements Serializable {
         }
     }
 
-    public Employee getEmployee(java.lang.Long id) {
+    public Position getPosition(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<Employee> getItemsAvailableSelectMany() {
+    public List<Position> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Employee> getItemsAvailableSelectOne() {
+    public List<Position> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Employee.class)
-    public static class EmployeeControllerConverter implements Converter {
+    @FacesConverter(forClass = Position.class)
+    public static class PositionControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            EmployeeController controller = (EmployeeController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "employeeController");
-            return controller.getEmployee(getKey(value));
+            PositionController controller = (PositionController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "positionController");
+            return controller.getPosition(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -206,11 +151,11 @@ public class EmployeeController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Employee) {
-                Employee o = (Employee) object;
+            if (object instanceof Position) {
+                Position o = (Position) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Employee.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Position.class.getName()});
                 return null;
             }
         }

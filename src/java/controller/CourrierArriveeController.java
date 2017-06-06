@@ -6,7 +6,6 @@ import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.ModeTraitement;
 import bean.SousClasse;
-import com.itextpdf.io.IOException;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
@@ -37,6 +36,7 @@ import service.SousClasseFacade;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.primefaces.model.UploadedFile;
 

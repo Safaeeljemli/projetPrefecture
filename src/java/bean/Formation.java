@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -27,20 +28,23 @@ public class Formation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private  String nom;
+    private String nom;
     @ManyToOne
     private LieuFormation lieuFormation;
     @ManyToOne
     private OrganismeFormation organismeFormation;
     @ManyToOne
-    private  Formateur formateur;
+    private Formateur formateur;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebut;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFin;
     @ManyToMany
     private List<Contact> participants;
-   ///getter and setter et fct predefinis
+    @OneToOne
+    private Position position;
+
+    ///getter and setter et fct predefinis
     public Long getId() {
         return id;
     }
@@ -56,7 +60,14 @@ public class Formation implements Serializable {
     public void setParticipants(List<Contact> participants) {
         this.participants = participants;
     }
-    
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 
     @Override
     public int hashCode() {
@@ -126,11 +137,9 @@ public class Formation implements Serializable {
         this.dateFin = dateFin;
     }
 
-    
-
     @Override
     public String toString() {
         return "bean.Formation[ id=" + id + " ]";
     }
-    
+
 }

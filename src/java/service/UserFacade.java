@@ -164,6 +164,7 @@ public class UserFacade extends AbstractFacade<User> {
                     + "</b></center><br/><br/><b><i>PS:</i></b>  SVP changer ce mot de passe apres que vous avez connecter pour des raison du securité .<br/> Cree votre propre mot de passe";
             try {
                 EmailUtil.sendMail("wilaya.marrakech.asfi@gmail.com", "wilayaAsfi", msg, email, "Demande de reanitialisation du mot de pass");
+//                wilayamarrakechsafi
             } catch (MessagingException ex) {
                 System.out.println("-2");
                 //  Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -176,6 +177,26 @@ public class UserFacade extends AbstractFacade<User> {
             return 1;
         }
     }
+    public int contactUs(String msgEmail,String objet,User user) {
+        if (user == null) {
+            System.out.println("user prob");
+            return -1;
+        } else {
+            String msg = "Bienvenu Mr. " + user.getNom() + ",<br/>"
+            + "Envoyée par " + user.getNom() + ",<br/>";
+                    
+            try {
+                EmailUtil.sendMail("wilayareclamation@gmail.com", "wilayamarrakechsafi", msg, "wilaya.marrakech.asfi@gmail.com", objet);
+            } catch (MessagingException ex) {
+                System.out.println("-2");
+                //  Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
+                return -2;
+            }
+
+            return 1;
+        }
+    }
+    
 
     public User findByEmail(String mail) {
         try {

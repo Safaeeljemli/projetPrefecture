@@ -9,22 +9,18 @@
 
     <ui:composition>
 
-        <p:dialog id="EmailDlg" widgetVar="EmailDialog" modal="true" resizable="false" appendTo="@(body)" header="Nous-Contactez" >
-            <h:form id="EmailForm">
+        <p:dialog id="EmailCntactDlg" widgetVar="EmailDialog" modal="true" resizable="false" appendTo="@(body)" header="Nous-Contactez" >
+            <h:form id="SendEmailForm">
                 <h:panelGroup id="display">
                     <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
                         <p:outputLabel value="Objet" for="objet" />
-                        <p:inputText id="objet" value="#{userController.selected.nom}" >
-                            <f:validateRegex pattern="[A-Za-z ]*" />
-                        </p:inputText>
+                        <p:inputText id="objet" value="#{userController.objet}" />
                         <p:outputLabel value="Message" for="message" />
-                        <p:inputText id="message" value="#{userController.selected.prenom}" >
-                            <f:validateRegex pattern="[A-Za-z ]*" />
-                        </p:inputText>
+                        <p:inputText id="message" value="#{userController.msgEmail}" />
                         
 
                     </h:panelGrid>
-                    <p:commandButton actionListener="Envoyer" value="#{bundle.Save}" update="display" oncomplete="handleSubmit(args,'EmailDialog');"/>
+                    <p:commandButton actionListener="#{userController.contactUs()}" value="Envoyer" update="display" oncomplete="handleSubmit(args,'EmailDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
