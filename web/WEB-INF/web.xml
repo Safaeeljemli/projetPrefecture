@@ -31,11 +31,11 @@
         <listener-class>org.ocpsoft.rewrite.servlet.impl.RewriteServletContextListener</listener-class>
     </listener>
 
-    <filter>
+<!--    <filter>
         <filter-name>OCPsoft Rewrite Filter</filter-name>
         <filter-class>org.ocpsoft.rewrite.servlet.RewriteFilter</filter-class>
         <async-supported>true</async-supported>
-    </filter>
+    </filter>-->
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>filter.LoginFilter</filter-class>

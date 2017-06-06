@@ -20,8 +20,8 @@
     <style >
         body {
             color:black;
-            /*background-color:weight;*/
-            background-image:url(white-background-01-4873.jpg);
+            
+
         }
     </style>
     <h:body style="background-color: #eeefee" >
@@ -45,7 +45,7 @@
                             <p:password id="password"  value="#{userController.selected.passwrd}"  class="form-control" />                                           
                         </b:panelGrid>
                         <b:commandButton class="btn btn-primary  form-control" style="font-size: 11pt;width: 200px;" icon="ui-icon-user" value="Sing in" action="#{userController.seConnecter()}"></b:commandButton><br></br><br></br>
-                        <p:commandLink    value="Forgot password?" action="user/ForgotPassword?faces-redirect=true" update=":growl"></p:commandLink><br/>
+                        <p:commandLink    value="Forgot password?" action="/secured/user/ForgotPassword.xhtml" update=":growl"></p:commandLink><br/>
                     </h:form>
                     <!--</p:panel>-->
                 </b:panel>
