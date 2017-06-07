@@ -8,6 +8,7 @@ package service;
 import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.Finalite;
+import bean.SousClasse;
 import controller.util.DateUtil;
 import controller.util.SearchUtil;
 import java.util.Date;
@@ -80,19 +81,13 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         return cloned;
     }
 
-    public List<CourrierProduit> findCourrierProduit(Date dateEnValidation, Date dateRetourDoc, Date dateEnBOW_TRANS, Date dateReMinuteBOW_TRANS, Finalite finalite, DestinataireExpediteur destinataire) {
+    public List<CourrierProduit> findCourrierProduit(Date dateMin, Date dateMax,  Finalite finalite, DestinataireExpediteur destinataire,int etat,SousClasse sousClasse) {
         String query = "Select cp FROM CourrierProduit cp WHERE 1=1";
-        if (dateEnValidation != null) {
-            query += " AND cp.dateEnvoiePourValidation = '" + dateEnValidation + "'";
+        if (dateMin != null) {
+            query += " AND cp.dateCreation >= '" + DateUtil.convertUtilToSql(dateMin) + "'";
         }
-        if (dateRetourDoc != null) {
-            query += " AND cp.dateRetourDocument = '" + dateRetourDoc + "'";
-        }
-        if (dateEnBOW_TRANS != null) {
-            query += " AND cp.dateEnvoiAuBOW_TRANS = '" + dateEnBOW_TRANS + "'";
-        }
-        if (dateReMinuteBOW_TRANS != null) {
-            query += " AND cp.dateRetourDeLaMinuteDuBOW_TRANS = '" + dateReMinuteBOW_TRANS + "'";
+        if (dateMax != null) {
+            query += " AND cp.dateCreation <= '" + DateUtil.convertUtilToSql(dateMax) + "'";
         }
         if (finalite != null) {
             query += SearchUtil.addConstraint("cp", "finalite.id", "=", finalite.getId());
@@ -101,6 +96,13 @@ public class CourrierProduitFacade extends AbstractFacade<CourrierProduit> {
         if (destinataire != null) {
             query += SearchUtil.addConstraint("cp", "destinataireExpediteur.id", "=", destinataire.getId());
         }
+        if (etat>0) {
+            query += SearchUtil.addConstraint("cp", "etat", "=", etat);
+        }
+        if (sousClasse != null) {
+            query += SearchUtil.addConstraint("cp", "sousClasse.id", "=", sousClasse.getId());
+        }
+        System.out.println("eeeeeeeee");
         return em.createQuery(query).getResultList();
 
     }

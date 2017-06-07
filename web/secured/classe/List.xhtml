@@ -44,7 +44,7 @@
                                                         </f:facet>
                                                         <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{classeController.setSelected(item)}" update=":ClasseEditForm" oncomplete="PF('ClasseEditDialog').show()" />
                                                         <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{classeController.findSousClasseByClasse(item)}" update=":SousClasseListForm:datalist" >
-                                                            <f:ajax  execute="@this" render="SecteurListForm" />
+                                                            <f:ajax  execute="@this" render=":SousClasseListForm" />
                                                         </b:commandButton>
                                                     </b:dataTableColumn>
                                                 </b:dataTable>
@@ -57,7 +57,7 @@
 
                                     <div class="ui-grid-col-4">
                                         <h:form id="SousClasseListForm">
-                                            <b:panel look="info"  collapsible="false" title="Sous Classe" style="margin-top: 3%;position: relative;align-self: center;">
+                                            <b:panel look="info"  collapsible="false" title="Sous Classe" style="margin-top: 3%;">
                                                 <b:dataTable ajax="true" page-length="5" page-length-menu="[5,10,15]"  searching="false" id="datalist" value="#{classeController.sousClasses}" var="item" >
                                                     <b:dataTableColumn class="colData">
                                                         <f:facet name="header">
@@ -69,7 +69,7 @@
                                                         <f:facet name="header">
                                                             <h:outputText value="Options"/>
                                                         </f:facet>
-                                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{secteurController.setSelected(item)}" update=":SousClasseEditForm" oncomplete="PF('SousClasseEditDialog').show()" />
+                                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{sousClasseController.setSelected(item)}" update=":SousClasseEditForm" oncomplete="PF('SousClasseEditDialog').show()" />
                                                     </b:dataTableColumn>
                                                 </b:dataTable>
                                                 <f:facet name="footer">
@@ -92,6 +92,7 @@
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
             <ui:include src="../sousClasse/Create.xhtml"/>
+            <ui:include src="../sousClasse/Edit.xhtml"/>
 
         </ui:define>
     </ui:composition>

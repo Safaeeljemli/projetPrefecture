@@ -42,32 +42,24 @@
                         </p:column>
                         <!--test-->
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date Creation:" for="dateC" />
+                            <p:outputLabel value="Date Min:" for="dateMin" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateC" value="#{courrierArriveeController.dateC}" navigator="true" pattern="MM/dd/yyyy" >
+                            <p:calendar id="dateMin" value="#{courrierArriveeController.dateMin}" navigator="true" pattern="MM/dd/yyyy" >
                             </p:calendar> 
                         </p:column>
 
 
 
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date DRHMG:" for="dateDRHMG" />
+                            <p:outputLabel value="Date Max:" for="dateMax" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateDRHMG" value="#{courrierArriveeController.dateDRHMG}" navigator="true" pattern="MM/dd/yyyy" >
+                            <p:calendar id="dateMax" value="#{courrierArriveeController.dateMax}" navigator="true" pattern="MM/dd/yyyy" >
                             </p:calendar> 
                         </p:column>
 
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date BTR:" for="dateBTR" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateBTR" value="#{courrierArriveeController.dateBTR}" navigator="true" pattern="MM/dd/yyyy " >
-                            </p:calendar> 
-                        </p:column>
 
-                        <!--test-->
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Classe" for="classe" />
                         </p:column>
@@ -78,7 +70,7 @@
                                 <f:selectItems value="#{courrierArriveeController.classesAvailableSelectOne}" var="itemClasse" itemValue="#{itemClasse}" itemLabel="#{itemClasse.nom}"/>
                             </p:selectOneMenu>
                         </p:column>
-
+<!--zfz-->
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Sous Classe" for="sousClasse" />
                         </p:column>

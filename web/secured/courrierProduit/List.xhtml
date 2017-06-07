@@ -21,7 +21,7 @@
                     <b:panelGrid columns="6" >
 
 
-
+<!--hgfds-->
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Destinataire" for="destinataire" />
                         </p:column>
@@ -41,7 +41,7 @@
                                 <f:selectItems value="#{courrierProduitController.finalitesAvailableSelectOne}" var="itemFinalite" itemValue="#{itemFinalite}" itemLabel="#{itemFinalite.nom}"/>
                             </p:selectOneMenu>
                         </p:column>
-
+<!--rez-->
                         <p:column styleClass="text-font">
                             <p:outputLabel value="Etat:" for="etat" />
                         </p:column>
@@ -54,37 +54,22 @@
                         </p:column>
 
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date envoi pour validation:" for="dateEnValidation" />
+                            <p:outputLabel value="Date Min:" for="dateMin" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateEnValidation" value="#{courrierProduitController.dateEnValidation}" navigator="true" pattern="MM/dd/yyyy " >
+                            <p:calendar id="dateMin" value="#{courrierProduitController.dateMin}" navigator="true" pattern="MM/dd/yyyy " >
                             </p:calendar> 
                         </p:column>
 
                         <p:column styleClass="text-font">
-                            <p:outputLabel value="Date RetourDoc:" for="dateRetourDoc" />
+                            <p:outputLabel value="Date Max:" for="dateMax" />
                         </p:column>
                         <p:column styleClass="text-font">
-                            <p:calendar id="dateRetourDoc" value="#{courrierProduitController.dateRetourDoc}" navigator="true" pattern="MM/dd/yyyy " >
+                            <p:calendar id="dateMax" value="#{courrierProduitController.dateMax}" navigator="true" pattern="MM/dd/yyyy " >
                             </p:calendar> 
                         </p:column>
 
 
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date envoi au BOW_TRANS:" for="dateEnBOW_TRANS" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateEnBOW_TRANS" value="#{courrierProduitController.dateEnBOW_TRANS}" navigator="true" pattern="MM/dd/yyyy " >
-                            </p:calendar> 
-                        </p:column>
-                        <!--test-->
-                        <p:column styleClass="text-font">
-                            <p:outputLabel value="Date ReMinuteBOW_TRANS:" for="dateReMinuteBOW_TRANS" />
-                        </p:column>
-                        <p:column styleClass="text-font">
-                            <p:calendar id="dateReMinuteBOW_TRANS" value="#{courrierProduitController.dateReMinuteBOW_TRANS}" navigator="true" pattern="MM/dd/yyyy " >
-                            </p:calendar> 
-                        </p:column>
 
 
                         <!--dgf-->

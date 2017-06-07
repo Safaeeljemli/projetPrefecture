@@ -50,9 +50,8 @@ public class CourrierArriveeController implements Serializable {
     private CourrierArrivee selected;
 
     private String errorMessage = "";
-    private Date dateC;
-    private Date dateDRHMG;
-    private Date dateBTR;
+    private Date dateMin;
+    private Date dateMax;
     private String codeA = null;
     private DestinataireExpediteur thisExpediteur = null;
     private ModeTraitement modeTraitement = null;
@@ -289,28 +288,20 @@ public class CourrierArriveeController implements Serializable {
         this.courrierProduit = courrierProduit;
     }
 
-    public Date getDateC() {
-        return dateC;
+    public Date getDateMin() {
+        return dateMin;
     }
 
-    public void setDateC(Date dateC) {
-        this.dateC = dateC;
+    public void setDateMin(Date dateMin) {
+        this.dateMin = dateMin;
     }
 
-    public Date getDateDRHMG() {
-        return dateDRHMG;
+    public Date getDateMax() {
+        return dateMax;
     }
 
-    public void setDateDRHMG(Date dateDRHMG) {
-        this.dateDRHMG = dateDRHMG;
-    }
-
-    public Date getDateBTR() {
-        return dateBTR;
-    }
-
-    public void setDateBTR(Date dateBTR) {
-        this.dateBTR = dateBTR;
+    public void setDateMax(Date dateMax) {
+        this.dateMax = dateMax;
     }
 
     public String getCodeA() {
@@ -396,7 +387,7 @@ public class CourrierArriveeController implements Serializable {
     public void findCourrierArrivee() {
         System.out.println("controller find");
         items = null;
-        items = getFacade().findCourrierArrivee(dateC, dateDRHMG, dateBTR, sousClasse, thisExpediteur, modeTraitement, codeA);
+        items = getFacade().findCourrierArrivee(dateMin, dateMax, sousClasse, thisExpediteur, modeTraitement, codeA);
         if (items == null) {
             System.out.println("no found");
             JsfUtil.addSuccessMessage("No Data Found");
@@ -435,9 +426,8 @@ public class CourrierArriveeController implements Serializable {
         selected = new CourrierArrivee();
         initializeEmbeddableKey();
         abrev = null;
-        dateC = null;
-        dateDRHMG = null;
-        dateBTR = null;
+        dateMin = null;
+        dateMax = null;
         codeA = null;
         thisExpediteur = null;
         modeTraitement = null;
@@ -454,9 +444,8 @@ public class CourrierArriveeController implements Serializable {
         setSousClasse(null);
         setClasse(null);
         setCodeA(null);
-        setDateDRHMG(null);
-        setDateBTR(null);
-        setDateC(null);
+        setDateMax(null);
+        setDateMin(null);
         setModeTraitement(null);
         setThisExpediteur(null);
     }

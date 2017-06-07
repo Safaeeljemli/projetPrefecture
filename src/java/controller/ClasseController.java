@@ -30,6 +30,7 @@ public class ClasseController implements Serializable {
     private service.ClasseFacade ejbFacade;
     private List<Classe> items = null;
     private Classe selected;
+    
 
     private Classe thisClasse;
     private List<SousClasse> sousClasses;
@@ -99,9 +100,14 @@ public class ClasseController implements Serializable {
     }
 
     public void findSousClasseByClasse(Classe classe) {
+        System.out.println("hanaaa");
         thisClasse=classe;
         try {
+            System.out.println("ssclass");
             classe.setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
+            if(classe.getSousClasses()!=null){
+                System.out.println(" sous class :!!!null");
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage("veiller choisire une classe");
         }

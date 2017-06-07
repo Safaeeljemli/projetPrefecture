@@ -61,7 +61,7 @@
                                     <h:panelGrid id="uii" columns="2" cellpadding="6" >
                                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_finalite}" for="finalite" />
                                         <p:selectOneMenu id="finalite" value="#{courrierProduitController.selected.finalite}" >
-                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
+                                            <f:selectItem  itemValue="" itemLabel="--SELECT--" />
                                             <f:selectItems value="#{finaliteController.itemsAvailableSelectOne}"
                                                            var="finaliteItem"
                                                            itemValue="#{finaliteItem}"/>

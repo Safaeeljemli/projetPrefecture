@@ -32,6 +32,7 @@ public class SousClasseFacade extends AbstractFacade<SousClasse> {
     }
 
     public List<SousClasse> findSousClasseByClasse(Classe classe) {
+        
         return em.createQuery("SELECT sc FROM SousClasse sc WHERE sc.classe.id='" + classe.getId() + "'").getResultList();
     }
 }

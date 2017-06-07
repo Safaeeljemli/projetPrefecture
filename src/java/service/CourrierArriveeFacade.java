@@ -90,19 +90,15 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         return em.createQuery(query).getResultList();
     }
 
-    public List<CourrierArrivee> findCourrierArrivee(Date dateC, Date dateDRHMG, Date dateBTR, SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement, String codeA) {
+    public List<CourrierArrivee> findCourrierArrivee(Date dateMin, Date dateMax,  SousClasse sousClasse, DestinataireExpediteur expediteur, ModeTraitement modeTraitement, String codeA) {
         System.out.println("facaaade");
         String query = "Select c FROM CourrierArrivee c WHERE 1=1";
-        if (dateC != null) {
+        if (dateMin != null) {
 //            query +=SearchUtil.addConstraintDate("c", "dateEnregistrement", "=",  DateUtil.convertUtilToSql(dateC) );
-            query += " AND c.dateEnregistrement <= '" + DateUtil.convertUtilToSql(dateC) + "'";
-            System.out.println("" + DateUtil.convertUtilToSql(dateC));
+            query += " AND c.dateEnregistrement >= '" + DateUtil.convertUtilToSql(dateMin) + "'";
         }
-        if (dateDRHMG != null) {
-            query += " AND c.dateEnregistrementDRHMG = '" + DateUtil.convertUtilToSql(dateDRHMG) + "'";
-        }
-        if (dateBTR != null) {
-            query += " AND c.dateEnregistrementBOW_TRANS_RLAN = '" + DateUtil.convertUtilToSql(dateBTR) + "'";
+        if (dateMax != null) {
+            query += " AND c.dateEnregistrement <= '" + DateUtil.convertUtilToSql(dateMax) + "'";
         }
         if (sousClasse != null) {
             query += " AND c.sousClasse.id='" + sousClasse.getId() + "'";

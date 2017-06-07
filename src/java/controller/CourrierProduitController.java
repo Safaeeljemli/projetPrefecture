@@ -5,7 +5,6 @@ import bean.CourrierProduit;
 import bean.DestinataireExpediteur;
 import bean.Finalite;
 import bean.SousClasse;
-//import com.itextpdf.io.IOException;
 import com.itextpdf.text.pdf.PdfWriter;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
@@ -25,17 +24,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
 import controller.util.SessionUtil;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
 import service.ClasseFacade;
 import service.DestinataireExpediteurFacade;
 import service.FinaliteFacade;
@@ -50,10 +41,8 @@ public class CourrierProduitController implements Serializable {
     private List<CourrierProduit> items = null;
     private List<CourrierProduit> filteredCourrierP = null;
     private CourrierProduit selected;
-    private Date dateEnValidation;
-    private Date dateRetourDoc;
-    private Date dateEnBOW_TRANS;
-    private Date dateReMinuteBOW_TRANS;
+    private Date dateMin;
+    private Date dateMax;
     private int etat;
     private Finalite finalite;
     private String codeP_V;
@@ -262,37 +251,22 @@ public class CourrierProduitController implements Serializable {
         this.etat = etat;
     }
 
-    public Date getDateEnValidation() {
-        return dateEnValidation;
+    public Date getDateMin() {
+        return dateMin;
     }
 
-    public void setDateEnValidation(Date dateEnValidation) {
-        this.dateEnValidation = dateEnValidation;
+    public void setDateMin(Date dateMin) {
+        this.dateMin = dateMin;
     }
 
-    public Date getDateRetourDoc() {
-        return dateRetourDoc;
+    public Date getDateMax() {
+        return dateMax;
     }
 
-    public void setDateRetourDoc(Date dateRetourDoc) {
-        this.dateRetourDoc = dateRetourDoc;
+    public void setDateMax(Date dateMax) {
+        this.dateMax = dateMax;
     }
 
-    public Date getDateEnBOW_TRANS() {
-        return dateEnBOW_TRANS;
-    }
-
-    public void setDateEnBOW_TRANS(Date dateEnBOW_TRANS) {
-        this.dateEnBOW_TRANS = dateEnBOW_TRANS;
-    }
-
-    public Date getDateReMinuteBOW_TRANS() {
-        return dateReMinuteBOW_TRANS;
-    }
-
-    public void setDateReMinuteBOW_TRANS(Date dateReMinuteBOW_TRANS) {
-        this.dateReMinuteBOW_TRANS = dateReMinuteBOW_TRANS;
-    }
 
     public CourrierProduit getSelected() {
         if (selected == null) {
@@ -369,7 +343,7 @@ public class CourrierProduitController implements Serializable {
 
     public void findCourrierProduit() {
         items = null;
-        items = ejbFacade.findCourrierProduit(dateEnValidation, dateRetourDoc, dateEnBOW_TRANS, dateReMinuteBOW_TRANS, finalite, destinataire);
+        items = ejbFacade.findCourrierProduit(dateMin, dateMax, finalite, destinataire,etat,sousClasse);
         if (items == null) {
             JsfUtil.addSuccessMessage("No Data Found");
         } else {
@@ -394,7 +368,7 @@ public class CourrierProduitController implements Serializable {
 
     public void refresh() {
         selected = null;
-        items = ejbFacade.findAll();
+        items = getFacade().findAll();
 //        setCodeP_V(null);
 //        setEtat(0);
 //        setFinalite(null);
@@ -427,6 +401,7 @@ public class CourrierProduitController implements Serializable {
 
     public CourrierProduit prepareCreate() {
         selected = new CourrierProduit();
+        abrev=null;
         initializeEmbeddableKey();
         return selected;
     }
