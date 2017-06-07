@@ -11,11 +11,13 @@ import bean.LieuFormation;
 import bean.OrganismeFormation;
 import controller.util.DateUtil;
 import controller.util.SearchUtil;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.primefaces.model.DefaultScheduleEvent;
 
 /**
  *
@@ -64,7 +66,6 @@ public class FormationFacade extends AbstractFacade<Formation> {
          formationDestination.setLieuFormation(formationSource.getLieuFormation());
          formationDestination.setNom(formationSource.getNom());
          formationDestination.setOrganismeFormation(formationSource.getOrganismeFormation());
-         formationDestination.setParticipants(formationSource.getParticipants());
                  
        }
 
@@ -73,5 +74,20 @@ public class FormationFacade extends AbstractFacade<Formation> {
         clone(formation, cloned);
         return cloned;
     }
-
+///
+     public List<DefaultScheduleEvent> convertir() {
+        List<Formation> formations = findAll();
+        List<DefaultScheduleEvent> l1 = new ArrayList<>();
+        for (Formation frt : formations) {
+            /* date de fin du event = date de debut + pas */
+            DefaultScheduleEvent event = new DefaultScheduleEvent(frt.getNom(), frt.getDateDebut(), frt.getDateFin());
+            event.setId("frt" + frt.getId());
+            event.setDescription("" + frt.getId());
+//            event.setDescription("rddvvv");
+            l1.add(event);
+        }
+       
+        return l1;
+    }
+    
 }

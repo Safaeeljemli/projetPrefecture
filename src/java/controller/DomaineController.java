@@ -32,6 +32,9 @@ public class DomaineController implements Serializable {
     }
 
     public Domaine getSelected() {
+        if(selected== null){
+            selected= new Domaine();
+        }
         return selected;
     }
 

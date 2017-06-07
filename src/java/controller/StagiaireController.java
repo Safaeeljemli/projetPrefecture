@@ -80,7 +80,11 @@ public class StagiaireController implements Serializable {
     public StagiaireController() {
     }
     
+
     public Stagiaire getSelected() {
+        if(selected==null){
+            selected=new Stagiaire();
+        }
         return selected;
     }
 
@@ -359,7 +363,7 @@ public class StagiaireController implements Serializable {
     }
     ////redirect
     public void redirectToCreate() throws IOException {
-        SessionUtil.redirectNoXhtml("/Project/faces/Stagiaire/CreateStagiaire.xhtml");
+        SessionUtil.redirectNoXhtml("/Project/faces/stagiaire/CreateStagiaire.xhtml");
     }
     ////pdf
         public void postProcessXLS(Object document) {

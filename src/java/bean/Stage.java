@@ -21,6 +21,9 @@ import javax.persistence.OneToMany;
 @Entity
 public class Stage implements Serializable {
 
+    @OneToMany(mappedBy = "stage")
+    private List<Tache> taches;
+
 
     private static final long serialVersionUID = 1L;
     @Id

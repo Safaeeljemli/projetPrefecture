@@ -32,6 +32,9 @@ public class EcoleController implements Serializable {
     }
 
     public Ecole getSelected() {
+        if(selected== null){
+            selected= new Ecole();
+        }
         return selected;
     }
 

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -34,7 +35,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
+
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+
 import org.primefaces.model.map.MapModel;
+
 
 @Named("formationController")
 @SessionScoped
@@ -45,6 +53,8 @@ public class FormationController implements Serializable {
     @EJB
     private service.FormateurFacade formateurFacade;
     @EJB
+    private service.FormationItemFacade formationItemFacade;
+    @EJB
     private service.LieuFormationFacade lff;
     @EJB
     private service.OrganismeFormationFacade orgFacade;
@@ -53,6 +63,7 @@ public class FormationController implements Serializable {
     @EJB
     private service.PositionFacade positionFacade;
     private List<Contact> contacts;
+    private List<Contact> selectedContacts;
     private List<Formation> items = null;
     private Formation selected;
     private Date dateDebut;
@@ -66,6 +77,11 @@ public class FormationController implements Serializable {
     private boolean lieuFB;
     private boolean organismeB;
     private boolean formateurB;
+    private ScheduleModel eventModel;
+    private String text = "";
+    private ScheduleModel lazyEventModel;
+
+    private ScheduleEvent event = new DefaultScheduleEvent();
     private String desabeledPosition = "false";
     private boolean activateMarkeMethode = true;
     private boolean isModification = false;
@@ -96,11 +112,15 @@ public class FormationController implements Serializable {
     }
 
     public void redirectToContact() throws IOException {
-        SessionUtil.redirectNoXhtml("/Project/faces/contact/List.xhtml");
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/contact/List.xhtml");
     }
 
     public void redirectToCreate() throws IOException {
-        SessionUtil.redirectNoXhtml("/Project/faces/formation/CreateFormation.xhtml");
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/formation/CreateFormation.xhtml");
+    }
+
+    public void redirectToCalendrier() throws IOException {
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/formation/Schedule.xhtml");
     }
 /////imprimer pdf
 
@@ -130,6 +150,24 @@ public class FormationController implements Serializable {
 
     }
 
+    //dstroy
+    public void destroy(Formation item) {
+        getFacade().remove(item);
+        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FormationDeleted"));
+        items = null;    // Invalidate list of items to trigger re-query.
+    }
+////Schedule
+
+    @PostConstruct
+    public void init() {
+        eventModel = new DefaultScheduleModel();
+        items = ejbFacade.findAll();
+        List<DefaultScheduleEvent> events = ejbFacade.convertir();
+        for (DefaultScheduleEvent event1 : events) {
+            eventModel.addEvent(event1);
+        }
+    }
+//Map
     public void toAddPosition() throws IOException {
         setDesabeledPosition("false");
         setIsModification(false);
@@ -208,6 +246,14 @@ public class FormationController implements Serializable {
         return desabeledPosition;
     }
 
+    public List<Contact> getSelectedContacts() {
+        return selectedContacts;
+    }
+
+    public void setSelectedContacts(List<Contact> selectedContacts) {
+        this.selectedContacts = selectedContacts;
+    }
+
     public void setDesabeledPosition(String desabeledPosition) {
         this.desabeledPosition = desabeledPosition;
     }
@@ -248,12 +294,44 @@ public class FormationController implements Serializable {
         this.emptyModel = emptyModel;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public List<Contact> getContacts() {
         return contacts;
     }
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
+    }
+
+    public ScheduleModel getLazyEventModel() {
+        return lazyEventModel;
+    }
+
+    public void setLazyEventModel(ScheduleModel lazyEventModel) {
+        this.lazyEventModel = lazyEventModel;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
     }
 
     public boolean isNomB() {
@@ -389,15 +467,26 @@ public class FormationController implements Serializable {
 
 //    public void create() {
 //        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+//        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+//
 //        if (!JsfUtil.isValidationFailed()) {
 //            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//
+//    }
+//     public void create() {
+//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            getItems().add(ejbFacade.clone(selected));
+//            getFacade().create(selected);
+//            prepareCreate();    // Invalidate list of items to trigger re-query.
 //        }
 //    }
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
         if (!JsfUtil.isValidationFailed()) {
             getItems().add(ejbFacade.clone(selected));
-            getFacade().create(selected);
+            formationItemFacade.saveFItem(contacts, selected);
             prepareCreate();    // Invalidate list of items to trigger re-query.
         }
     }
@@ -459,6 +548,7 @@ public class FormationController implements Serializable {
 
     public List<Formation> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+
     }
 
     @FacesConverter(forClass = Formation.class)

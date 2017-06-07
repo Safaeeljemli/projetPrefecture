@@ -19,12 +19,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+
 @Named("contactController")
 @SessionScoped
 public class ContactController implements Serializable {
 
-    @EJB
-    private service.ContactFacade ejbFacade;
+
+    @EJB private service.ContactFacade ejbFacade;
     private List<Contact> items = null;
     private Contact selected;
 
@@ -39,6 +40,12 @@ public class ContactController implements Serializable {
         this.selected = selected;
     }
 
+      public void destroy(Contact item) {
+        getFacade().remove(item);
+        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ContactDeleted"));
+        items = null;    // Invalidate list of items to trigger re-query.
+    }
+    
     protected void setEmbeddableKeys() {
     }
 
@@ -121,7 +128,7 @@ public class ContactController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Contact.class)
+    @FacesConverter(forClass=Contact.class)
     public static class ContactControllerConverter implements Converter {
 
         @Override
@@ -129,7 +136,7 @@ public class ContactController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ContactController controller = (ContactController) facesContext.getApplication().getELResolver().
+            ContactController controller = (ContactController)facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "contactController");
             return controller.getContact(getKey(value));
         }

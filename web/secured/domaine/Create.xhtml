@@ -12,18 +12,16 @@
             <h:form id="DomaineCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{domaineController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateDomaineLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{domaineController.selected.id}" title="#{bundle.CreateDomaineTitle_id}" />
                         <p:outputLabel value="#{bundle.CreateDomaineLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{domaineController.selected.nom}" title="#{bundle.CreateDomaineTitle_nom}" />
                         <p:outputLabel value="#{bundle.CreateDomaineLabel_ecole}" for="ecole" />
                         <p:selectOneMenu id="ecole" value="#{domaineController.selected.ecole}" >
                             <f:selectItems value="#{ecoleController.itemsAvailableSelectOne}"
                                            var="ecoleItem"
-                                           itemValue="#{ecoleItem}"/>
+                                           itemValue="#{ecoleItem.nom}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{domaineController.create}" value="#{bundle.Save}" update="display,:DomaineListForm:datalist,:growl" oncomplete="handleSubmit(args,'DomaineCreateDialog');"/>
+                    <p:commandButton actionListener="#{domaineController.create}" value="#{bundle.Save}" update=":StagiaireCreateForm,:growl" oncomplete="handleSubmit(args,'DomaineCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DomaineCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:form>
+        <p:growl id="messages" showDetail="true" />
+
+        <h:panelGrid columnClasses="value">
+            <p:commandButton id="CreateButton"  value="Create"   icon="fa fa-floppy-o" actionListener="#{formationController.redirectToCreate()}" />
+            <p:schedule id="scheduleLocale" value="#{formationController.eventModel}" locale="fr" />
+        </h:panelGrid>
+    </h:form>
+    <script type="text/javascript">
+        PrimeFaces.locales ['fr'] = { closeText: 'Fermer', prevText: 'Précédent', nextText: 'Suivant', monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ], monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ], dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'], dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'], dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'], weekHeader: 'Semaine', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix:'', timeOnlyTitle: 'Choisir l\'heure', timeText: 'Heure', hourText: 'Heures', minuteText: 'Minutes', secondText: 'Secondes', currentText: 'Maintenant', ampm: false, month: 'Mois', week: 'Semaine', day: 'Jour', allDayText: 'Toute la journée' };
+    </script>
+    <style type="text/css">
+        .value {
+            width: 1000px;
+        }
+    </style>
+</html>
+
