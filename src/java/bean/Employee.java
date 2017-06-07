@@ -35,7 +35,7 @@ public class Employee implements Serializable {
     private String cin;
     private int typeEmployee;//1=chefDep   2=personnel 
     private String mail;
-    private Long numTel;
+    private String numTel;
     private int numPoste;
      @OneToMany(mappedBy = "employee")
     private List<Formateur> formateurs;
@@ -104,11 +104,11 @@ public class Employee implements Serializable {
         this.mail = mail;
     }
 
-    public Long getNumTel() {
+    public String getNumTel() {
         return numTel;
     }
 
-    public void setNumTel(Long numTel) {
+    public void setNumTel(String numTel) {
         this.numTel = numTel;
     }
 

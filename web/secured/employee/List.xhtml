@@ -19,42 +19,30 @@
 
         <ui:define name="body">
             <b:growl id="hGrowl" />
-            <div class="ui-grid ui-grid-responsive">
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-1"></div>
-                    <div class="ui-grid-col-10">
-                        <b:panel look="info"  collapsible="false" title="Recherche" style="margin-top: 5%;position: relative;align-self: center;">
-                            <h:form id="EmployeeSearchForm">
-                                <b:panelGrid columns="6">
-                                    <!--test-->
+            <h:form id="EmployeeListForm">
+                <div class="ui-grid ui-grid-responsive">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-1"></div>
+                        <div class="ui-grid-col-10">
+                            <b:panel look="info"  collapsible="false" title="Employées" style="margin-top: 5%;position: relative;align-self: center;">
+                                <center>
+                                    <p:panelGrid columns="4">
 
-                                    <p:column styleClass="text-font">
-                                        <p:outputLabel value="Département" for="departement" />
-                                    </p:column>
-                                    <p:column styleClass="text-font">
-                                        <p:selectOneMenu id="departement"   value="#{employeeController.departement}" >
-                                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                                            <f:selectItems value="#{employeeController.departementAvailableSelectOne}" var="itemDepartement" itemValue="#{itemDepartement}" itemLabel="#{itemDepartement.nom}"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-
-
+                                        <p:column styleClass="text-font">
+                                            <p:outputLabel value="Département" for="departement1" />
+                                        </p:column>
+                                        <p:column styleClass="text-font">
+                                            <p:selectOneMenu id="departement1"   value="#{employeeController.departement}" >
+                                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                                <f:selectItems value="#{employeeController.departementAvailableSelectOne}" var="itemDepartement" itemValue="#{itemDepartement}" itemLabel="#{itemDepartement.nom}"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
 
 
-                                </b:panelGrid>
-
-                                <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
-                                    <br></br>
-                                    <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{employeeController.findEmployee()}" update=":EmployeeListForm:datalist"></b:commandButton>
-                                    <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{employeeController.refresh()}" update="EmployeeSearchForm,:EmployeeListForm"></b:commandButton>
-                                </div>
-
-                            </h:form>
-                        </b:panel>
-
-                        <b:panel look="info"  collapsible="false" title="Employées" style="margin-top: 5%;position: relative;align-self: center;">
-                            
-                            <h:form id="EmployeeListForm">
+                                        <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{employeeController.findEmployee()}" update="EmployeeListForm:datalist"/>
+                                        <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{employeeController.refresh()}" update="EmployeeListForm"></b:commandButton>
+                                    </p:panelGrid>
+                                </center>
                                 <b:dataTable selectionMode="single" ajax="true" id="datalist" value="#{employeeController.items}" var="item">
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
@@ -64,33 +52,21 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListEmployeeTitle_numPoste}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.numPoste}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn class="colData">
-                                        <f:facet name="header">
                                             <h:outputText value="#{bundle.ListEmployeeTitle_prenom}"/>
                                         </f:facet>
                                         <h:outputText value="#{item.prenom}"/>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListEmployeeTitle_cin}"/>
+                                            <h:outputText value="#{bundle.ListEmployeeTitle_numPoste}"/>
                                         </f:facet>
-                                        <h:outputText value="#{item.cin}"/>
+                                        <h:outputText value="#{item.numPoste}"/>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
                                             <h:outputText value="#{bundle.ListEmployeeTitle_typeEmployee}"/>
                                         </f:facet>
                                         <h:outputText value="#{item.typeEmployee}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn class="colData">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListEmployeeTitle_mail}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.mail}"/>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
@@ -106,12 +82,6 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn class="colData">
                                         <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListEmployeeTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn class="colData">
-                                        <f:facet name="header">
                                             <h:outputText value="Option"/>
                                         </f:facet>
                                         <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true" icon-awesome="fa-info"  actionListener="#{employeeController.setSelected(item)}" update=":EmployeeViewForm" oncomplete="PF('EmployeeViewDialog').show()" />
@@ -121,19 +91,14 @@
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <f:facet name="footer">
-                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true" value="#{bundle.Create}" actionListener="#{userController.prepareCreate}" update=":EmployeeCreateForm" oncomplete="PF('EmployeeCreateDialog').show()" />
+                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true" value="#{bundle.Create}" actionListener="#{employeeController.prepareCreate}" update=":EmployeeCreateForm" oncomplete="PF('EmployeeCreateDialog').show()" />
                                 </f:facet>
-                            </h:form>
-                        </b:panel>
-
-
-
-
+                            </b:panel>
+                        </div>
+                        <div class="ui-grid-col-1"></div>
                     </div>
-                    <div class="ui-grid-col-1"></div>
                 </div>
-            </div>
-
+            </h:form>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
