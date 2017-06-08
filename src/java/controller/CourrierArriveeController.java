@@ -77,6 +77,7 @@ public class CourrierArriveeController implements Serializable {
     private boolean optionCheck = true;
     private boolean testCheck = true;
 
+    
     private int i = 0;
     private List myDataList = new ArrayList<>();
 
@@ -376,6 +377,23 @@ public class CourrierArriveeController implements Serializable {
     }
 
     //methods 
+    
+    
+    public boolean validate(CourrierArrivee selected){
+        boolean res=false;
+        System.out.println("befor false");
+        
+            if(selected.getSousClasse()!=null){
+                System.out.println("sous Class ");
+            }
+            if(selected.getDateEnregistrement()!=null){
+                res=true;
+                System.out.println("trrue");
+            }
+        
+        return res;
+    }
+            
     public void findSousClasseByClasse() {
         try {
             getClasse().setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
