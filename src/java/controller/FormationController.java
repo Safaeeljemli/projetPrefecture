@@ -15,6 +15,7 @@ import java.io.IOException;
 import service.FormationFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -80,7 +81,6 @@ public class FormationController implements Serializable {
     private ScheduleModel eventModel;
     private String text = "";
     private ScheduleModel lazyEventModel;
-
     private ScheduleEvent event = new DefaultScheduleEvent();
     private String desabeledPosition = "false";
     private boolean activateMarkeMethode = true;
@@ -88,10 +88,8 @@ public class FormationController implements Serializable {
     private MapModel emptyModel;
     private Double lat = 0D;
     private Double lng = 0D;
-
     public FormationController() {
     }
-
     //recherche dial Formation
     public void findFormation() {
         System.out.println(":: search :: ");
@@ -103,12 +101,22 @@ public class FormationController implements Serializable {
             JsfUtil.addSuccessMessage("successe");
             System.out.println("success");
         }
+        contacts = null;
     }
 
     //////contact f une formation
     public void findParticipant(Formation formation) {
+        System.out.println("findParticipant");
         contacts = contactFacade.findParticipant(formation);
         JsfUtil.addSuccessMessage("Success");
+         if (contacts.isEmpty() || contacts == null) {
+            JsfUtil.addErrorMessage("failed");
+                         System.out.println("fail");
+
+        } else {
+            JsfUtil.addSuccessMessage("Success");
+             System.out.println("reussi");
+        }
     }
 
     public void redirectToContact() throws IOException {
@@ -247,6 +255,11 @@ public class FormationController implements Serializable {
     }
 
     public List<Contact> getSelectedContacts() {
+        if(selectedContacts==null){
+                    System.out.println("contacts null");
+
+            selectedContacts=  new ArrayList();
+        } System.out.println("contacts");
         return selectedContacts;
     }
 
@@ -462,18 +475,19 @@ public class FormationController implements Serializable {
     public Formation prepareCreate() {
         selected = new Formation();
         initializeEmbeddableKey();
+        contacts = null;
         return selected;
     }
 
-//    public void create() {
-//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
-//        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
-//
-//        if (!JsfUtil.isValidationFailed()) {
-//            items = null;    // Invalidate list of items to trigger re-query.
-//        }
-//
-//    }
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+             formationItemFacade.saveFItem(selectedContacts, selected);
+        }
+   }
 //     public void create() {
 //        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
 //        if (!JsfUtil.isValidationFailed()) {
@@ -482,14 +496,14 @@ public class FormationController implements Serializable {
 //            prepareCreate();    // Invalidate list of items to trigger re-query.
 //        }
 //    }
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            getItems().add(ejbFacade.clone(selected));
-            formationItemFacade.saveFItem(contacts, selected);
-            prepareCreate();    // Invalidate list of items to trigger re-query.
-        }
-    }
+//    public void create() {
+//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            getItems().add(ejbFacade.clone(selected));
+//            formationItemFacade.saveFItem(selectedContacts, selected);
+//            prepareCreate();    // Invalidate list of items to trigger re-query.
+//        }
+//    }
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("FormationUpdated"));

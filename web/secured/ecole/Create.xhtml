@@ -15,7 +15,7 @@
                         <p:outputLabel value="#{bundle.CreateEcoleLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{ecoleController.selected.nom}" title="#{bundle.CreateEcoleTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{ecoleController.create}" value="#{bundle.Save}" update=":StagiaireCreateForm,:growl" oncomplete="handleSubmit(args,'EcoleCreateDialog');"/>
+                    <p:commandButton actionListener="#{ecoleController.create}" value="#{bundle.Save}" update=":StagiaireCreateForm" oncomplete="handleSubmit(args,'EcoleCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EcoleCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -48,7 +48,7 @@ public class UserController implements Serializable {
             } else {
 
                 JsfUtil.addSuccessMessage("loook your email");
-                return "/index?faces-redirect=true";
+                return "/login.xhtml";
             }
         }
         return null;
@@ -61,7 +61,7 @@ public class UserController implements Serializable {
         int res1 = (int) res[0];
         if (res1 < 0) {
             JsfUtil.addErrorMessage("le code de l'erreur " + res1);
-            return "/index?faces-redirect=true";
+            return "/login.xhtml";
         } else {
             SessionUtil.registerUser(selected);
             // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));

@@ -24,12 +24,6 @@
                         <p:inputText id="mail" value="#{contactController.selected.mail}" title="#{bundle.CreateContactTitle_mail}" />
                         <p:outputLabel value="#{bundle.CreateContactLabel_poste}" for="poste" />
                         <p:inputText id="poste" value="#{contactController.selected.poste}" title="#{bundle.CreateContactTitle_poste}" />
-                        <p:outputLabel value="#{bundle.CreateContactLabel_employe}" for="employe" />
-                        <p:selectOneMenu id="employe" value="#{contactController.selected.employe}" >
-                            <f:selectItems value="#{employeeController.itemsAvailableSelectOne}"
-                                           var="employeItem"
-                                           itemValue="#{employeItem}"/>
-                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{contactController.create}" value="#{bundle.Save}" update="display,:ContactListForm:datalist,:growl" oncomplete="handleSubmit(args,'ContactCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ContactCreateDialog.hide()"/>

@@ -55,8 +55,8 @@
                                 <p:commandButton actionListener="#{formationController.create}" value="#{bundle.Save}" />
                                 <p:commandButton actionListener="#{formationController.redirectToContact}" value="ajouter un Contact" />
 
-                                 <p:dataTable value="#{contactController.items}" selection="#{formationController.contacts}" var="item" rowKey="#{item.id}"  style="margin-bottom:0">
-                                <p:column selectionMode="single" style="width:5px;text-align:center"/>
+                                 <p:dataTable value="#{contactController.items}" selection="#{formationController.selectedContacts}" var="item" rowKey="#{item.id}"  style="margin-bottom:0">
+                                <p:column selectionMode="multiple" style="width:5px;text-align:center"/>
                                 <p:column >
                                     <f:facet name="header">
                                         <h:outputText value="Nom"/>
@@ -87,12 +87,7 @@
                                     </f:facet>
                                     <h:outputText value="#{item.poste}"/>
                                 </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Employe"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.employe}"/>
-                                </p:column>
+                               
                             </p:dataTable>
 
             </b:panel>

@@ -363,7 +363,7 @@ public class StagiaireController implements Serializable {
     }
     ////redirect
     public void redirectToCreate() throws IOException {
-        SessionUtil.redirectNoXhtml("/Project/faces/stagiaire/CreateStagiaire.xhtml");
+        SessionUtil.redirectNoXhtml("/Project/faces/secured/stagiaire/Create.xhtml");
     }
     ////pdf
         public void postProcessXLS(Object document) {
@@ -440,7 +440,7 @@ public class StagiaireController implements Serializable {
         try {
             getThisDepartement().setEmployees(employeeFacade.findEncadrentByDepartement(thisDepartement));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("veiller choisire une departement");
+            JsfUtil.addErrorMessage("veiller choisir un departement");
         }
     }
     

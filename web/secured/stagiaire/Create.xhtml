@@ -52,7 +52,7 @@
                             <p:outputLabel value="#{bundle.CreateStagiaireLabel_ecoleStagiaire}" for="ecoleStagiaire" />
                              <h:panelGroup id="ecoleStagiairepp" >
                         
-                            <p:commandButton id="aa" icon="ui-icon-plus"   actionListener="#{ecoleController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('EcoleCreateDialog').show()">
+                            <p:commandButton id="aa" icon="ui-icon-plus"   ajax="true" actionListener="#{ecoleController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('EcoleCreateDialog').show()">
                                             </p:commandButton>
                                            
                             <p:selectOneMenu id="ecoleStagiaire" value="#{stagiaireController.selected.ecoleStagiaire}" >

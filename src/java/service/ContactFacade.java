@@ -38,6 +38,7 @@ public class ContactFacade extends AbstractFacade<Contact> {
         super(Contact.class);
     }
     public List<Contact> findParticipant(Formation formation){
+        System.out.println("findParticipant--->facada");
         List<Contact> participant=null;
         List<Contact> contacts= contactFacade.findAll();
         List<FormationItem> fItems =formationItemFacade.findFItems(formation);
@@ -45,6 +46,7 @@ public class ContactFacade extends AbstractFacade<Contact> {
                 for (Contact iContact : contacts) {
                     if(fItem.getContact().getId() == iContact.getId())
                         participant.add(iContact);
+                    System.out.println("iC"+iContact.getId());
                 }
         }
             return participant;

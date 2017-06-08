@@ -76,7 +76,7 @@
 
                                 </div>
                                 <p:dataTable id="datalist" value="#{formationController.items}" var="item" widgetVar="dataList"
-                                             selectionMode="multiple" selection="#{formationController.selectedContacts}"
+                                             selectionMode="single" selection="#{formationController.contacts}"
                                              rowKey="#{item.id}">
 
                                     <f:facet name="header"  >
