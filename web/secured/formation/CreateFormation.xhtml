@@ -13,47 +13,85 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="FormationCreateForm">
-
-                <!--<h:panelGroup id="display">-->
-                <b:panel title="Ajouter une formation" class="panel-primary" style="center" >
-                    <p:panelGrid columns="2" >
-                        <p:outputLabel value="Nom:" for="nom" />
-                        <p:inputText id="nom" value="#{formationController.selected.nom}" title="#{bundle.CreateFormationTitle_nom}" />
-                        <p:outputLabel value="date Debut"  />
-                        <p:calendar id="dateDebut" value="#{formationController.selected.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
-                        </p:calendar>
-                        <p:outputLabel value="date Fin"  />
-                        <p:calendar id="dateFin" value="#{formationController.selected.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
-                        </p:calendar>
-                        <p:outputLabel value="Lieu de la formation:" for="lieuFormation" />
-                        <p:selectOneMenu id="lieuFormation" value="#{formationController.selected.lieuFormation}" >
-                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                            <f:selectItems value="#{lieuFormationController.itemsAvailableSelectOne}"
-                                           var="lieuFormationItem"
-                                           itemValue="#{lieuFormationItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Organiser par:" for="organismeFormation" />
-                        <p:selectOneMenu id="organismeFormation" value="#{formationController.selected.organismeFormation}" >
-                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                            <f:selectItems value="#{organismeFormationController.itemsAvailableSelectOne}"
-                                           var="organismeFormationItem"
-                                           itemValue="#{organismeFormationItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Formateur:" for="formateur" />
-                        <p:selectOneMenu id="formateur" value="#{formationController.selected.formateur}" >
-                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                            <f:selectItems value="#{formateurController.itemsAvailableSelectOne}"
-                                           var="formateurItem"
-                                           itemValue="#{formateurItem}"/>
-                        </p:selectOneMenu>
-
+        <h:form id="FormationCreateForm">
+            
+            <!--<h:panelGroup id="display">-->
+            <b:panel title="Ajouter une formation" class="panel-primary" style="center" >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Theme:" for="nom" />
+                    <p:inputText id="nom" value="#{formationController.selected.nom}" title="#{bundle.CreateFormationTitle_nom}" />
+                    <p:outputLabel value="date Debut"  />
+                            <p:calendar id="dateDebut" value="#{formationController.selected.dateDebut}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar>
+                    <p:outputLabel value="date Fin"  />
+                    <p:calendar id="dateFin" value="#{formationController.selected.dateFin}" navigator="true" pattern="dd/MM/yyyy " >
+                            </p:calendar>
+                    <p:outputLabel value="Lieu de la formation:" for="lieuFormation" />
+                    <p:selectOneMenu id="lieuFormation" value="#{formationController.selected.lieuFormation}" >
+                         <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                        <f:selectItems value="#{lieuFormationController.itemsAvailableSelectOne}"
+                                       var="lieuFormationItem"
+                                       itemValue="#{lieuFormationItem}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Organiser par:" for="organismeFormation" />
+                    <p:selectOneMenu id="organismeFormation" value="#{formationController.selected.organismeFormation}" >
+                   <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                        <f:selectItems value="#{organismeFormationController.itemsAvailableSelectOne}"
+                                       var="organismeFormationItem"
+                                       itemValue="#{organismeFormationItem}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Formateur:" for="formateur" />
+                    <p:selectOneMenu id="formateur" value="#{formationController.selected.formateur}" >
+                        <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                        <f:selectItems value="#{formateurController.itemsAvailableSelectOne}"
+                                       var="formateurItem"
+                                       itemValue="#{formateurItem}"/>
+                    </p:selectOneMenu>
+                    
                         <p:outputLabel value="Add Position" for="position" />
                         <p:commandButton   id="position" icon="fa fa-map-marker"  action="#{formationController.toAddPosition()}" />
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{formationController.create}" value="#{bundle.Save}" />
-                </b:panel>
-            </h:form>
+                
+                </p:panelGrid>
+                                <p:commandButton actionListener="#{formationController.create}" value="#{bundle.Save}" />
+                                <p:commandButton actionListener="#{formationController.redirectToContact}" value="ajouter un Contact" />
+
+                                 <p:dataTable value="#{contactController.items}" selection="#{formationController.selectedContacts}" var="item" rowKey="#{item.id}"  style="margin-bottom:0">
+                                <p:column selectionMode="multiple" style="width:5px;text-align:center"/>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Nom"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nom}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Prenom"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.prenom}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="NumTel"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.numTel}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Mail"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.mail}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Poste"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.poste}"/>
+                                </p:column>
+                               
+                            </p:dataTable>
+
+            </b:panel>
+        </h:form>
         </ui:define>
     </ui:composition>
 </html>

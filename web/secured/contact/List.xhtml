@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="../template.xhtml">
+    <ui:composition template="/template.xhtml">
 
 
         <ui:define name="title">
@@ -62,12 +62,6 @@
                                 <h:outputText value="#{bundle.ListContactTitle_poste}"/>
                             </f:facet>
                             <h:outputText value="#{item.poste}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContactTitle_employe}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.employe}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{contactController.prepareCreate}" update=":ContactCreateForm" oncomplete="PF('ContactCreateDialog').show()"/>

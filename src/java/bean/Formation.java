@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -23,6 +24,9 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class Formation implements Serializable {
+
+    @OneToMany(mappedBy = "formation")
+    private List<FormationItem> formationItems;
 
     private static final long serialVersionUID = 1L;
     @Id

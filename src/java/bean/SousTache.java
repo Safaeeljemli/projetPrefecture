@@ -6,29 +6,28 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author PC
  */
 @Entity
-public class Echelle implements Serializable {
+public class SousTache implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    private Tache tache;
     private String nom;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date debutEchellon;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date finEchellon;
+    private Double avancement;
+    private Double importance;
 
     public Long getId() {
         return id;
@@ -36,6 +35,14 @@ public class Echelle implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Tache getTache() {
+        return tache;
+    }
+
+    public void setTache(Tache tache) {
+        this.tache = tache;
     }
 
     public String getNom() {
@@ -46,20 +53,20 @@ public class Echelle implements Serializable {
         this.nom = nom;
     }
 
-    public Date getDebutEchellon() {
-        return debutEchellon;
+    public Double getAvancement() {
+        return avancement;
     }
 
-    public void setDebutEchellon(Date debutEchellon) {
-        this.debutEchellon = debutEchellon;
+    public void setAvancement(Double avancement) {
+        this.avancement = avancement;
     }
 
-    public Date getFinEchellon() {
-        return finEchellon;
+    public Double getImportance() {
+        return importance;
     }
 
-    public void setFinEchellon(Date finEchellon) {
-        this.finEchellon = finEchellon;
+    public void setImportance(Double importance) {
+        this.importance = importance;
     }
 
     @Override
@@ -72,10 +79,10 @@ public class Echelle implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Echelle)) {
+        if (!(object instanceof SousTache)) {
             return false;
         }
-        Echelle other = (Echelle) object;
+        SousTache other = (SousTache) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -84,7 +91,7 @@ public class Echelle implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Echelle[ id=" + id + " ]";
+        return "bean.sousTache[ id=" + id + " ]";
     }
 
 }

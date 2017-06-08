@@ -6,29 +6,28 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author PC
  */
 @Entity
-public class Echelon implements Serializable {
+public class FormationItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String nom;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date debutEchellon;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date finEchellon;
+    @ManyToOne
+    private Formation formation;
+    @ManyToOne
+    private Contact contact;
+            
 
     public Long getId() {
         return id;
@@ -38,28 +37,20 @@ public class Echelon implements Serializable {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public Formation getFormation() {
+        return formation;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setFormation(Formation formation) {
+        this.formation = formation;
     }
 
-    public Date getDebutEchellon() {
-        return debutEchellon;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setDebutEchellon(Date debutEchellon) {
-        this.debutEchellon = debutEchellon;
-    }
-
-    public Date getFinEchellon() {
-        return finEchellon;
-    }
-
-    public void setFinEchellon(Date finEchellon) {
-        this.finEchellon = finEchellon;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     @Override
@@ -72,10 +63,10 @@ public class Echelon implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Echelon)) {
+        if (!(object instanceof FormationItem)) {
             return false;
         }
-        Echelon other = (Echelon) object;
+        FormationItem other = (FormationItem) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -84,7 +75,7 @@ public class Echelon implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Echelon[ id=" + id + " ]";
+        return "bean.FormationItem[ id=" + id + " ]";
     }
-
+    
 }

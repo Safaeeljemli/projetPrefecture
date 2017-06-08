@@ -12,12 +12,10 @@
             <h:form id="EcoleCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{ecoleController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateEcoleLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{ecoleController.selected.id}" title="#{bundle.CreateEcoleTitle_id}" />
                         <p:outputLabel value="#{bundle.CreateEcoleLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{ecoleController.selected.nom}" title="#{bundle.CreateEcoleTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{ecoleController.create}" value="#{bundle.Save}" update="display,:EcoleListForm:datalist,:growl" oncomplete="handleSubmit(args,'EcoleCreateDialog');"/>
+                    <p:commandButton actionListener="#{ecoleController.create}" value="#{bundle.Save}" update=":StagiaireCreateForm" oncomplete="handleSubmit(args,'EcoleCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EcoleCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

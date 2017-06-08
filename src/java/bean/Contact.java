@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -20,6 +21,9 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Contact implements Serializable {
+
+    @OneToMany(mappedBy = "contact")
+    private List<FormationItem> formationItems;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,9 +34,6 @@ public class Contact implements Serializable {
     private int numTel;
     private String mail;
     private String poste;
-    @OneToOne
-    private Employee employe;
-//    rivate List<Formation> formations;
 //getter and setter et fct predefinis
     public Long getId() {
         return id;
@@ -40,6 +41,14 @@ public class Contact implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<FormationItem> getFormationItems() {
+        return formationItems;
+    }
+
+    public void setFormationItems(List<FormationItem> formationItems) {
+        this.formationItems = formationItems;
     }
 
    
@@ -82,14 +91,6 @@ public class Contact implements Serializable {
 
     public void setPoste(String poste) {
         this.poste = poste;
-    }
-
-    public Employee getEmploye() {
-        return employe;
-    }
-
-    public void setEmploye(Employee employe) {
-        this.employe = employe;
     }
 
     @Override

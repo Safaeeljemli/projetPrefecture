@@ -23,7 +23,7 @@
                 <p:growl id="messages" showDetail="true" life="2000"  />
 
                 <p:gmap center="31.625832802876324,-7.988905906677246" id="mapsearch" zoom="15" type="ROADMAP" model="#{formationController.emptyModel}" widgetVar="mapa" 
-                        style="width:100%;height:400px" onPointClick="handlePointClick(event);" fitBounds="true" >
+                        style="width:100%;height:450px" onPointClick="handlePointClick(event);" fitBounds="true" >
                 </p:gmap> 
 
                 <p:remoteCommand name="onPoint" actionListener="#{formationController.marke(formationController.isModification)}" update=":growl,lat,lng" oncomplete="markerAddComplete()" />

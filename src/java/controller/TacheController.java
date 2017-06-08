@@ -1,9 +1,9 @@
 package controller;
 
-import bean.Echelle;
+import bean.Tache;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
-import service.EchelleFacade;
+import service.TacheFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("echelleController")
+@Named("tacheController")
 @SessionScoped
-public class EchelleController implements Serializable {
+public class TacheController implements Serializable {
 
     @EJB
-    private service.EchelleFacade ejbFacade;
-    private List<Echelle> items = null;
-    private Echelle selected;
+    private service.TacheFacade ejbFacade;
+    private List<Tache> items = null;
+    private Tache selected;
 
-    public EchelleController() {
+    public TacheController() {
     }
 
-    public Echelle getSelected() {
+    public Tache getSelected() {
         return selected;
     }
 
-    public void setSelected(Echelle selected) {
+    public void setSelected(Tache selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class EchelleController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private EchelleFacade getFacade() {
+    private TacheFacade getFacade() {
         return ejbFacade;
     }
 
-    public Echelle prepareCreate() {
-        selected = new Echelle();
+    public Tache prepareCreate() {
+        selected = new Tache();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EchelleCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TacheCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EchelleUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TacheUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("EchelleDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TacheDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Echelle> getItems() {
+    public List<Tache> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class EchelleController implements Serializable {
         }
     }
 
-    public Echelle getEchelle(java.lang.Long id) {
+    public Tache getTache(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<Echelle> getItemsAvailableSelectMany() {
+    public List<Tache> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Echelle> getItemsAvailableSelectOne() {
+    public List<Tache> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Echelle.class)
-    public static class EchelleControllerConverter implements Converter {
+    @FacesConverter(forClass = Tache.class)
+    public static class TacheControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            EchelleController controller = (EchelleController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "echelleController");
-            return controller.getEchelle(getKey(value));
+            TacheController controller = (TacheController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tacheController");
+            return controller.getTache(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -151,11 +151,11 @@ public class EchelleController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Echelle) {
-                Echelle o = (Echelle) object;
+            if (object instanceof Tache) {
+                Tache o = (Tache) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Echelle.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tache.class.getName()});
                 return null;
             }
         }

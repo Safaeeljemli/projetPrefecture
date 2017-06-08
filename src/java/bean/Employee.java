@@ -22,9 +22,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Employee implements Serializable {
 
-    @OneToOne(mappedBy = "employe")
-    private Contact contact;
-
    
     private static final long serialVersionUID = 1L;
     @Id

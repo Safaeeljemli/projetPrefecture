@@ -19,12 +19,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+
 @Named("stageController")
 @SessionScoped
 public class StageController implements Serializable {
 
-    @EJB
-    private service.StageFacade ejbFacade;
+
+    @EJB private service.StageFacade ejbFacade;
     private List<Stage> items = null;
     private Stage selected;
 
@@ -121,7 +122,7 @@ public class StageController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Stage.class)
+    @FacesConverter(forClass=Stage.class)
     public static class StageControllerConverter implements Converter {
 
         @Override
@@ -129,7 +130,7 @@ public class StageController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            StageController controller = (StageController) facesContext.getApplication().getELResolver().
+            StageController controller = (StageController)facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "stageController");
             return controller.getStage(getKey(value));
         }

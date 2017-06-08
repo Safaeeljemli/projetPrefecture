@@ -96,7 +96,7 @@
             <b:panel title=" Stagiaires " class="panel-primary"  >
                 <h:form id="StagiaireListForm">
                     <div align="center">
-                        <b:commandButton id="createButton" style="width: 200px" value="Ajouter Stagiaire" ajax="true" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  actionListener="#{stagiaireController.redirectToCreate()}"  />
+                        <b:commandButton id="createButton" icon="ui-icon-plus" style="width: 200px" value="Ajouter Stagiaire" ajax="true" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary" actionListener="#{stagiaireController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('StagiaireCreateDialog').show()"/>
                         <b:commandButton id="chowColumnsButton" style="width: 200px" value="colonnes a afficher" icon-awesome="glyphicon-refresh" icon-spin="lg" class="btn-primary"   update=":StagiaireCheckForm" oncomplete="PF('StagiaireCheckDialog').show()" />
 
                     </div>
@@ -119,7 +119,7 @@
                             </div>
 
                         </f:facet>
-                        <p:column sortBy="#{item.nom}" rendered="#{stagiaireController.nomB eq true}" filterBy="#{item.nom}" filterStyle="display:none">
+                        <p:column sortBy="#{item.nom}" selectionMode="multiple" rendered="#{stagiaireController.nomB eq true}" filterBy="#{item.nom}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
                             </f:facet>

@@ -7,11 +7,11 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:b="http://bootsfaces.net/ui">
 
-    <ui:composition>    
+    <ui:composition >    
 
         <p:dialog id="StagiaireCreateDlg" widgetVar="StagiaireCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateStagiaireTitle}">
-            <h:form id="StagiaireCreateForm">
-                <h:panelGroup >
+            <h:form id="StagiaireCreateForm" >
+                <h:panelGroup  >
                     <b:panel id="display"  class="panel-primary" style="background-color: #eee6ff;width: 350px">
                         <b:panelGrid columns="2" rendered="#{stagiaireController.selected != null}">
                             <p:outputLabel value="#{bundle.CreateStagiaireLabel_nom}"  />
@@ -50,29 +50,42 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel value="#{bundle.CreateStagiaireLabel_ecoleStagiaire}" for="ecoleStagiaire" />
+                             <h:panelGroup id="ecoleStagiairepp" >
+                        
+                            <p:commandButton id="aa" icon="ui-icon-plus"   ajax="true" actionListener="#{ecoleController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('EcoleCreateDialog').show()">
+                                            </p:commandButton>
+                                           
                             <p:selectOneMenu id="ecoleStagiaire" value="#{stagiaireController.selected.ecoleStagiaire}" >
                                 <f:selectItem itemLabel="--select--" itemValue="#{null}" noSelectionOption="true" ></f:selectItem>
                                 <f:selectItems value="#{ecoleController.itemsAvailableSelectOne}"
                                                var="ecoleStagiaireItem"
                                                itemValue="#{ecoleStagiaireItem}"/>
-                                 <f:ajax render=":input"></f:ajax>
                             </p:selectOneMenu>
-                            <h:panelGroup id="input" rendered="#{stagiaireController.selected.ecoleStagiaire != null}" >
-                                <p:outputLabel value="Filièere:"  for="stage"  rendered="#{stagiaireController.selected.ecoleStagiaire != null}" />
-                                <p:selectOneMenu  id="stage" value="#{stagiaireController.selected.stage}" rendered="#{stagiaireController.selected.ecoleStagiaire != null}"  >
+                             </h:panelGroup>
+                            <p:outputLabel value="Type de Stage:" for="typeS" />
+                            <h:panelGroup id="yp" > 
+                            <p:commandButton id="aya" icon="ui-icon-plus"   actionListener="#{employeeController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('EmployeeCreateDialog').show()">
+                            </p:commandButton>
+                              
+                            <p:selectOneMenu  id="typeS" value="#{stagiaireController.selected.stage}"  >
                                     <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
                                     <f:selectItems value="#{stageController.itemsAvailableSelectOne}"
                                                    var="stageItem"
                                                    itemValue="#{stageItem}"/>
                                 </p:selectOneMenu>
-                                <p:outputLabel value="#{bundle.CreateStagiaireLabel_domaine}" for="domaine" />
+                           </h:panelGroup>
+                                <p:outputLabel value="Filiere:" for="domaine" />
+                               <h:panelGroup id="ol" >
+                            <p:commandButton id="bb" icon="ui-icon-plus" value=""  actionListener="#{domaineController.prepareCreate}" update=":StagiaireCreateForm" oncomplete="PF('DomaineCreateDialog').show()">
+                                            </p:commandButton>
+                                
                                 <p:selectOneMenu id="domaine" value="#{stagiaireController.selected.domaine}"  >
                                     <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
                                     <f:selectItems value="#{domaineController.itemsAvailableSelectOne}"
                                                    var="domaineItem"
                                                    itemValue="#{domaineItem}"/>
                                 </p:selectOneMenu>
-                            </h:panelGroup>
+                               </h:panelGroup>
                         </b:panelGrid>
                         <p:commandButton actionListener="#{stagiaireController.create}" value="#{bundle.Save}" update="display,:StagiaireListForm:datalist,:growl" oncomplete="handleSubmit(args,'StagiaireCreateDialog');"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="StagiaireCreateDialog.hide()"/>
@@ -80,6 +93,9 @@
                 </h:panelGroup>
             </h:form>
         </p:dialog>
+         <ui:include src="../ecole/Create.xhtml"/>
+         <ui:include src="../domaine/Create.xhtml"/>
+         <!--<ui:include src="../encadrant/Create.xhtml"/>-->
 
     </ui:composition>
 </html>

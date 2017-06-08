@@ -5,17 +5,17 @@
  */
 package service;
 
-import bean.Echelon;
+import bean.Tache;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author safa
+ * @author PC
  */
 @Stateless
-public class EchelonFacade extends AbstractFacade<Echelon> {
+public class TacheFacade extends AbstractFacade<Tache> {
 
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class EchelonFacade extends AbstractFacade<Echelon> {
         return em;
     }
 
-    public EchelonFacade() {
-        super(Echelon.class);
+    public TacheFacade() {
+        super(Tache.class);
     }
     
 }

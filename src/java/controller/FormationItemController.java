@@ -1,9 +1,11 @@
 package controller;
 
-import bean.Echelon;
+import bean.Contact;
+import bean.Formation;
+import bean.FormationItem;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
-import service.EchelonFacade;
+import service.FormationItemFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,62 +21,91 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("echelonController")
+@Named("formationItemController")
 @SessionScoped
-public class EchelonController implements Serializable {
+public class FormationItemController implements Serializable {
 
     @EJB
-    private service.EchelonFacade ejbFacade;
-    private List<Echelon> items = null;
-    private Echelon selected;
+    private service.FormationItemFacade ejbFacade;
+    private List<FormationItem> items = null;
+    private FormationItem selected;
+    private List<Contact> contacts;
+    private Formation formation;
+    
 
-    public EchelonController() {
+    public FormationItemController() {
     }
-
-    public Echelon getSelected() {
+///creation Formation
+    public void saveFItem(){
+   int res=ejbFacade.saveFItem(contacts, formation);
+   if(res!=1){
+       JsfUtil.addErrorMessage("add formation");
+   }else{
+       
+   }
+}
+    //getter setter
+    public FormationItem getSelected() {
         return selected;
     }
 
-    public void setSelected(Echelon selected) {
+    public void setSelected(FormationItem selected) {
         this.selected = selected;
     }
+    
 
     protected void setEmbeddableKeys() {
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public Formation getFormation() {
+        return formation;
+    }
+
+    public void setFormation(Formation formation) {
+        this.formation = formation;
     }
 
     protected void initializeEmbeddableKey() {
     }
 
-    private EchelonFacade getFacade() {
+    private FormationItemFacade getFacade() {
         return ejbFacade;
     }
 
-    public Echelon prepareCreate() {
-        selected = new Echelon();
+    public FormationItem prepareCreate() {
+        selected = new FormationItem();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EchelonCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationItemCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EchelonUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("FormationItemUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("EchelonDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("FormationItemDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Echelon> getItems() {
+    public List<FormationItem> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +140,29 @@ public class EchelonController implements Serializable {
         }
     }
 
-    public Echelon getEchelon(java.lang.Long id) {
+    public FormationItem getFormationItem(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<Echelon> getItemsAvailableSelectMany() {
+    public List<FormationItem> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Echelon> getItemsAvailableSelectOne() {
+    public List<FormationItem> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Echelon.class)
-    public static class EchelonControllerConverter implements Converter {
+    @FacesConverter(forClass = FormationItem.class)
+    public static class FormationItemControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            EchelonController controller = (EchelonController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "echelonController");
-            return controller.getEchelon(getKey(value));
+            FormationItemController controller = (FormationItemController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "formationItemController");
+            return controller.getFormationItem(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -151,11 +182,11 @@ public class EchelonController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Echelon) {
-                Echelon o = (Echelon) object;
+            if (object instanceof FormationItem) {
+                FormationItem o = (FormationItem) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Echelon.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), FormationItem.class.getName()});
                 return null;
             }
         }

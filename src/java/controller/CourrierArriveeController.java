@@ -11,6 +11,7 @@ import controller.util.JsfUtil.PersistAction;
 import controller.util.SessionUtil;
 import controller.util.ServerConfigUtil;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import service.CourrierArriveeFacade;
 
 import java.io.Serializable;
