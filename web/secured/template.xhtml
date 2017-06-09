@@ -28,7 +28,7 @@
                     <h:graphicImage class="imagelink" id="imag1" value="/resources/images/marrakechSafi.png"  style="width:100%;height:70px" ></h:graphicImage>
                     <p:menubar>
                         <p:menuitem value="#{bundle.Home}" outcome="/secured/home/accueil.xhtml" icon="ui-icon-home"/>
-<!--                        <p:submenu label="#{bundle.Maintenance}">
+                        <p:submenu label="#{bundle.Maintenance}">
                             <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
                             <p:menuitem value="CourrierArrivee" outcome="/secured/courrierArrivee/List.xhtml" />
                             <p:menuitem value="CourrierProduit" outcome="/secured/courrierProduit/List.xhtml" />
@@ -46,7 +46,7 @@
                             <p:menuitem value="Formateur" outcome="/secured/formateur/List.xhtml" />
                             <p:menuitem value="Lieu de Formation" outcome="/secured/lieuFormation/List.xhtml" />
 
-                        </p:submenu>-->
+                        </p:submenu>
                         
                         <p:submenu icon="ui-icon-mail-open" label="Gestion Courrier Arrivee" rendered="#{userController.canAccessecourriers()}">
                             <p:menuitem icon="ui-icon-search" value="Recherche" outcome="/secured/courrierArrivee/List.xhtml" />
