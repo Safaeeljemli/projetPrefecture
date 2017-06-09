@@ -28,7 +28,7 @@
                     <h:graphicImage class="imagelink" id="imag1" value="/resources/images/marrakechSafi.png"  style="width:100%;height:70px" ></h:graphicImage>
                     <p:menubar>
                         <p:menuitem value="#{bundle.Home}" outcome="/secured/home/accueil.xhtml" icon="ui-icon-home"/>
-                        <p:submenu label="#{bundle.Maintenance}">
+<!--                        <p:submenu label="#{bundle.Maintenance}">
                             <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
                             <p:menuitem value="CourrierArrivee" outcome="/secured/courrierArrivee/List.xhtml" />
                             <p:menuitem value="CourrierProduit" outcome="/secured/courrierProduit/List.xhtml" />
@@ -46,22 +46,29 @@
                             <p:menuitem value="Formateur" outcome="/secured/formateur/List.xhtml" />
                             <p:menuitem value="Lieu de Formation" outcome="/secured/lieuFormation/List.xhtml" />
 
-                        </p:submenu>
-                        <p:submenu icon="ui-icon-mail-open" label="Gestion Courrier Arrivee">
+                        </p:submenu>-->
+                        
+                        <p:submenu icon="ui-icon-mail-open" label="Gestion Courrier Arrivee" rendered="#{userController.canAccessecourriers()}">
                             <p:menuitem icon="ui-icon-search" value="Recherche" outcome="/secured/courrierArrivee/List.xhtml" />
                             <p:menuitem icon="fa-save" value="créer" outcome="/secured/courrierArrivee/CreateCourrierArrivee.xhtml" />
 
                         </p:submenu>
-                        <p:submenu icon="ui-icon-mail-closed" label="Gestion Courrier Produit">
+                        <p:submenu icon="ui-icon-mail-closed" label="Gestion Courrier Produit"  rendered="#{userController.canAccessecourriers()}">
                             <p:menuitem icon="ui-icon-search" value="Recherche" outcome="/secured/courrierProduit/List.xhtml" />
                             <p:menuitem  value="créer" outcome="/secured/courrierProduit/CreateCourrierProduit.xhtml" />
                         </p:submenu>
                         <p:submenu icon="fa fa-cog" label="Paramétrage">
+                            
                             <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
                             <p:submenu  label="Courrier Arrivée">
                                 <p:menuitem value="Expediteur" outcome="/secured/destinataireExpediteur/List.xhtml" />
                                 <p:menuitem value="Finalité" outcome="/secured/finalite/List.xhtml" />
                             </p:submenu>
+                            <p:submenu  label="Utilisateur" rendered="#{userController.canAccesseAdmin()}" >
+                                <p:menuitem value="JournalUser" outcome="/secured/journal/List.xhtml" />
+                                <p:menuitem value="HistoryUser" outcome="/secured/history/List.xhtml" />
+                            </p:submenu>
+                            
                             <p:submenu  label="Courrier Produit">
                                 <p:menuitem value="Destinataire" outcome="/secured/destinataireExpediteur/List.xhtml" />
                                 <p:menuitem value="Finalité" outcome="/secured/finalite/List.xhtml" />
@@ -70,9 +77,9 @@
                         </p:submenu>
 
 
-                        <p:menuitem icon="fa fa-users" value="Gestion Stagiaire" outcome="/secured/stagiaire/List.xhtml" />
-                        <p:menuitem icon="fa fa-user-plus" value="Gestion Formation" outcome="/secured/formation/List.xhtml" />
-                        <p:menuitem icon="fa fa-user" value="Gestion Employée" outcome="/secured/employee/List.xhtml" />
+                        <p:menuitem icon="fa fa-users" value="Gestion Stagiaire" outcome="/secured/stagiaire/List.xhtml"  rendered="#{userController.canAccesseStagiaire()}" />
+                        <p:menuitem icon="fa fa-user-plus" value="Gestion Formation" outcome="/secured/formation/List.xhtml"   rendered="#{userController.canAccesseFormation()}"/>
+                        <p:menuitem icon="fa fa-user" value="Gestion Employée" outcome="/secured/employee/List.xhtml"  rendered="#{userController.canAccesseEmployee()}"/>
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
 

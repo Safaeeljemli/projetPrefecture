@@ -83,6 +83,68 @@ public class UserController implements Serializable {
         ejbFacade.seDeConnnecter();
         SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
     }
+    
+    
+    public String canAccessecourriers() throws IOException {
+        try {
+            if (SessionUtil.getConnectedUser().isCourrier()) {
+                return "true";
+            } else {
+                return "false";
+            }
+        } catch (Exception e) {
+            SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
+            return null;
+        }
+    }
+    public String canAccesseAdmin() throws IOException {
+        try {
+            if (SessionUtil.getConnectedUser().isAdminn()) {
+                return "true";
+            } else {
+                return "false";
+            }
+        } catch (Exception e) {
+            SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
+            return null;
+        }
+    }
+    public String canAccesseStagiaire() throws IOException {
+        try {
+            if (SessionUtil.getConnectedUser().isStagiaire()) {
+                return "true";
+            } else {
+                return "false";
+            }
+        } catch (Exception e) {
+            SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
+            return null;
+        }
+    }
+    public String canAccesseEmployee() throws IOException {
+        try {
+            if (SessionUtil.getConnectedUser().isEmployee()) {
+                return "true";
+            } else {
+                return "false";
+            }
+        } catch (Exception e) {
+            SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
+            return null;
+        }
+    }
+    public String canAccesseFormation() throws IOException {
+        try {
+            if (SessionUtil.getConnectedUser().isFormation()) {
+                return "true";
+            } else {
+                return "false";
+            }
+        } catch (Exception e) {
+            SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
+            return null;
+        }
+    }
 
     public User getSelected() {
         if (selected == null) {

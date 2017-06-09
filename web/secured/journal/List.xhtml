@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListJournalTitle}"></h:outputText>
+        </ui:define>
+
+         <ui:define name="body">
+            <b:growl id="jGrowl" />
+            <h:form id="JournalListForm">
+                
+                <!--<p:fieldset legend="Recherche" style="margin-bottom:20px" >-->
+                <div  style="margin-top: 1%;padding-left: 13% !important;position: relative;align-self: center;" >       
+                    <p:panelGrid >
+                        <p:row>
+                            <p:column styleClass="text-font">
+                                <p:outputLabel value="User Name"  />
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <b:inputText  style="margin-top: 9px;" value="#{journalController.userName}"></b:inputText>
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <p:outputLabel value="Action" />
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <b:selectOneMenu  style="margin-top: 9px;width: 120px" value="#{journalController.action}" title="action" >
+                                    <f:selectItem itemValue="-1" itemLabel="--SELECT--"></f:selectItem>
+                                    <f:selectItem  itemValue="1" itemLabel="Delete"></f:selectItem>
+                                    <f:selectItem itemValue="2" itemLabel="Edite"></f:selectItem>
+                                </b:selectOneMenu>
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <p:outputLabel value="date Min" for="datemin" />
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <p:calendar id="datemin" value="#{journalController.dateMin}" navigator="true" pattern="dd/MM/yyyy HH:mm:ss" >
+                                    <!--<f:converter converterId="dateTimeAttributeConverter"/>-->
+                                </p:calendar>
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <p:outputLabel value="date Max" for="datemax" />
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <p:calendar id="datemax" value="#{journalController.dateMax}"  navigator="true" pattern="dd/MM/yyyy HH:mm:ss" >
+                                    <!--<f:converter converterId="dateTimeAttributeConverter"/>-->
+                                </p:calendar>
+                            </p:column>
+                            <p:column styleClass="text-font">
+                                <b:commandButton ajax="true" look="info" icon-awesome="fa-search" value="Search"  actionListener="#{journalController.search()}" update="datalist,jGrowl" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </div>
+                <!--</p:fieldset>-->
+                <b:panel look="info" collapsible="false" title="#{bundle.ListJournalTitle}" style="padding-left: 15% !important; padding-right: 15% !important;position: relative;align-self: center;">
+                    <b:dataTable responsive="false" ajax="true"  searching="false" id="datalist" value="#{journalController.items}" var="item"
+                                 >
+
+                        <b:dataTableColumn  class="colData" >
+                            <f:facet name="header">
+                                <h:outputText value="User"/>
+                            </f:facet>
+                            <h:outputText value="#{item.userLogin}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
+                            <f:facet name="header">
+                                <h:outputText value="Date Modification"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateDeModification}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet>
+                            <h:outputText value="#{item.typeDaction==1?'Delete':'Edite'}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
+                            <f:facet name="header">
+                                <h:outputText value="Concerner"/>
+                            </f:facet>
+                            <h:outputText value="#{item.className=='Userr'?'Utilisateure':item.className=='TauxRetardBoisonTrim'?'Taux Retard':item.className=='TauxTaxeBoisson'?'Taux Taxe':item.className}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
+                            <f:facet name="header">
+                                <h:outputText value="Description"/>
+                            </f:facet>
+                            <h:outputText value="#{item.message}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  class="colData" >
+                            <f:facet name="header">
+                                <h:outputText value="Options"/>
+                            </f:facet>
+                            <b:commandButton look="success" value="" ajax="true" icon-awesome="fa-reply" rendered="#{item.className!='Journal'}" id="reconstruct" actionListener="#{journalController.recreate(item)}" update="jGrowl,datalist" />
+                            <b:commandButton look="danger" value="" ajax="true" id="deleteButton" icon-awesome="fa-trash-o"  actionListener="#{journalController.destroy(item)}" update="jGrowl,datalist" />
+                        </b:dataTableColumn>
+
+                    </b:dataTable>
+                </b:panel>
+            </h:form>
+
+<!--            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -39,20 +39,16 @@
                             <f:validateLength minimum="10" maximum="10" />
                         </p:inputText>
 
-                        
-
-<!--                        <p:outputLabel value="Blocker" for="blocked" />
-                        <p:selectBooleanCheckbox id="blocked" value="{userController.selected.blocked}"  />
                         <p:outputLabel value="Admin" for="adminn" />
-                        <p:selectBooleanCheckbox id="adminn" value="{userController.selected.adminn}"  />
-                        <p:outputLabel value="Adressage" for="adressage" />
-                        <p:selectBooleanCheckbox id="adressage" value="{userController.selected.adressage}"  />
-                        <p:outputLabel value="Locale" for="locals" />
-                        <p:selectBooleanCheckbox id="locals" value="{userController.selected.locals}"  />
-                        <p:outputLabel value="Redevable" for="redevable" />
-                        <p:selectBooleanCheckbox id="redevable" value="{userController.selected.redevable}"  />
-                        <p:outputLabel value="Taxe" for="taxes" />
-                        <p:selectBooleanCheckbox id="taxes" value="userController.selected.taxes}"  />-->
+                        <p:selectBooleanCheckbox id="adminn" value="#{userController.selected.adminn}"  />
+                        <p:outputLabel value="Courrier" for="courrier" />
+                        <p:selectBooleanCheckbox id="courrier" value="#{userController.selected.courrier}"  />
+                        <p:outputLabel value="Stagiaire" for="stagiaire" />
+                        <p:selectBooleanCheckbox id="stagiaire" value="#{userController.selected.stagiaire}"  />
+                        <p:outputLabel value="Formation" for="formation" />
+                        <p:selectBooleanCheckbox id="formation" value="#{userController.selected.formation}"  />
+                        <p:outputLabel value="Employée" for="employee" />
+                        <p:selectBooleanCheckbox id="employee" value="#{userController.selected.employee}"  />
 
                     </h:panelGrid>
                     <p:commandButton actionListener="#{userController.create}" value="#{bundle.Save}" update="display,:UserListForm:datalist,:hGrowl" oncomplete="handleSubmit(args,'UserCreateDialog');"/>

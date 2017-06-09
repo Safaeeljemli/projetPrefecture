@@ -27,14 +27,19 @@ public class User implements Serializable {
     private String passwrd;
     private String nom;
     private String prenom;
-     private String email;
+    private String email;
     private String tel;
-    private int  blocked=0;
+    private int blocked = 0;
     private int nbrCnx;
     private boolean adminn;
 //    private boolean connected=false;
     @OneToMany(mappedBy = "user")
     private List<Device> devices;
+
+    private boolean courrier;
+    private boolean stagiaire;
+    private boolean formation;
+    private boolean employee;
 
     public String getLogin() {
         return login;
@@ -52,7 +57,6 @@ public class User implements Serializable {
         this.passwrd = passwrd;
     }
 
-    
     public String getNom() {
         return nom;
     }
@@ -93,7 +97,6 @@ public class User implements Serializable {
         this.blocked = blocked;
     }
 
-   
     public int getNbrCnx() {
         return nbrCnx;
     }
@@ -118,7 +121,38 @@ public class User implements Serializable {
         this.adminn = adminn;
     }
 
-    
+    public boolean isCourrier() {
+        return courrier;
+    }
+
+    public void setCourrier(boolean courrier) {
+        this.courrier = courrier;
+    }
+
+    public boolean isStagiaire() {
+        return stagiaire;
+    }
+
+    public void setStagiaire(boolean stagiaire) {
+        this.stagiaire = stagiaire;
+    }
+
+    public boolean isFormation() {
+        return formation;
+    }
+
+    public void setFormation(boolean formation) {
+        this.formation = formation;
+    }
+
+    public boolean isEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(boolean employee) {
+        this.employee = employee;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,5 +177,5 @@ public class User implements Serializable {
     public String toString() {
         return "bean.User[ id=" + login + " ]";
     }
-    
+
 }
