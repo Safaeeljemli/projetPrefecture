@@ -100,7 +100,9 @@
                         <b:commandButton id="chowColumnsButton" style="width: 200px" value="colonnes a afficher" icon-awesome="glyphicon-refresh" icon-spin="lg" class="btn-primary"   update=":StagiaireCheckForm" oncomplete="PF('StagiaireCheckDialog').show()" />
 
                     </div>
-
+                    <b:commandButton look="info" value="Report" action="#{stagiaireController.createPDF()}" ajax="false" icon="icon-report" />
+                    <br/>
+                    <br/>
                     <p:dataTable value="#{stagiaireController.items}" var="item" id="datalist"  widgetVar="datalist" filteredValue="#{stagiaireController.filteredStagiaire}">
                         <f:facet name="header"  >
 
@@ -108,18 +110,16 @@
                                 <h:outputText value="Liste des Stagiaire"/>  
                                 <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" style="width:150px" placeholder="Enter keyword"/>
                                 <h:commandLink styleClass="icon-file-excel">
-                                    <h:graphicImage class="imagelink" id="imag1" value="/resources/images/excel.png" title="excel" style="width:30px;height:30px" ></h:graphicImage>
                                     <p:dataExporter type="xls" target="datalist"  fileName="Liste des Stagiaire" postProcessor="#{stagiaireController.postProcessXLS}" />
                                 </h:commandLink>
 
                                 <h:commandLink styleClass="icon-file-pdf">
-                                    <h:graphicImage class="imagelink" id="imag2" value="/resources/images/icone-pdf.png" title="pdf" style="width:30px;height:30px" ></h:graphicImage>
                                     <p:dataExporter type="pdf"  target="datalist" fileName="Liste des Stagiaire" preProcessor="#{stagiaireController.preProcessPDF}" />
                                 </h:commandLink>
                             </div>
 
                         </f:facet>
-                        <p:column sortBy="#{item.nom}" selectionMode="multiple" rendered="#{stagiaireController.nomB eq true}" filterBy="#{item.nom}" filterStyle="display:none">
+                        <p:column sortBy="#{item.nom}"  rendered="#{stagiaireController.nomB eq true}" filterBy="#{item.nom}" filterStyle="display:none">
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
                             </f:facet>
@@ -166,7 +166,7 @@
                                 <h:outputText value="DateDebut"/>
                             </f:facet>
                             <h:outputText value="#{item.dateDebut}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
                         <p:column sortBy="#{item.dateFin}" rendered="#{stagiaireController.dateFinB eq true}" filterBy="#{item.dateFin}" filterStyle="display:none">
@@ -174,7 +174,7 @@
                                 <h:outputText value="DateFin"/>
                             </f:facet>
                             <h:outputText value="#{item.dateFin}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
                         <p:column sortBy="#{item.ecoleStagiaire.nom} " rendered="#{stagiaireController.ecoleB eq true}" filterBy="#{item.ecoleStagiaire.nom}" filterStyle="display:none">

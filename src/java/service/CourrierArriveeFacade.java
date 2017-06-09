@@ -40,7 +40,7 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
 
-    private static String FILE = "c:/";
+//    private static String FILE = "c:/";
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -149,53 +149,53 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
             table.addCell(c1);
         }
         if (motsCleCheck == true) {
-            c1 = new PdfPCell(new Phrase("motsCleCheck"));
+            c1 = new PdfPCell(new Phrase("Mots Cle"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (objetCheck == true) {
-            c1 = new PdfPCell(new Phrase("objetCheck "));
+            c1 = new PdfPCell(new Phrase("Objet "));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (modeTraitementCheck == true) {
-            c1 = new PdfPCell(new Phrase("modeTraitementCheck  "));
+            c1 = new PdfPCell(new Phrase("Mode Traitement"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (n_DRHMGCheck == true) {
-            c1 = new PdfPCell(new Phrase("n_DRHMGCheck  "));
+            c1 = new PdfPCell(new Phrase("n² DRHMG "));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (n_enCheck == true) {
-            c1 = new PdfPCell(new Phrase("n_enCheck  "));
+            c1 = new PdfPCell(new Phrase("n²"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (n_BOW_TRANS_RLANcheck == true) {
-            c1 = new PdfPCell(new Phrase("n_BOW_TRANS_RLANcheck  "));
+            c1 = new PdfPCell(new Phrase("n²BOW/TRANS/RLAN"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (codeA_Vcheck == true) {
-            c1 = new PdfPCell(new Phrase("codeA_Vcheck  "));
+            c1 = new PdfPCell(new Phrase("CodeA_V "));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (dateEnregcheck == true) {
-            c1 = new PdfPCell(new Phrase("dateEnregcheck "));
+            c1 = new PdfPCell(new Phrase("Date Enregistrement "));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
 
         }
         if (dateBOW_TRANS_RLANcheck == true) {
-            c1 = new PdfPCell(new Phrase("dateBOW_TRANS_RLANcheck  "));
+            c1 = new PdfPCell(new Phrase("Date BOW/TRANS/RLAN  "));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
         if (sousClasseCheck == true) {
-            c1 = new PdfPCell(new Phrase("sousClasseCheck   "));
+            c1 = new PdfPCell(new Phrase("Sous Classe"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
         }
@@ -230,6 +230,7 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
             }
             if (dateEnregcheck  == true) {
                 table.addCell(" "+item.getDateEnregistrement());
+                System.out.println(""+item.getDateEnregistrement());
             }
             if (dateBOW_TRANS_RLANcheck  == true) {
                 table.addCell(" "+item.getDateEnregistrementBOW_TRANS_RLAN());
@@ -296,9 +297,4 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
         return rowCount;
     }
 
-//    public String initFile(){
-//        String file = "C:\\Users\\safa\\Desktop\\test\\firstTest.pdf";
-//        
-//        
-//    }
 }

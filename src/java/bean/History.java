@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package bean;
 
 import java.io.Serializable;
+import converters.LocalDateTimeAttributeConverter;
 import java.time.LocalDateTime;
-import java.util.Date;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -32,8 +30,8 @@ public class History implements Serializable {
     @OneToOne
     private User user;
     private int type;//1:login  2:logout
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date inOutTimeStamp;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime inOutTimeStamp;
 
     public Long getId() {
         return id;
@@ -67,16 +65,14 @@ public class History implements Serializable {
         this.type = type;
     }
 
-    public Date getInOutTimeStamp() {
+    public LocalDateTime getInOutTimeStamp() {
         return inOutTimeStamp;
     }
 
-    public void setInOutTimeStamp(Date inOutTimeStamp) {
+    public void setInOutTimeStamp(LocalDateTime inOutTimeStamp) {
         this.inOutTimeStamp = inOutTimeStamp;
     }
 
-
-  
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,11 +113,5 @@ public class History implements Serializable {
         }
         return "{" + "\"serialVersionUID\":" + serialVersionUIDString + ",\"id\":" + idString + ",\"user\":" + userString + ",\"type\":" + type + ",\"inOutTimeStamp\":" + inOutTimeStampString + "}";
     }
-
-    
-
-    
-
-    
 
 }

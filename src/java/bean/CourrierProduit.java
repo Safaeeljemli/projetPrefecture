@@ -29,7 +29,7 @@ public class CourrierProduit implements Serializable {
 
     private String codeP_V;
     private String objet;
-
+    private String photo;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreation;
 
@@ -61,6 +61,14 @@ public class CourrierProduit implements Serializable {
 
     public void setN_dordre(Long n_dordre) {
         this.n_dordre = n_dordre;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public DestinataireExpediteur getDestinataireExpediteur() {

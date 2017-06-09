@@ -61,7 +61,7 @@
                                     <h:panelGrid id="informationCourrier" columns="2" cellpadding="6" >
                                         <p:outputLabel value="#{bundle.CreateCourrierArriveeLabel_destinataireExpediteur}" for="destinataireExpediteur" />
                                         <h:panelGroup >
-                                            <p:commandButton  icon="ui-icon-plus" actionListener="#{destinataireExpediteurController.prepareCreate}" update=":DestinataireExpediteurCreateForm" oncomplete="PF('DestinataireExpediteurCreateDialog').show()"/>
+                                            <p:commandButton  icon="ui-icon-plus" ajax="true" actionListener="#{destinataireExpediteurController.prepareCreate}" update=":DestinataireExpediteurCreateForm" oncomplete="PF('DestinataireExpediteurCreateDialog').show()"/>
                                             <p:selectOneMenu id="destinataireExpediteur" value="#{courrierArriveeController.selected.destinataireExpediteur}" >
 
                                                 <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"

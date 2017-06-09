@@ -156,7 +156,7 @@ public class UserFacade extends AbstractFacade<User> {
             return -1;
         } else {
             String pw = RandomStringUtil.generate();
-            String msg = "Bienvenu Mr. " + user.getNom() + ",<br/>"
+            String msg = "Bienvenu " + user.getNom() + ",<br/>"
                     + "D'après votre demande de reinitialiser le mot de passe de votre compte Utilisateur, nous avons generer ce mot de passe pour vous.\n"
                     + "<br/><br/>"
                     + "      Nouveau Mot de Passe: <br/><center><b>"

@@ -80,18 +80,18 @@ public class HistoryFacade extends AbstractFacade<History> {
         super(History.class);
     }
 
-    public void createHistoryElement(User loadedUser, int type) {
+   public void createHistoryElement(User loadedUser, int type) {
         History connexionHistory = new History();
         connexionHistory.setUserLogin(loadedUser.getLogin());
         if (type == 1) {
             connexionHistory.setType(1);
-            connexionHistory.setInOutTimeStamp(new Date());
+            connexionHistory.setInOutTimeStamp(LocalDateTime.now());
         }
         if (type == 2) {
             connexionHistory.setType(2);
-            connexionHistory.setInOutTimeStamp(new Date());
+            connexionHistory.setInOutTimeStamp(LocalDateTime.now());
         }
-        System.out.println("createHistoryElement :: " + connexionHistory);
+        System.out.println("createHistoryElement :: "+connexionHistory);
         create(connexionHistory);
     }
 

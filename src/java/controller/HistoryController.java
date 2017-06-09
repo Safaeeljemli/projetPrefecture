@@ -3,9 +3,11 @@ package controller;
 import bean.History;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
+import converters.LocalDateTimeAttributeConverter;
 import service.HistoryFacade;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.persistence.Convert;
 
 @Named("historyController")
 @SessionScoped
@@ -28,7 +31,46 @@ public class HistoryController implements Serializable {
     private List<History> items = null;
     private History selected;
 
+    private String userName;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dateMin;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dateMax;
+    private int action;
+
     public HistoryController() {
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public LocalDateTime getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(LocalDateTime dateMin) {
+        this.dateMin = dateMin;
+    }
+
+    public LocalDateTime getDateMax() {
+        return dateMax;
+    }
+
+    public void setDateMax(LocalDateTime dateMax) {
+        this.dateMax = dateMax;
+    }
+
+    public int getAction() {
+        return action;
+    }
+
+    public void setAction(int action) {
+        this.action = action;
     }
 
     public History getSelected() {
@@ -47,6 +89,16 @@ public class HistoryController implements Serializable {
 
     private HistoryFacade getFacade() {
         return ejbFacade;
+    }
+
+    public void search() {
+        System.out.println(":: search :: ");
+        items = getFacade().findByConditions(userName, dateMin, dateMax, action);
+        if (items == null) {
+            JsfUtil.addSuccessMessage("No Data Found");
+        } else {
+            JsfUtil.addSuccessMessage("successe");
+        }
     }
 
     public History prepareCreate() {
