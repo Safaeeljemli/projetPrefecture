@@ -55,18 +55,33 @@ public class UserController implements Serializable {
     }
 
     //CONNEXION
-    public String seConnecter() {
-        System.out.println("test user");
-        Object[] res = ejbFacade.seConnecter(selected, DeviceUtil.getDevice());
-        int res1 = (int) res[0];
-        if (res1 < 0) {
-            JsfUtil.addErrorMessage("le code de l'erreur " + res1);
-            return "/login.xhtml";
-        } else {
-            SessionUtil.registerUser(selected);
-            // historiqueFacade.create(new Historique(new Date(), 1, ejbFacade.clone(selected), deviceFacade.curentDevice(selected, DeviceUtil.getDevice())));
-            return "/secured/home/accueil?faces-redirect=true";
+    public void connecte() {
+        int res = ejbFacade.seConnnecter(getSelected());
+        switch (res) {
+            case (-5):
+                JsfUtil.addErrorMessage("Veuilliez saisir votre login");
+                break;
+            case (-4):
+                JsfUtil.addErrorMessage("Login n'existe pas");
+                break;
+            case (-1):
+                JsfUtil.addErrorMessage("User deja connecter veuiller vous deconnecter des autre device ou notifier votre admin ");
+                break;
+            case (-2):
+                JsfUtil.addErrorMessage("Utilisateur est bloqué");
+                break;
+            case (-3):
+                JsfUtil.addErrorMessage("Mot de passe incorrect");
+                break;
+            default:
+                try {
+                    SessionUtil.redirectNoXhtml("/Project/faces/secured/home/accueil.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
+        setSelected(null);
+
     }
     public void contactUs() {
         System.out.println("test user");
@@ -85,9 +100,9 @@ public class UserController implements Serializable {
     }
     
     
-    public String canAccessecourriers() throws IOException {
+    public String canAccesseAdmin() throws IOException {
         try {
-            if (SessionUtil.getConnectedUser().isCourrier()) {
+            if (SessionUtil.getConnectedUser().isAdminn()) {
                 return "true";
             } else {
                 return "false";
@@ -97,9 +112,9 @@ public class UserController implements Serializable {
             return null;
         }
     }
-    public String canAccesseAdmin() throws IOException {
+    public String canAccesseCourrier() throws IOException {
         try {
-            if (SessionUtil.getConnectedUser().isAdminn()) {
+            if (SessionUtil.getConnectedUser().isCourrier()) {
                 return "true";
             } else {
                 return "false";

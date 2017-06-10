@@ -7,9 +7,9 @@ package service;
 
 import bean.Device;
 import bean.User;
+import controller.util.DeviceUtil;
 import controller.util.EmailUtil;
 import controller.util.HashageUtil;
-import controller.util.JsfUtil;
 import controller.util.RandomStringUtil;
 import controller.util.SessionUtil;
 import javax.ejb.EJB;
@@ -27,6 +27,8 @@ public class UserFacade extends AbstractFacade<User> {
 
     @EJB
     private HistoryFacade historyFacade;
+    @EJB
+    private DeviceFacade deviceFacade;
 
     @PersistenceContext(unitName = "ProjectPU")
     private EntityManager em;
@@ -50,16 +52,58 @@ public class UserFacade extends AbstractFacade<User> {
     public User clone(User user) {
         User clone = new User();
         clone.setLogin(user.getLogin());
-        clone.setBlocked(user.getBlocked());
+        clone.setBlocked(user.isBlocked());
         clone.setNbrCnx(user.getNbrCnx());
         clone.setNom(user.getNom());
         clone.setPasswrd(user.getPasswrd());
         clone.setPrenom(user.getPrenom());
         clone.setTel(user.getTel());
         clone.setAdminn(user.isAdminn());
+        clone.setCourrier(user.isCourrier());
+        clone.setStagiaire(user.isStagiaire());
+        clone.setEmployee(user.isEmployee());
+        clone.setFormation(user.isFormation());
         return clone;
     }
 
+    
+    public int seConnnecter(User user) {
+        System.out.println(user);
+        if (user == null || user.getLogin() == null) {
+            System.out.println("-5");
+            return -5;
+        } else {
+            User loadedUser = null;
+            loadedUser = find(user.getLogin());
+            if (loadedUser == null) {
+                return -4;
+            } else if (loadedUser.isBlocked() == true) {
+                return -2;
+            } else if (!loadedUser.getPasswrd().equals(HashageUtil.sha256(user.getPasswrd()))) {
+                if (loadedUser.getNbrCnx() < 3) {
+                    loadedUser.setNbrCnx(loadedUser.getNbrCnx() + 1);
+                } else if (loadedUser.getNbrCnx() >= 3) {
+                    loadedUser.setBlocked(true);
+                    edit(loadedUser);
+                }
+                return -3;
+            } else {
+                loadedUser.setNbrCnx(0);
+                edit(loadedUser);
+                user = clone(loadedUser);
+                if (SessionUtil.registerUser(user)) {
+                    Device device = DeviceUtil.getDevice(user);
+                    deviceFacade.verifieDeviceAndCreate(device);
+                    historyFacade.createHistoryElement(user, 1);
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        }
+    }
+
+    
 //    public int seConnnecter(User user) {
 //        System.out.println(user);
 //        if (user == null || user.getLogin() == null) {
@@ -95,51 +139,54 @@ public class UserFacade extends AbstractFacade<User> {
 //            }
 //        }
 //    }
-    public Object[] seConnecter(User user, Device device) {
-        if (user == null || user.getLogin() == null) {
-            JsfUtil.addErrorMessage("Veuilliez saisir votre login");
-            return new Object[]{-5, null};
-        } else {
-            User loadedUser = find(user.getLogin());
-            if (loadedUser == null) {
-                return new Object[]{-4, null};
-            } else if (!loadedUser.getPasswrd().equals(HashageUtil.sha256(user.getPasswrd()))) {
-                if (loadedUser.getNbrCnx() < 3) {
-                    System.out.println("hana loadedUser.getNbrCnx() < 3 ::: " + loadedUser.getNbrCnx());
-                    loadedUser.setNbrCnx(loadedUser.getNbrCnx() + 1);
-                    edit(loadedUser);
-                    return new Object[]{-7, null};
-                } else {//(loadedUser.getNbrCnx() >= 3)
-                    System.out.println("hana loadedUser.getNbrCnx() >= 3::: " + loadedUser.getNbrCnx());
-                    loadedUser.setBlocked(1);
-                    edit(loadedUser);
-                    return new Object[]{-3, null};
-                }
-            } else if (loadedUser.getBlocked() == 1) {
-                JsfUtil.addErrorMessage("Cet utilisateur est bloqué");
-                return new Object[]{-2, null};
-            }
-//            else {
-//                loadedUser.setNbrCnx(0);
-//                edit(loadedUser);
-//                user = clone(loadedUser);
-//                user.setPasswrd(null);
-//                int resDevice = deviceFacade.checkDevice(loadedUser, device);
-//                device.setDateCreation(new Date());
-//                switch (resDevice) {
-//                    case 3:
-//                        deviceFacade.save(device, loadedUser);
-//                        return new Object[]{3, loadedUser};
-//                    case 1:
-//                        deviceFacade.save(device, loadedUser);
-//                        return new Object[]{1, loadedUser};
-//                    default:
-//                        return new Object[]{2, loadedUser};
+//    public Object[] seConnecter(User user, Device device) {
+//        if (user == null || user.getLogin() == null) {
+//            JsfUtil.addErrorMessage("Veuilliez saisir votre login");
+//            return new Object[]{-5, null};
+//        } else {
+//            User loadedUser = find(user.getLogin());
+//            if (loadedUser == null) {
+//                return new Object[]{-4, null};
+//            } else if (!loadedUser.getPasswrd().equals(HashageUtil.sha256(user.getPasswrd()))) {
+//                if (loadedUser.getNbrCnx() < 3) {
+//                    System.out.println("hana loadedUser.getNbrCnx() < 3 ::: " + loadedUser.getNbrCnx());
+//                    loadedUser.setNbrCnx(loadedUser.getNbrCnx() + 1);
+//                    edit(loadedUser);
+//                    return new Object[]{-7, null};
+//                } else {//(loadedUser.getNbrCnx() >= 3)
+//                    System.out.println("hana loadedUser.getNbrCnx() >= 3::: " + loadedUser.getNbrCnx());
+//                    loadedUser.setBlocked(1);
+//                    edit(loadedUser);
+//                    return new Object[]{-3, null};
 //                }
-            return new Object[]{2, loadedUser};
-        }
-    }
+//            } else if (loadedUser.getBlocked() == 1) {
+//                JsfUtil.addErrorMessage("Cet utilisateur est bloqué");
+//                return new Object[]{-2, null};
+//            }
+////            else {
+////                loadedUser.setNbrCnx(0);
+////                edit(loadedUser);
+////                user = clone(loadedUser);
+////                user.setPasswrd(null);
+////                int resDevice = deviceFacade.checkDevice(loadedUser, device);
+////                device.setDateCreation(new Date());
+////                switch (resDevice) {
+////                    case 3:
+////                        deviceFacade.save(device, loadedUser);
+////                        return new Object[]{3, loadedUser};
+////                    case 1:
+////                        deviceFacade.save(device, loadedUser);
+////                        return new Object[]{1, loadedUser};
+////                    default:
+////                        return new Object[]{2, loadedUser};
+////                }
+//            return new Object[]{2, loadedUser};
+//        }
+//    }
 
+    
+    
+    
 // se deconnecter
     public void seDeConnnecter() {
         User connectedUser = SessionUtil.getConnectedUser();
@@ -171,7 +218,7 @@ public class UserFacade extends AbstractFacade<User> {
                 return -2;
             }
 
-            user.setBlocked(0);
+            user.setBlocked(false);
             user.setPasswrd(HashageUtil.sha256(pw));
             edit(user);
             return 1;

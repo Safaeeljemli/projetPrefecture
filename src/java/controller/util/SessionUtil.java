@@ -51,13 +51,6 @@ public class SessionUtil {
         return (User) getAttribute("user");
     }
 
-//    public static void registerRedevable(Redevable redevable) {
-//        setAttribute("redevable", redevable);
-//    }
-//
-//    public static Redevable getConnectedRedevable() {
-//        return (Redevable) getAttribute("redevable");
-//    }
 
     public static SessionUtil getInstance() {
         return instance;

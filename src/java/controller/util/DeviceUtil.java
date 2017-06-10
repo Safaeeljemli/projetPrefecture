@@ -7,6 +7,7 @@ package controller.util;
 
 
 import bean.Device;
+import bean.User;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -32,19 +33,15 @@ public class DeviceUtil {
         return agent;
     }
 
-    public static Device getDevice() {
+     public static Device getDevice(User user) {
         ReadableUserAgent ag = getUserAgent();
         Device device = new Device();
         device.setBrowser(ag.getFamily().getName());
         device.setOperatingSystem(ag.getOperatingSystem().getName());
         device.setDeviceCategorie(ag.getDeviceCategory().getName());
-        System.out.println("Device :: family :: " + ag.getFamily().getName());
-        System.out.println("Operating système :: " + ag.getOperatingSystem().getName());
-        System.out.println("Device cat :: " + ag.getDeviceCategory().getName());
-        System.out.println("Systeme version number :: " + ag.getOperatingSystem().getVersionNumber());
+        device.setUser(user);
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        String userAgent = externalContext.getRequestHeaderMap().get("User-Agent");
-        System.out.println("Header :: "+userAgent);
+//        String userAgent = externalContext.getRequestHeaderMap().get("User-Agent");
         return device;
     }
 

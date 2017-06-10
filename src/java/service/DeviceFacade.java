@@ -6,6 +6,8 @@
 package service;
 
 import bean.Device;
+import bean.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,28 @@ public class DeviceFacade extends AbstractFacade<Device> {
     public DeviceFacade() {
         super(Device.class);
     }
+    
+    public void verifieDeviceAndCreate(Device device) {
+        List<Device> userDevices = findDeviceByUser(device.getUser());
+        System.out.println(userDevices);
+        if (userDevices != null) {
+            for (Device userDevice : userDevices) {
+                if (userDevice.getBrowser().equals(device.getBrowser()) && userDevice.getOperatingSystem().equals(device.getOperatingSystem()) && userDevice.getDeviceCategorie().equals(device.getDeviceCategorie())) {
+                    return;
+                }
+            }
+            create(device);
+        }
+    }
+
+    private List<Device> findDeviceByUser(User user) {
+        System.out.println("**************** findDeviceByUser ******************");
+        System.out.println("USER :" + user.getLogin());
+        if (user != null) {
+            return getEntityManager().createQuery("SELECT d FROM Device d WHERE d.user.login='" + user.getLogin() + "'").getResultList();
+        }
+        return null;
+    }
+
     
 }

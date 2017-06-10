@@ -29,9 +29,10 @@ public class User implements Serializable {
     private String prenom;
     private String email;
     private String tel;
-    private int blocked = 0;
+    private boolean blocked;
     private int nbrCnx;
     private boolean adminn;
+
 //    private boolean connected=false;
     @OneToMany(mappedBy = "user")
     private List<Device> devices;
@@ -49,6 +50,7 @@ public class User implements Serializable {
         this.login = login;
     }
 
+    
     public String getPasswrd() {
         return passwrd;
     }
@@ -89,11 +91,11 @@ public class User implements Serializable {
         this.tel = tel;
     }
 
-    public int getBlocked() {
+    public boolean isBlocked() {
         return blocked;
     }
 
-    public void setBlocked(int blocked) {
+    public void setBlocked(boolean blocked) {
         this.blocked = blocked;
     }
 
