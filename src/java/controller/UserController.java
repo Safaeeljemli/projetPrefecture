@@ -35,6 +35,13 @@ public class UserController implements Serializable {
     private String objet;
     private String msgEmail;
 
+    private String oldPassword;
+    private String changePassword;
+    private String changeRepetePassword;
+    private boolean afficheProfile = true;
+    private boolean changerPasswrd = false;
+    private boolean changerAutreInfos = false;
+
     public UserController() {
     }
 
@@ -83,23 +90,54 @@ public class UserController implements Serializable {
         setSelected(null);
 
     }
+
     public void contactUs() {
         System.out.println("test user");
-        int res = ejbFacade.contactUs(msgEmail,objet,getConnectedUser());
+        int res = ejbFacade.contactUs(msgEmail, objet, getConnectedUser());
         if (res > 0) {
-            JsfUtil.addSuccessMessage("Votre message a été envoyeravec succes " );
+            JsfUtil.addSuccessMessage("Votre message a été envoyeravec succes ");
         } else {
             JsfUtil.addErrorMessage("Erreur de manipulation");
         }
     }
 
+    //Profil
+    public void aficherProfil(boolean profile, boolean password, boolean autreInfos) {
+        afficheProfile = profile;
+        changerPasswrd = password;
+        changerAutreInfos = autreInfos;
+        oldPassword = "";
+        changePassword = "";
+        changeRepetePassword = "";
+    }
+
+    public void changePass() {
+        int res = ejbFacade.changePassword(getConnectedUser().getLogin(), oldPassword, changePassword, changeRepetePassword);
+        showMessage(res);
+    }
+
+    public void changeInformation() {
+        ejbFacade.changeData(connectedUser);
+        JsfUtil.addSuccessMessage("Modification avec succes");
+    }
+    private void showMessage(int res) {
+        if (res == -1) {
+            JsfUtil.addErrorMessage("la confirmation de votre mot de passe n'est pas correct");
+        } else if (res == -2) {
+            JsfUtil.addErrorMessage("l'ancient mot de passe ne correspond pas au mot de passe de la base de données");
+        } else if (res == -3) {
+            JsfUtil.addErrorMessage("le nouveau mot de passe ne doit pas etre l'ancient");
+        } else {
+            JsfUtil.addSuccessMessage("Modification avec succes ");
+        }
+    }
+    
     // se deconnecter
     public void seDeConnnecter() throws IOException {
         ejbFacade.seDeConnnecter();
         SessionUtil.redirectNoXhtml("/Project/faces/login.xhtml");
     }
-    
-    
+
     public String canAccesseAdmin() throws IOException {
         try {
             if (SessionUtil.getConnectedUser().isAdminn()) {
@@ -112,6 +150,7 @@ public class UserController implements Serializable {
             return null;
         }
     }
+
     public String canAccesseCourrier() throws IOException {
         try {
             if (SessionUtil.getConnectedUser().isCourrier()) {
@@ -124,6 +163,7 @@ public class UserController implements Serializable {
             return null;
         }
     }
+
     public String canAccesseStagiaire() throws IOException {
         try {
             if (SessionUtil.getConnectedUser().isStagiaire()) {
@@ -136,6 +176,7 @@ public class UserController implements Serializable {
             return null;
         }
     }
+
     public String canAccesseEmployee() throws IOException {
         try {
             if (SessionUtil.getConnectedUser().isEmployee()) {
@@ -148,6 +189,7 @@ public class UserController implements Serializable {
             return null;
         }
     }
+
     public String canAccesseFormation() throws IOException {
         try {
             if (SessionUtil.getConnectedUser().isFormation()) {
@@ -190,6 +232,7 @@ public class UserController implements Serializable {
     public void prepareCreate() {
         selected = null;
     }
+
     public void prepareEmail() {
         objet = null;
         msgEmail = null;
@@ -258,6 +301,55 @@ public class UserController implements Serializable {
         }
     }
 
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getChangePassword() {
+        return changePassword;
+    }
+
+    public void setChangePassword(String changePassword) {
+        this.changePassword = changePassword;
+    }
+
+    public String getChangeRepetePassword() {
+        return changeRepetePassword;
+    }
+
+    public void setChangeRepetePassword(String changeRepetePassword) {
+        this.changeRepetePassword = changeRepetePassword;
+    }
+
+    public boolean isAfficheProfile() {
+        return afficheProfile;
+    }
+
+    public void setAfficheProfile(boolean afficheProfile) {
+        this.afficheProfile = afficheProfile;
+    }
+
+    public boolean isChangerPasswrd() {
+        return changerPasswrd;
+    }
+
+    public void setChangerPasswrd(boolean changerPasswrd) {
+        this.changerPasswrd = changerPasswrd;
+    }
+
+    public boolean isChangerAutreInfos() {
+        return changerAutreInfos;
+    }
+
+    public void setChangerAutreInfos(boolean changerAutreInfos) {
+        this.changerAutreInfos = changerAutreInfos;
+    }
+
+    
     public String getObjet() {
         return objet;
     }
@@ -273,8 +365,6 @@ public class UserController implements Serializable {
     public void setMsgEmail(String msgEmail) {
         this.msgEmail = msgEmail;
     }
-    
-    
 
     public User getConnectedUser() {
         if (connectedUser == null) {

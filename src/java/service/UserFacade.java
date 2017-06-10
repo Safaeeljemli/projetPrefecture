@@ -104,6 +104,28 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     
+     public void changeData(User user) {
+        User loadedUser = find(user.getLogin());
+        cloneData(user, loadedUser);
+        edit(loadedUser);
+    }
+     public int changePassword(String login, String oldPassword, String newPassword, String newPasswordConfirmation) {
+        System.out.println("voila hana dkhalt le service verifierPassword");
+        User loadedeUser = find(login);
+
+        if (!newPasswordConfirmation.equals(newPassword)) {
+            return -1;
+        } else if (!loadedeUser.getPasswrd().equals(HashageUtil.sha256(oldPassword))) {
+            return -2;
+        } else if (oldPassword.equals(newPassword)) {
+            return -3;
+        }
+        loadedeUser.setPasswrd(HashageUtil.sha256(newPassword));
+        edit(loadedeUser);
+        return 1;
+    }
+
+    
 //    public int seConnnecter(User user) {
 //        System.out.println(user);
 //        if (user == null || user.getLogin() == null) {

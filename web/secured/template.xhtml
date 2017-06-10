@@ -61,9 +61,7 @@
                         <p:menuitem icon="fa fa-users" value="Gestion Stagiaire" outcome="/secured/stagiaire/List.xhtml"  rendered="#{userController.canAccesseStagiaire()}" />
                         <p:menuitem icon="fa fa-user-plus" value="Gestion Formation" outcome="/secured/formation/List.xhtml"   rendered="#{userController.canAccesseFormation()}"/>
                         <p:menuitem icon="fa fa-user" value="Gestion Employée" outcome="/secured/employee/List.xhtml"  rendered="#{userController.canAccesseEmployee()}"/>
-                        <p:menuitem icon="fa fa-user" style="position: absolute;right: 80px;margin: 4px 4px 4px " title="Profile"  value="#{userController.connectedUser.login}"   />
-                        <p:menuitem icon="fa fa-user" style="position: absolute;right: 140px;margin: 4px 4px 4px " title="isAdmin"  value="#{userController.connectedUser.adminn}"   />
-                        <p:menuitem icon="fa fa-user" style="position: absolute;right: 180px;margin: 4px 4px 4px " title="isCourrier"  value="#{userController.connectedUser.courrier}"   />
+                        <p:menuitem icon="fa fa-user" style="position: absolute;right: 80px;margin: 4px 4px 4px " outcome="/secured/user/Profil.xhtml" title="Profile"  value="#{userController.connectedUser.login}"   />
                         
                         
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
