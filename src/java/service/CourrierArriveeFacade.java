@@ -229,7 +229,7 @@ public class CourrierArriveeFacade extends AbstractFacade<CourrierArrivee> {
                 table.addCell(item.getCodeA_V());
             }
             if (dateEnregcheck  == true) {
-                table.addCell(" "+item.getDateEnregistrement());
+                table.addCell(" "+ DateUtil.convrtStringDate(item.getDateEnregistrement(), "dd/MM/YY"));
                 System.out.println(""+item.getDateEnregistrement());
             }
             if (dateBOW_TRANS_RLANcheck  == true) {

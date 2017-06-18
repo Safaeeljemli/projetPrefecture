@@ -53,6 +53,14 @@ public class Formation implements Serializable {
         return id;
     }
 
+    public List<FormationItem> getFormationItems() {
+        return formationItems;
+    }
+
+    public void setFormationItems(List<FormationItem> formationItems) {
+        this.formationItems = formationItems;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

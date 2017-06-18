@@ -12,7 +12,13 @@
 
         <h:panelGrid columnClasses="value">
             <p:commandButton id="CreateButton"  value="Create"   icon="fa fa-floppy-o" actionListener="#{formationController.redirectToCreate()}" />
-            <p:schedule id="scheduleLocale" value="#{formationController.eventModel}" locale="fr" />
+           <p:schedule id="schedule" value="#{formationController.eventModel}" widgetVar="myschedule" locale="fr" >
+ 
+            <p:ajax event="eventSelect" listener="#{formationController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+            <p:ajax event="eventMove" listener="#{formationController.onEventMove}" update="messages" />
+ 
+        </p:schedule>
+            <!--<p:schedule id="scheduleLocale" value="formationController.eventModel}" locale="fr" />-->
         </h:panelGrid>
     </h:form>
     <script type="text/javascript">
@@ -23,5 +29,20 @@
             width: 1000px;
         }
     </style>
+     <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+        <h:panelGrid id="eventDetails" columns="2">
+            <p:outputLabel for="title" value="Titles:" />
+            <p:inputText id="title" value="#{formationController.event.title}" required="true" />
+ 
+            <p:outputLabel for="from" value="From:" />
+            <p:calendar id="from" value="#{formationController.event.startDate}"  pattern="dd/MM/yyyy "/>
+ 
+            <p:outputLabel for="to" value="To:" />
+            <p:calendar id="to" value="#{formationController.event.endDate}"  pattern="dd/MM/yyyy "/>
+ 
+            <p:commandButton type="reset" value="Reset" />
+            <p:commandButton id="addButton" value="Save" actionListener="#{scheduleView.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+        </h:panelGrid>
+    </p:dialog>  
 </html>
 

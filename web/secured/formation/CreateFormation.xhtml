@@ -9,7 +9,7 @@
 
     <ui:composition template="../template.xhtml">  
         <ui:define name="title">
-            <h:outputText value="ListFormationTitle"></h:outputText>
+            <h:outputText value="Ajout d'une Formation"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
@@ -55,8 +55,8 @@
                                 <p:commandButton actionListener="#{formationController.create}" value="#{bundle.Save}" />
                                 <p:commandButton actionListener="#{formationController.redirectToContact}" value="ajouter un Contact" />
 
-                                 <p:dataTable value="#{contactController.items}" selection="#{formationController.selectedContacts}" var="item" rowKey="#{item.id}"  style="margin-bottom:0">
-                                <p:column selectionMode="multiple" style="width:5px;text-align:center"/>
+                                <p:dataTable value="#{contactController.items}" selection="#{formationController.selectedContacts}" var="item" rowKey="#{item.id}"  selectionMode="multiple" style="margin-bottom:0">
+                                <!--<p:column selectionMode="multiple" style="width:5px;text-align:center"/>-->
                                 <p:column >
                                     <f:facet name="header">
                                         <h:outputText value="Nom"/>

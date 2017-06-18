@@ -411,7 +411,7 @@ public class CourrierArriveeController implements Serializable {
     public void createPDF() {
         try {
             Document document = new Document();
-            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Courriers Arrivées" + Integer.toString(i) + ".pdf";
+            file = "C:\\Users\\PC\\Desktop\\Liste des Courriers Arrivées" + Integer.toString(i) + ".pdf";
             i++;
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
@@ -472,7 +472,7 @@ public class CourrierArriveeController implements Serializable {
 
             String nameOfUp = uploadedFile.getFileName();
             System.out.println(nameOfUp);
-            ServerConfigUtil.upload(uploadedFile,"C:\\Users\\safa\\Desktop\\test", nameOfUp);
+            ServerConfigUtil.upload(uploadedFile,"C:\\Users\\PC\\Desktop", nameOfUp);
             System.out.println("controller");
             
         }

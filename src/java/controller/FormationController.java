@@ -26,16 +26,20 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ActionEvent;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
+import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.SelectEvent;
 
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -43,7 +47,6 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 import org.primefaces.model.map.MapModel;
-
 
 @Named("formationController")
 @SessionScoped
@@ -67,6 +70,7 @@ public class FormationController implements Serializable {
     private List<Contact> selectedContacts;
     private List<Formation> items = null;
     private Formation selected;
+    private Formation selectedF;
     private Date dateDebut;
     private Date dateFin;
     private LieuFormation lieuF;
@@ -88,8 +92,13 @@ public class FormationController implements Serializable {
     private MapModel emptyModel;
     private Double lat = 0D;
     private Double lng = 0D;
+    private String  mailWilaya;
+    private String mdp;
+    private String msg;
+
     public FormationController() {
     }
+
     //recherche dial Formation
     public void findFormation() {
         System.out.println(":: search :: ");
@@ -106,16 +115,20 @@ public class FormationController implements Serializable {
 
     //////contact f une formation
     public void findParticipant(Formation formation) {
-        System.out.println("findParticipant");
-        contacts = contactFacade.findParticipant(formation);
+        setSelectedF(formation);
+        contacts = new ArrayList<>();
+        System.out.println("findParticipant" + formation.getId());
+        setContacts(contactFacade.findParticipant(formation));
+//        contacts = contactFacade.findParticipant(formation);
+        System.out.println("taille contacts" + contacts.size());
         JsfUtil.addSuccessMessage("Success");
-         if (contacts.isEmpty() || contacts == null) {
-            JsfUtil.addErrorMessage("failed");
-                         System.out.println("fail");
+        if (contacts.isEmpty() || contacts == null) {
+            JsfUtil.addErrorMessage("failed findParticipant");
+            System.out.println("fail");
 
         } else {
             JsfUtil.addSuccessMessage("Success");
-             System.out.println("reussi");
+            System.out.println("reussi");
         }
     }
 
@@ -157,6 +170,18 @@ public class FormationController implements Serializable {
         doc.addCreationDate(); // this did not work either.
 
     }
+//envoyer un email
+    public void sendMail(Contact contact){
+        
+            int res = contactFacade.sendMail(contact, selectedF);
+            if (res < 0) {
+                System.out.println("ee error");
+                JsfUtil.addErrorMessage("there is a problem");
+            } else {
+
+                JsfUtil.addSuccessMessage("Mail succefuly sended");
+            }
+        }
 
     //dstroy
     public void destroy(Formation item) {
@@ -175,7 +200,27 @@ public class FormationController implements Serializable {
             eventModel.addEvent(event1);
         }
     }
+     public void onEventSelect(SelectEvent selectEvent) {
+        event = (ScheduleEvent) selectEvent.getObject();
+    }
+      public void onEventMove(ScheduleEntryMoveEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+         
+        addMessage(message);
+    }
+       private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+     public void addEvent(ActionEvent actionEvent) {
+        if(event.getId() == null)
+            eventModel.addEvent(event);
+        else
+            eventModel.updateEvent(event);
+         
+        event = new DefaultScheduleEvent();
+    }
 //Map
+
     public void toAddPosition() throws IOException {
         setDesabeledPosition("false");
         setIsModification(false);
@@ -184,6 +229,7 @@ public class FormationController implements Serializable {
 
     public void cancelPositionAddition(boolean modification) throws IOException {
         cancelCreation();
+
         if (modification) {
             setActivateMarkeMethode(false);
             isModification = false;
@@ -197,13 +243,13 @@ public class FormationController implements Serializable {
     public void marke(boolean modification) throws IOException {
         System.out.println("markk test");
         if (activateMarkeMethode) {
-            System.out.println("activateMarkeMethode"+activateMarkeMethode);
+            System.out.println("activateMarkeMethode" + activateMarkeMethode);
             setActivateMarkeMethode(false);
             getPosition().setLat(getLat());
             getPosition().setLng(getLng());
 
             if (modification) {
-                System.out.println("modification "+modification);
+                System.out.println("modification " + modification);
                 positionFacade.remove(getSelected().getPosition());
                 getSelected().setPosition(getPosition());
                 positionFacade.create(getPosition());
@@ -242,6 +288,7 @@ public class FormationController implements Serializable {
     }
 
     public List<LieuFormation> getLieusAvailableSelectMany() {
+        System.out.println("lieufor");
         return lff.findAll();
     }
 
@@ -255,11 +302,12 @@ public class FormationController implements Serializable {
     }
 
     public List<Contact> getSelectedContacts() {
-        if(selectedContacts==null){
-                    System.out.println("contacts null");
+        if (selectedContacts == null) {
+            System.out.println("contacts null");
 
-            selectedContacts=  new ArrayList();
-        } System.out.println("contacts");
+            selectedContacts = new ArrayList();
+        }
+        System.out.println("contacts");
         return selectedContacts;
     }
 
@@ -316,6 +364,9 @@ public class FormationController implements Serializable {
     }
 
     public List<Contact> getContacts() {
+        if (contacts == null) {
+            contacts = new ArrayList<>();
+        }
         return contacts;
     }
 
@@ -328,6 +379,49 @@ public class FormationController implements Serializable {
     }
 
     public ScheduleModel getEventModel() {
+        if(eventModel==null){
+            eventModel=new ScheduleModel() {
+                @Override
+                public void addEvent(ScheduleEvent se) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public boolean deleteEvent(ScheduleEvent se) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public List<ScheduleEvent> getEvents() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public ScheduleEvent getEvent(String string) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void updateEvent(ScheduleEvent se) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public int getEventCount() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void clear() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public boolean isEventLimit() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            };
+        }
         return eventModel;
     }
 
@@ -357,6 +451,30 @@ public class FormationController implements Serializable {
 
     public boolean isDateB() {
         return dateB;
+    }
+
+    public String getMailWilaya() {
+        return mailWilaya;
+    }
+
+    public void setMailWilaya(String mailWilaya) {
+        this.mailWilaya = mailWilaya;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public void setDateB(boolean dateB) {
@@ -419,6 +537,14 @@ public class FormationController implements Serializable {
         this.lieuF = lieuF;
     }
 
+    public Formation getSelectedF() {
+        return selectedF;
+    }
+
+    public void setSelectedF(Formation selectedF) {
+        this.selectedF = selectedF;
+    }
+
     public OrganismeFormation getOrganisme() {
         return organisme;
     }
@@ -472,38 +598,54 @@ public class FormationController implements Serializable {
         return ejbFacade;
     }
 
-    public Formation prepareCreate() {
+    public void prepareCreate() {
         selected = new Formation();
+        selectedContacts = new ArrayList<>();
         initializeEmbeddableKey();
         contacts = null;
-        return selected;
+        items = ejbFacade.findAll();
+        dateDebut = null;
+        dateFin = null;
+        lieuF = null;
+        organisme = null;
+        formateur = null;
+        position = null;
+
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
-        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
 
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-             formationItemFacade.saveFItem(selectedContacts, selected);
+//       if (!JsfUtil.isValidationFailed()) {
+//              // Invalidate list of items to trigger re-query.
+        int res = formationItemFacade.saveFItem(selectedContacts, selected);
+        if (res != 1) {
+            System.out.println("res " + res);
+        } else {
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+            getItems().add(ejbFacade.clone(selected));
+            // formationItemFacade.saveFItem(selectedContacts, selected);
+            prepareCreate();
+
+            // }
         }
-   }
-//     public void create() {
-//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
-//        if (!JsfUtil.isValidationFailed()) {
-//            getItems().add(ejbFacade.clone(selected));
-//            getFacade().create(selected);
-//            prepareCreate();    // Invalidate list of items to trigger re-query.
-//        }
-//    }
-//    public void create() {
-//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
-//        if (!JsfUtil.isValidationFailed()) {
-//            getItems().add(ejbFacade.clone(selected));
-//            formationItemFacade.saveFItem(selectedContacts, selected);
-//            prepareCreate();    // Invalidate list of items to trigger re-query.
-//        }
-//    }
+    }
+    //     public void create() {
+    //        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+    //        if (!JsfUtil.isValidationFailed()) {
+    //            getItems().add(ejbFacade.clone(selected));
+    //            getFacade().create(selected);
+    //            prepareCreate();    // Invalidate list of items to trigger re-query.
+    //        }
+    //    }
+    //    public void create() {
+    //        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FormationCreated"));
+    //        if (!JsfUtil.isValidationFailed()) {
+    //            getItems().add(ejbFacade.clone(selected));
+    //            formationItemFacade.saveFItem(selectedContacts, selected);
+    //            prepareCreate();    // Invalidate list of items to trigger re-query.
+    //        }
+    //    }
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("FormationUpdated"));
@@ -519,7 +661,7 @@ public class FormationController implements Serializable {
 
     public List<Formation> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+            items = new ArrayList<>();
         }
         return items;
     }
