@@ -373,7 +373,7 @@ public class StagiaireController implements Serializable {
     public void createPDF() {
         try {
             Document document = new Document();
-            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Stagiaires" + Integer.toString(i) + ".pdf";
+            file = "C:\\Users\\PC\\Desktop\\Liste des Stagiaires" + Integer.toString(i) + ".pdf";
             i++;
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
@@ -389,7 +389,7 @@ public class StagiaireController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(selected);
                 } else {
                     getFacade().remove(selected);
                 }

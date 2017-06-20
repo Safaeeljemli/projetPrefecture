@@ -44,7 +44,7 @@
                                            itemValue="#{departementItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{employeeController.create}" value="#{bundle.Save}" update="display,:EmployeeListForm:datalist,:growl" oncomplete="handleSubmit(args,'EmployeeCreateDialog');"/>
+                    <p:commandButton actionListener="#{employeeController.create}" value="#{bundle.Save}" update=":StagiaireCreateForm" oncomplete="handleSubmit(args,'EmployeeCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EmployeeCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

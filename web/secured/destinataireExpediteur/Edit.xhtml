@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.EditDestinataireExpediteurLabel_id}" for="id" />
                         <p:inputText id="id" value="#{destinataireExpediteurController.selected.id}" title="#{bundle.EditDestinataireExpediteurTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{destinataireExpediteurController.update}" value="#{bundle.Save}" update="display,:DestinataireExpediteurListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DestinataireExpediteurEditDialog');"/>
+                    <p:commandButton actionListener="#{destinataireExpediteurController.update}" value="#{bundle.Save}" update="display,:CourrierCreateForm:datalist,:growl" oncomplete="handleSubmit(args, 'DestinataireExpediteurEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DestinataireExpediteurEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

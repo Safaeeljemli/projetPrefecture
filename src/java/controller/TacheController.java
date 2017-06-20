@@ -150,7 +150,16 @@ public class TacheController implements Serializable {
         return selected;
     }
 
+    
     public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TacheCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+    
+    public void createTache(Tache tache) {
+        selected=tache;
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TacheCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -181,7 +190,7 @@ public class TacheController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(selected);
                 } else {
                     getFacade().remove(selected);
                 }

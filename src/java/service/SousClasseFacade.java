@@ -35,4 +35,19 @@ public class SousClasseFacade extends AbstractFacade<SousClasse> {
         
         return em.createQuery("SELECT sc FROM SousClasse sc WHERE sc.classe.id='" + classe.getId() + "'").getResultList();
     }
+
+     private void clone(SousClasse sousClasseSource, SousClasse sousClasseDestination) {
+        sousClasseDestination.setId(generateId("Tache", "id"));
+        sousClasseDestination.setNom(sousClasseSource.getNom());
+        sousClasseDestination.setClasse(sousClasseSource.getClasse());
+        sousClasseDestination.setId(sousClasseSource.getId());
+    }
+
+    public SousClasse clone(SousClasse sousClasse) {
+        SousClasse cloned = new SousClasse();
+        clone(sousClasse, cloned);
+        System.out.println("sousClasse :: clone :: " + cloned);
+        return cloned;
+    }
+    
 }

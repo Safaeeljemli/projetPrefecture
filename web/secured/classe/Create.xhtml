@@ -11,12 +11,14 @@
         <p:dialog id="ClasseCreateDlg" widgetVar="ClasseCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateClasseTitle}">
             <h:form id="ClasseCreateForm">
                 <h:panelGroup id="display">
+                    <center>
                     <p:panelGrid columns="2" rendered="#{classeController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateClasseLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{classeController.selected.nom}" title="#{bundle.CreateClasseTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{classeController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'ClasseCreateDialog');"/>
+                    <p:commandButton actionListener="#{classeController.create}" value="#{bundle.Save}" update=":CourrierCreateForm" oncomplete="handleSubmit(args,'ClasseCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ClasseCreateDialog.hide()"/>
+                    </center>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

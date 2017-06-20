@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.CreateFinaliteLabel_id}" for="id" />
                         <p:inputText id="id" value="#{finaliteController.selected.id}" title="#{bundle.CreateFinaliteTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{finaliteController.create}" value="#{bundle.Save}" update="display,:FinaliteListForm:datalist,:growl" oncomplete="handleSubmit(args,'FinaliteCreateDialog');"/>
+                    <p:commandButton actionListener="#{finaliteController.create}" value="#{bundle.Save}" update=":CourrierCreateForm" oncomplete="handleSubmit(args,'FinaliteCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="FinaliteCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -14,8 +14,17 @@
             <h:outputText value="Profil"></h:outputText>
         </ui:define>
 
-        <ui:define name="body" >
-                    <div class="col-lg-2">
+        
+        
+        <style >
+        body {
+            color:#ceddea;
+            background:lightgoldenrodyellow;
+        }
+        </style>
+        
+        <ui:define name="body"  >
+            <div class="col-lg-2" style="background:lightgoldenrodyellow">
                         <p:fieldset style="margin-left: -15px;height:500px" >
                             <b:listLinks class="center-block" style="margin-top: 100px;background:lightgoldenrodyellow">
                                 <b:navCommandLink value="Mon Compte" actionListener="#{userController.aficherProfil(true, false, false)}" update="changeAutreInfosForm,changePWForm,profileForm" />

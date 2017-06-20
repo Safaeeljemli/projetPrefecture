@@ -11,18 +11,18 @@
         <p:dialog id="SousClasseCreateDlg" widgetVar="SousClasseCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSousClasseTitle}">
             <h:form id="SousClasseCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{sousClasseController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{classeController.sousClasseToCreate != null}">
                         <p:outputLabel value="#{bundle.CreateSousClasseLabel_nom}" for="nom" />
-                        <p:inputText id="nom" value="#{sousClasseController.selected.nom}" title="#{bundle.CreateSousClasseTitle_nom}" />
+                        <p:inputText id="nom" value="#{classeController.sousClasseToCreate.nom}" title="#{bundle.CreateSousClasseTitle_nom}" />
                         <p:outputLabel value="#{bundle.CreateSousClasseLabel_classe}" for="classe" />
-                        <p:selectOneMenu id="classe" value="#{sousClasseController.selected.classe}" >
+                        <p:selectOneMenu id="classe" value="#{classeController.sousClasseToCreate.classe}" >
                             <f:selectItems value="#{classeController.itemsAvailableSelectOne}"
                                            var="classeItem"
                                            itemValue="#{classeItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <center>
-                        <p:commandButton actionListener="#{sousClasseController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'SousClasseCreateDialog');"/>
+                        <p:commandButton actionListener="#{classeController.createSousClasse}" value="#{bundle.Save}" update=":CourrierCreateForm" oncomplete="handleSubmit(args,'SousClasseCreateDialog');"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="SousClasseCreateDialog.hide()"/>
                     </center>
                 </h:panelGroup>

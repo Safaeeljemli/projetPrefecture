@@ -14,7 +14,7 @@
     <h:head>
         <title>Accueil</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
-        <link rel="icon" type="image/png" href="/resources/images/logo.png" />
+        <!--<link rel="icon" type="image/png" href="/resources/images/logo.png" />-->
     </h:head>
 
 
@@ -23,8 +23,11 @@
             color:black;
             /*background-color:weight;*/
             background-image:url(white-background-01-4873.jpg);
-            background-image:url(/cadre-photo.png);
-            background-image:url(image/fondtr.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+          
+            background-origin: content-box ;
         }
 
         .imagelink {
@@ -37,7 +40,7 @@
         }
 
         img {
-            width:20px;
+            width:30px;
             margin:20px;
         }
 
@@ -48,13 +51,15 @@
                 <h:graphicImage class="imagelink" id="imag45" value="/resources/images/marrakechSafi.png"  style="width:100%;height:70px" ></h:graphicImage>
 
 
+
                 <br/>
                 <br/>
 
 
 
                 <center>
-                    <font size="20" face="Comic Sans MS" style="color: #5F9EA0 !important">Informatiser la Division</font> 
+
+                    <font size="20" face="Viner Hand ITC" style="color: #5F9EA0 !important">Gestion Ressources Humaines</font> 
                 </center>
                 <br/>
                 <center>
@@ -66,7 +71,7 @@
                         <h:graphicImage class="imagelink" id="imag2" value="/resources/images/courrier1.jpg" title="Courrier" style="width:130px;height:130px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
                     <a href="/Project/faces/secured/formation/List.xhtml">
-                        <h:graphicImage class="imagelink" id="imag3" value="/resources/images/formation.jpg" title="Formation" style="width:130px;height:130px" ></h:graphicImage>
+                        <h:graphicImage class="imagelink" id="imag3" value="/resources/images/formation.jpg" title="Formation" style="width:150px;height:150px" ></h:graphicImage>
                     </a>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
                     <br/>
                     <a href="/Project/faces/secured/employee/List.xhtml">
@@ -84,10 +89,11 @@
             <br/>
             <br/>
             <footer>
-                <div class="alert alert-info" style="text-align: right">
-                    <p>Copyright &copy; PFE LST SIR 2016/2017 </p>
+                <div class="container text-center"><center>
+                        <p style="color: #5F9EA0">Copyright &copy; PFE FSTG SIR 2016-2017</p></center>
                 </div>
             </footer>
+
 
         </div>
     </h:body>

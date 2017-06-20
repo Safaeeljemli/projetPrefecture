@@ -17,7 +17,7 @@
         <ui:define name="body">
 
             <b:panel look="info" title="Recherche des Courriers Arrivéees" class="panel-primary" style="text-align: center; margin-left: 10%;margin-right:10%;" >
-                <h:form id="CourrierProduitSearchForm">
+                <h:form id="CourrierArriveeSearchForm">
                     <b:panelGrid columns="6">
                         <!--test-->
 
@@ -88,7 +88,7 @@
                     <div align="center" class="col-sm-5 center-block" style="margin-left: 30%;font-size: 10pt" >
                         <br></br>
                         <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{courrierArriveeController.findCourrierArrivee()}" update=":CourrierArriveeListForm:datalist"></b:commandButton>
-                        <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierArriveeController.refresh()}" update="CourrierProduitSearchForm,:CourrierArriveeListForm"></b:commandButton>
+                        <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{courrierArriveeController.refresh()}" update="CourrierArriveeSearchForm,:CourrierArriveeListForm"></b:commandButton>
                     </div>
 
                 </h:form>
@@ -103,7 +103,7 @@
                         <b:commandButton id="createButton"  value="Create" icon-awesome="fa-floppy-o" icon-spin="lg" class="btn-primary"  actionListener="#{courrierArriveeController.redirectToCreate()}"  />
                         <b:commandButton id="chowColunmsButton"  value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierArriveeCheckForm" oncomplete="PF('CourrierArriveeCheckDialog').show()" />
                     </div>
-                        <b:commandButton look="info" value="Report" action="#{courrierArriveeController.createPDF()}" ajax="false" icon="icon-report" />
+                        <b:commandButton look="info" value="Report" action="#{courrierArriveeController.createPDF()}" ajax="false" icon="download" />
                     <br/>
                     <br/>
                     <p:dataTable  id="datalist" value="#{courrierArriveeController.items}" var="item" 
@@ -196,12 +196,6 @@
                             </f:facet>
                             <h:outputText value="#{item.sousClasse.nom}"/>
                         </p:column>
-                        <p:column   >
-                            <f:facet name="header">
-                                <h:outputText value="File"/>
-                            </f:facet>
-                            <h:outputText value="#{item.file}"/>
-                        </p:column>
                         <p:column   rendered="#{courrierArriveeController.optionCheck eq true}" >
                             <f:facet name="header">
                                 <h:outputText value="Option"/>
@@ -222,6 +216,7 @@
 
 
                             <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{courrierArriveeController.setSelected(item)}"  update=":CourrierArriveeEditForm" oncomplete="PF('CourrierArriveeEditDialog').show()" />
+                            <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="Taches" ajax="true" icon-awesome="fa-angle-right" actionListener="#{courrierArriveeController.setSelected(item)}"  />
                         </p:column>
 
                     </p:dataTable>

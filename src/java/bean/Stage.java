@@ -29,7 +29,7 @@ public class Stage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int typeStage;//1=normal 2=PFE
+    private int typeStage;//1=alternée 2=normale 3 PFE
     @ManyToOne
     private Departement dep;
     @ManyToOne
@@ -44,6 +44,14 @@ public class Stage implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Tache> getTaches() {
+        return taches;
+    }
+
+    public void setTaches(List<Tache> taches) {
+        this.taches = taches;
     }
 
     public int getTypeStage() {

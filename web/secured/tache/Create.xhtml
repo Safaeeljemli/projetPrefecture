@@ -21,13 +21,19 @@
                         <p:outputLabel value="#{bundle.CreateTacheLabel_importance}" for="importance" />
                         <p:inputText id="importance" value="#{tacheController.selected.importance}" title="#{bundle.CreateTacheTitle_importance}" />
                         <p:outputLabel value="#{bundle.CreateTacheLabel_stage}" for="stage" />
-                        <p:selectOneMenu id="stage" value="#{tacheController.selected.stage}" >
+                        <p:selectOneMenu id="stage"  value="#{tacheController.selected.stage}" >
                             <f:selectItems value="#{stageController.itemsAvailableSelectOne}"
                                            var="stageItem"
                                            itemValue="#{stageItem}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value="Employé" for="employe" />
+                        <p:selectOneMenu rendered="true" id="employe"  value="#{employeeController.tacheToCreate.employee}" >
+                            <f:selectItems value="#{employeeController.itemsAvailableSelectOne}"
+                                           var="employeeItem"
+                                           itemValue="#{employeeItem}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tacheController.create}" value="#{bundle.Save}" update="display,:TacheListForm:datalist,:growl" oncomplete="handleSubmit(args,'TacheCreateDialog');"/>
+                    <p:commandButton actionListener="#{tacheController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'TacheCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TacheCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

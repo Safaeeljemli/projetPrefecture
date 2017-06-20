@@ -1,12 +1,17 @@
 package controller;
 
+import bean.Contact;
 import bean.Departement;
 import bean.Employee;
+import bean.Tache;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.EmployeeFacade;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,21 +24,102 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-
+import service.ContactFacade;
+import service.TacheFacade;
 
 @Named("employeeController")
 @SessionScoped
 public class EmployeeController implements Serializable {
 
-
-    @EJB private service.EmployeeFacade ejbFacade;
+    private controller.TacheController tacheController;
+    @EJB
+    private service.EmployeeFacade ejbFacade;
+    @EJB
+    private service.DepartementFacade departementFacade;
+    @EJB
+    private TacheFacade tacheFacade;
+    @EJB
+    private ContactFacade contactFacade;
     private List<Employee> items = null;
     private Employee selected;
     private Departement departement;
-    @EJB
-    private service.DepartementFacade departementFacade;
+    private Contact contact;
+    private String cin;
+    private Date dateRetard= new Date();
+    private Date dateEnCour= new Date();
+
+    private Employee thisEmlpoyee;
+    private List<Tache> taches;
+    private List<Tache> tachesFinis;
+    private List<Tache> tachesRetards;
+    private Tache tacheToCreate;
 
     public EmployeeController() {
+    }
+
+    public String getCin() {
+        return cin;
+    }
+
+    public void setCin(String cin) {
+        this.cin = cin;
+    }
+
+    public Date getDateRetard() {
+        return dateRetard;
+    }
+
+    public void setDateRetard(Date dateRetard) {
+        this.dateRetard = dateRetard;
+    }
+
+    public Date getDateEnCour() {
+        return dateEnCour;
+    }
+
+    public void setDateEnCour(Date dateEnCour) {
+        this.dateEnCour = dateEnCour;
+    }
+
+    public List<Tache> getTachesRetards() {
+        return tachesRetards;
+    }
+
+    public void setTachesRetards(List<Tache> tachesRetards) {
+        this.tachesRetards = tachesRetards;
+    }
+
+    
+    public List<Tache> getTachesFinis() {
+        
+        return tachesFinis;
+    }
+
+    public void setTachesFinis(List<Tache> tachesFinis) {
+        this.tachesFinis = tachesFinis;
+    }
+
+    
+    public Tache getTacheToCreate() {
+        if (tacheToCreate == null) {
+            tacheToCreate = new Tache();
+        }
+        return tacheToCreate;
+    }
+
+    public void setTacheToCreate(Tache tacheToCreate) {
+        this.tacheToCreate = tacheToCreate;
+    }
+
+    public Contact getContact() {
+        if (contact == null) {
+            contact = new Contact();
+        }
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     public Departement getDepartement() {
@@ -56,6 +142,28 @@ public class EmployeeController implements Serializable {
 
     public void setSelected(Employee selected) {
         this.selected = selected;
+    }
+
+    public Employee getThisEmlpoyee() {
+        if (thisEmlpoyee == null) {
+            thisEmlpoyee = new Employee();
+        }
+        return thisEmlpoyee;
+    }
+
+    public void setThisEmlpoyee(Employee thisEmlpoyee) {
+        this.thisEmlpoyee = thisEmlpoyee;
+    }
+
+    public List<Tache> getTaches() {
+        if (taches == null) {
+            taches = new ArrayList<>();
+        }
+        return taches;
+    }
+
+    public void setTaches(List<Tache> taches) {
+        this.taches = taches;
     }
 
     protected void setEmbeddableKeys() {
@@ -83,6 +191,33 @@ public class EmployeeController implements Serializable {
         return departementFacade.findAll();
     }
 
+    public void findTacheByEmployee(Employee employee) {
+        System.out.println("hanaaa");
+        thisEmlpoyee = employee;
+        try {
+            System.out.println("ssclass");
+            setTaches(tacheFacade.findTacheByEmployee(employee));
+            employee.setTaches(tacheFacade.findTacheByEmployee(employee));
+            JsfUtil.addSuccessMessage("trouvé hjyfgt");
+            if(taches!=null){
+                JsfUtil.addSuccessMessage("trouvé");
+            }else
+                JsfUtil.addErrorMessage("liste vide");
+
+            System.out.println("jjjjjj");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("veiller choisire un employé");
+        }
+    }
+    public void findTachEmp(Employee employee) {
+        System.out.println("hanaaa");
+        thisEmlpoyee = employee;
+        setTaches(tacheFacade.findTacheByEmployee(employee));
+        for (Tache tache : taches) {
+            System.out.println(""+tache.getNom());
+        }
+    }
+
     public void findEmployee() {
         System.out.println("controller find");
         items = null;
@@ -95,22 +230,74 @@ public class EmployeeController implements Serializable {
             JsfUtil.addSuccessMessage("successe");
         }
     }
+    public void findEmployeeByCin() {
+        System.out.println("controller find");
+        selected = getFacade().findEmployeeByCin(cin);
+        System.out.println(""+selected.getCin());
+        setTaches(tacheFacade.findTacheByEmployee(selected));
+        for(Tache tache: taches){
+            System.out.println(""+tache.getEmployee().getNom());
+        }
+        
+        if (selected == null) {
+            System.out.println("no found");
+            JsfUtil.addSuccessMessage("Employé non trouvé");
+        } else {
+            System.out.println("succeee");
+            JsfUtil.addSuccessMessage("success");
+        }
+    }
 
+    
+    public void findTacheEnCour(){
+        setTachesFinis(tacheFacade.findTacheRetard(dateEnCour));
+         for(Tache tache: tachesFinis){
+            System.out.println(""+tache.getNom());
+        }
+    }
+    public void findTacheRetard(){
+//        dateRetard=DateUtil.;
+        setTachesFinis(tacheFacade.findTacheEnCour(dateRetard));
+         for(Tache tache: tachesFinis){
+            System.out.println(""+tache.getNom());
+        }
+    }
     public void prepareCreate() {
         selected = new Employee();
     }
 
+    public void prepareCreateTache() {
+        tacheToCreate = new Tache();
+        tacheToCreate.setEmployee(selected);
+    }
+
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EmployeeCreated"));
+        int res = contactFacade.employeeContact(selected);
+        if (res > 1) {
+            JsfUtil.addSuccessMessage("Nouveau contact creer");
+        } else {
+            JsfUtil.addErrorMessage("Information non acomplie pour creer contact");
+        }
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
+    public void createTache() {
+                System.out.println(""+tacheToCreate.getNom()+" "+tacheToCreate.getEmployee().getNom());
+//        tacheController.createTache(tacheToCreate);
+        tacheFacade.create(tacheToCreate);
+        System.out.println("tache"+tacheToCreate.getNom());
+        taches.add(tacheFacade.clone(tacheToCreate));
+        JsfUtil.addSuccessMessage("Tache creé");
+        tacheToCreate = new Tache();
+    }
+    
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EmployeeUpdated"));
     }
-    
+
     public void destroy(Employee employee) {
         System.out.println("User Controller");
         int res = ejbFacade.deleteEmloyeee(employee);
@@ -142,7 +329,7 @@ public class EmployeeController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(selected);
                 } else {
                     getFacade().remove(selected);
                 }
@@ -177,7 +364,7 @@ public class EmployeeController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass=Employee.class)
+    @FacesConverter(forClass = Employee.class)
     public static class EmployeeControllerConverter implements Converter {
 
         @Override
@@ -185,7 +372,7 @@ public class EmployeeController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            EmployeeController controller = (EmployeeController)facesContext.getApplication().getELResolver().
+            EmployeeController controller = (EmployeeController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "employeeController");
             return controller.getEmployee(getKey(value));
         }

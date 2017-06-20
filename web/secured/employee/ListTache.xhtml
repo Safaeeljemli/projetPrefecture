@@ -33,18 +33,15 @@
                                                 <p:panelGrid columns="4">
 
                                                     <p:column styleClass="text-font">
-                                                        <p:outputLabel value="Département" for="departement1" />
+                                                        <p:outputLabel value="Employe" for="employee1" />
                                                     </p:column>
                                                     <p:column styleClass="text-font">
-                                                        <p:selectOneMenu id="departement1"   value="#{employeeController.departement}" >
-                                                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
-                                                            <f:selectItems value="#{employeeController.departementAvailableSelectOne}" var="itemDepartement" itemValue="#{itemDepartement}" itemLabel="#{itemDepartement.nom}"/>
-                                                        </p:selectOneMenu>
+                                                        <p:inputText id="employee1"   value="#{employeeController.cin}" />
+                                                           
                                                     </p:column>
 
 
-                                                    <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{employeeController.findEmployee()}" update="EmployeeListForm:datalist"/>
-                                                    <b:commandButton value="Refresher" icon="glyphicon glyphicon-refresh"  actionListener="#{employeeController.refresh()}" update="EmployeeListForm"></b:commandButton>
+                                                    <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{employeeController.findEmployeeByCin()}" update="EmployeeListForm:datalist"/>
                                                 </p:panelGrid>
                                             </center>
                                             
@@ -63,6 +60,13 @@
                                                 </b:dataTableColumn>
                                                 <b:dataTableColumn class="colData">
                                                     <f:facet name="header">
+                                                        <h:outputText value="#{bundle.ListEmployeeTitle_numPoste}"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.numPoste}"/>
+                                                </b:dataTableColumn>
+
+                                                <b:dataTableColumn class="colData">
+                                                    <f:facet name="header">
                                                         <h:outputText value="#{bundle.ListEmployeeTitle_departement}"/>
                                                     </f:facet>
                                                     <h:outputText value="#{item.departement}"/>
@@ -76,7 +80,7 @@
                                                 </b:dataTableColumn>
                                                 <b:dataTableColumn class="colData">
                                                     <f:facet name="header">
-                                                        <h:outputText value="Taches"/>
+                                                        <h:outputText value="Affecter Tache"/>
                                                     </f:facet>
                                                     <b:commandButton style="margin: 1% 1% 1% 1%;" look="info" value="" ajax="true"  icon-awesome="fa-plus"  actionListener="#{employeeController.findTacheByEmployee(item)}" update=":tacheListForm:datalist" >
                                                         <f:ajax  execute="@this" render="tacheListForm" />
@@ -101,29 +105,28 @@
                                                         </f:facet>
                                                         <h:outputText value="#{item.nom}"/>
                                                     </b:dataTableColumn>
-                                                    
                                                     <b:dataTableColumn class="colData">
                                                         <f:facet name="header">
-                                                            <h:outputText value="Etat"/>
+                                                            <h:outputText value="#{bundle.ListTacheTitle_avancement}"/>
                                                         </f:facet>
-                                                        <h:outputText value="#{item.etat=='1'?'Nouveau':'2'?'En Cours':'Terminé'}"/>
+                                                        <h:outputText value="#{item.avancement}"/>
                                                     </b:dataTableColumn>
                                                     <b:dataTableColumn class="colData">
                                                         <f:facet name="header">
                                                             <h:outputText value="#{bundle.ListTacheTitle_importance}"/>
                                                         </f:facet>
-                                                        <h:outputText value="#{item.importance=='1'?'important':'2'?'Tres important':' important'}"/>
+                                                        <h:outputText value="#{item.importance}"/>
                                                     </b:dataTableColumn>
                                                     
                                                     <b:dataTableColumn class="colData">
                                                         <f:facet name="header">
                                                             <h:outputText value="Options"/>
                                                         </f:facet>
-                                                        <b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="#{tacheController.setSelected(item)}"  oncomplete="PF('SousClasseEditDialog').show()" />
+                                                        <!--<b:commandButton style="margin: 1% 1% 1% 1%;" look="success" value="" ajax="true" icon-awesome="fa-pencil-square-o" actionListener="{tacheController.setSelected(item)}" update=":SousClasseEditForm" oncomplete="PF('SousClasseEditDialog').show()" />-->
                                                     </b:dataTableColumn>
                                                 </b:dataTable>
                                                 <f:facet name="footer">
-                                                    <b:commandButton look="primary" id="CreateButton2" icon-awesome="fa-floppy-o" ajax="true" value="Create" actionListener="#{employeeController.prepareCreateTache()}" update=":tacheListForm" oncomplete="PF('TacheCreateDialog').show()" />
+                                                    <b:commandButton look="primary" id="CreateButton2" icon-awesome="fa-floppy-o" ajax="true" value="Create" actionListener="#{employeeController.prepareCreateTache()}" update=":TacheCreateForm" oncomplete="PF('TacheCreateDialog').show()" />
                                                 </f:facet>
                                             </b:panel>
                                         </h:form>

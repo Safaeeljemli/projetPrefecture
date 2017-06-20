@@ -28,7 +28,7 @@
                                            itemValue="#{stageItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tacheController.update}" value="#{bundle.Save}" update="display,:TacheListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TacheEditDialog');"/>
+                    <p:commandButton actionListener="#{tacheController.update}" value="#{bundle.Save}" update="display:growl" oncomplete="handleSubmit(args, 'TacheEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TacheEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

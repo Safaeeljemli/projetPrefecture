@@ -22,7 +22,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Employee implements Serializable {
 
-   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,15 +33,26 @@ public class Employee implements Serializable {
     private String mail;
     private String numTel;
     private int numPoste;
-     @OneToMany(mappedBy = "employee")
-    private List<Formateur> formateurs;
-    @ManyToOne
+   
     @OneToOne(mappedBy = "chefDep")
     private Departement departement;
     @OneToMany(mappedBy = "encadrant")
     private List<Stagiaire> stagiaires;
     @OneToMany(mappedBy = "responsable")
     private List<Stage> stages;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Tache> taches;
+
+    public List<Tache> getTaches() {
+        return taches;
+    }
+
+    public void setTaches(List<Tache> taches) {
+        this.taches = taches;
+    }
+
+    
     public String getNom() {
         return nom;
     }
@@ -58,7 +68,6 @@ public class Employee implements Serializable {
     public void setNumPoste(int numPoste) {
         this.numPoste = numPoste;
     }
-    
 
     public String getPrenom() {
         return prenom;
@@ -68,15 +77,7 @@ public class Employee implements Serializable {
         this.prenom = prenom;
     }
 
-    public List<Formateur> getFormateurs() {
-        return formateurs;
-    }
-
-    public void setFormateurs(List<Formateur> formateurs) {
-        this.formateurs = formateurs;
-    }
-    
-
+   
     public String getCin() {
         return cin;
     }
@@ -163,7 +164,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return nom + "  " + prenom ;
+        return nom + "  " + prenom;
     }
 
 }

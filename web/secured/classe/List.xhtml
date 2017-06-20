@@ -22,12 +22,11 @@
                         <div class="ui-grid-col-1"></div>
                         <div class="ui-grid-col-10">
 
-                            <b:panel look="info"  collapsible="false" title="Classe" style="position: relative;align-self: center;">
                                 <div class="ui-grid-row">
                                     <div class="ui-grid-col-4">
                                         <div class="ui-grid-col-1"></div>
-                                        <h:form id="ClasseListForm">
-                                            <b:panel look="info"  collapsible="false" title="Classe" style="margin-top: 3%;position: relative;align-self: center;">
+                                        <h:form id="CourrierCreateForm">
+                                            <b:panel look="info"  collapsible="false" title="Classe"  style="margin-top: 5%;position: relative;align-self: center;">
                                                 <b:dataTable  selectionMode="single" ajax="true" page-length="5" page-length-menu="[5,10,15]" searching="false"  id="datalist" value="#{classeController.classesAvailableSelectOne}" var="item"  >
 
 
@@ -49,7 +48,7 @@
                                                     </b:dataTableColumn>
                                                 </b:dataTable>
                                                 <f:facet name="footer">
-                                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true"  value="Create" actionListener="#{classeController.prepareCreate()}" update=":ClasseCreateForm" oncomplete="PF(':ClasseCreateForm').show()" />
+                                                    <b:commandButton look="primary" id="CreateButton1" icon-awesome="fa-floppy-o" ajax="true"  value="Create" actionListener="#{classeController.prepareCreate}" update=":ClasseCreateForm" oncomplete="PF('ClasseCreateDialog').show()" />
                                                 </f:facet>
                                             </b:panel>
                                         </h:form>
@@ -57,7 +56,7 @@
 
                                     <div class="ui-grid-col-4">
                                         <h:form id="SousClasseListForm">
-                                            <b:panel look="info"  collapsible="false" title="Sous Classe" style="margin-top: 3%;">
+                                            <b:panel look="info"  collapsible="false" title="Sous Classe"  style="margin-top: 5%;position: relative;align-self: center;">
                                                 <b:dataTable ajax="true" page-length="5" page-length-menu="[5,10,15]"  searching="false" id="datalist" value="#{classeController.sousClasses}" var="item" >
                                                     <b:dataTableColumn class="colData">
                                                         <f:facet name="header">
@@ -73,7 +72,7 @@
                                                     </b:dataTableColumn>
                                                 </b:dataTable>
                                                 <f:facet name="footer">
-                                                    <b:commandButton look="primary" id="CreateButton" icon-awesome="fa-floppy-o" ajax="true" value="Create" actionListener="#{classeController.prepareCreateSousClasse()}" update=":SousClasseCreateForm" oncomplete="PF('SousClasseCreateDialog').show()" />
+                                                    <b:commandButton look="primary" id="CreateButton2" icon-awesome="fa-floppy-o" ajax="true" value="Create" actionListener="#{classeController.prepareCreateSousClasse()}" update=":SousClasseCreateForm" oncomplete="PF('SousClasseCreateDialog').show()" />
                                                 </f:facet>
                                             </b:panel>
                                         </h:form>
@@ -81,7 +80,6 @@
 
 
                                 </div>
-                            </b:panel>
 
                         </div>
                         <div class="ui-grid-col-1"></div>

@@ -116,7 +116,7 @@
                         <b:commandButton id="createButton"  value="Create" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"   actionListener="#{courrierProduitController.redirectToCreate()}" update=":CourrierProduitCreateForm" oncomplete="PF('CourrierProduitCreateDialog').show()" />
                         <b:commandButton id="chowColunmsButton" value="Columns" icon-awesome="fa-user-plus" icon-spin="lg" class="btn-primary"  update=":CourrierProduitCheckForm" oncomplete="PF('CourrierProduitCheckDialog').show()" />
                     </div>
-                    <b:commandButton  value="Report" action="#{courrierProduitController.createPDF()}" ajax="false" icon="icon-report" />
+                    <b:commandButton look="info"  value="Report" action="#{courrierProduitController.createPDF()}" ajax="false" icon="download" />
                     <br/>
                     <br/>
 
@@ -195,13 +195,13 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_etat}"/>
                             </f:facet>
-                            <h:outputText value="#{item.etat}"/>
+                            <h:outputText value="#{item.etat=='1'?'Signé':'Non Signé'}"/>
                         </p:column>
                         <p:column rendered="#{courrierProduitController.raisonCheck eq true}" sortBy="#{item.raisonSignature}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCourrierProduitTitle_raisonSignature}"/>
                             </f:facet>
-                            <h:outputText value="#{item.raisonSignature}"/>
+                            <h:outputText value="#{item.raisonSignature==''?'----_----':item.raisonSignature}"/>
                         </p:column>
                         <p:column rendered="#{courrierProduitController.dateEnvoiAuBTCheck eq true}" sortBy="#{item.dateEnvoiAuBOW_TRANS}">
                             <f:facet name="header">

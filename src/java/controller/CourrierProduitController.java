@@ -355,7 +355,7 @@ public class CourrierProduitController implements Serializable {
     public void createPDF() {
         try {
             com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-            file = "C:\\Users\\safa\\Desktop\\test\\Liste des Courriers Produits" + Integer.toString(i) + ".pdf";
+            file = "C:\\Users\\PC\\Desktop\\Liste des Courriers Produits" + Integer.toString(i) + ".pdf";
             i++;
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
@@ -444,7 +444,7 @@ public class CourrierProduitController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(getSelected());
                 } else {
                     getFacade().remove(selected);
                 }

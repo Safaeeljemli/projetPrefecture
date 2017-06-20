@@ -31,7 +31,7 @@ public class Contact implements Serializable {
     private Long id;
     private String nom;
     private String prenom;
-    private int numTel;
+    private String numTel;
     private String mail;
     private String poste;
 //getter and setter et fct predefinis
@@ -69,11 +69,11 @@ public class Contact implements Serializable {
         this.prenom = prenom;
     }
 
-    public int getNumTel() {
+    public String getNumTel() {
         return numTel;
     }
 
-    public void setNumTel(int numTel) {
+    public void setNumTel(String numTel) {
         this.numTel = numTel;
     }
 

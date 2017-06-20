@@ -15,7 +15,7 @@
             <b:panel >
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-1"></div>
-                    <h:form id="CourrierProduitCreateForm">
+                    <h:form id="CourrierCreateForm">
                         <h:panelGroup id="display">
                             <b:panelGrid columns="2" rendered="#{courrierProduitController.selected != null}"  >
                                 <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
@@ -35,9 +35,16 @@
                                             <f:selectItem itemValue="2" itemLabel="non signé"/>
                                             <f:ajax event="change" execute="@this" render=":raisonSignatureLabel" />
                                         </p:selectOneMenu>
+                                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_courrierArrivee}" for="courrierArrivee" />
+                                        <p:selectOneMenu id="courrierArrivee" value="#{courrierProduitController.selected.courrierArrivee}" >
+                                            <f:selectItem  itemValue="" itemLabel="--SELECT--" />
+                                            <f:selectItems value="#{courrierArriveeController.itemsAvailableSelectOne}"
+                                                           var="courrierArriveeItem"
+                                                           itemValue="#{courrierArriveeItem}"/>
+                                        </p:selectOneMenu>
                                     </h:panelGrid>
                                 </p:fieldset>
-                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                <p:fieldset legend="Date courrier" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
                                     <h:panelGrid id="ooo" columns="2" cellpadding="6" >
                                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_dateCreation}" for="dateCreation" />
                                         <p:calendar id="dateCreation" pattern="MM/dd/yyyy" value="#{courrierProduitController.selected.dateCreation}" title="#{bundle.EditCourrierProduitTitle_dateCreation}"  />
@@ -57,52 +64,68 @@
                                     </h:panelGrid>
                                 </p:fieldset>
 
-                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                <p:fieldset legend="Information" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
                                     <h:panelGrid id="uii" columns="2" cellpadding="6" >
                                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_finalite}" for="finalite" />
-                                        <p:selectOneMenu id="finalite" value="#{courrierProduitController.selected.finalite}" >
-                                            <f:selectItem  itemValue="" itemLabel="--SELECT--" />
-                                            <f:selectItems value="#{finaliteController.itemsAvailableSelectOne}"
-                                                           var="finaliteItem"
-                                                           itemValue="#{finaliteItem}"/>
-                                        </p:selectOneMenu>
+                                        <h:panelGroup >
+                                            <p:commandButton  icon="ui-icon-plus" ajax="true" actionListener="#{finaliteController.prepareCreate}" update=":FinaliteCreateForm" oncomplete="PF('FinaliteCreateDialog').show()"/>
+                                            <p:selectOneMenu id="finalite" value="#{courrierProduitController.selected.finalite}" >
+                                                <f:selectItem  itemValue="" itemLabel="--SELECT--" />
+                                                <f:selectItems value="#{finaliteController.itemsAvailableSelectOne}"
+                                                               var="finaliteItem"
+                                                               itemValue="#{finaliteItem}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
                                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_destinataireExpediteur}" for="destinataireExpediteur" />
-                                        <p:selectOneMenu id="destinataireExpediteur" value="#{courrierProduitController.selected.destinataireExpediteur}" >
-                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
-                                            <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
-                                                           var="destinataireExpediteurItem"
-                                                           itemValue="#{destinataireExpediteurItem}"/>
-                                        </p:selectOneMenu>
-                                        <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_courrierArrivee}" for="courrierArrivee" />
-                                        <p:selectOneMenu id="courrierArrivee" value="#{courrierProduitController.selected.courrierArrivee}" >
-                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
-                                            <f:selectItems value="#{courrierArriveeController.itemsAvailableSelectOne}"
-                                                           var="courrierArriveeItem"
-                                                           itemValue="#{courrierArriveeItem}"/>
-                                        </p:selectOneMenu>
+                                        <h:panelGroup >
+                                            <p:commandButton  icon="ui-icon-plus" ajax="true" actionListener="#{destinataireExpediteurController.prepareCreate}" update=":DestinataireExpediteurCreateForm" oncomplete="PF('DestinataireExpediteurCreateDialog').show()"/>
+                                            <p:selectOneMenu id="destinataireExpediteur" value="#{courrierProduitController.selected.destinataireExpediteur}" >
+                                                <f:selectItem  itemValue="" itemLabel="--SELECT--" />
+                                                <f:selectItems value="#{destinataireExpediteurController.itemsAvailableSelectOne}"
+                                                               var="destinataireExpediteurItem"
+                                                               itemValue="#{destinataireExpediteurItem}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup >
+                                       
+                                        <p:outputLabel value="Classe" for="classe" />
+                                        <h:panelGroup>
+                                            <p:commandButton id="clss" icon="ui-icon-plus"  actionListener="#{classeController.prepareCreate}" update=":ClasseCreateForm,:CourrierCreateForm" oncomplete="PF('ClasseCreateDialog').show()"/>
+                                            <p:selectOneMenu id="classe"   value="#{courrierArriveeController.classe}" >
+                                                <p:ajax listener="#{courrierProduitController.findSousClasseByClasse()}"  update="sousClasse" />
+                                                <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true" ></f:selectItem>
+                                                <f:selectItems value="#{courrierArriveeController.classesAvailableSelectOne}" var="itemClasse" itemValue="#{itemClasse}" itemLabel="#{itemClasse.nom}"/>
+                                            </p:selectOneMenu>
+
+                                        </h:panelGroup>
                                         <p:outputLabel value="#{bundle.CreateCourrierProduitLabel_sousClasse}" for="sousClasse" />
                                         <p:selectOneMenu id="sousClasse" value="#{courrierProduitController.selected.sousClasse}" >
-                                            <f:selectItem  itemValue="null" itemLabel="--SELECT--" />
+                                            <f:selectItem  itemValue="" itemLabel="--SELECT--" />
                                             <f:selectItems value="#{sousClasseController.itemsAvailableSelectOne}"
                                                            var="sousClasseItem"
                                                            itemValue="#{sousClasseItem}"/>
                                         </p:selectOneMenu>
                                     </h:panelGrid>
                                 </p:fieldset>
-                                <p:fieldset legend="Nenregistrement" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
+                                <p:fieldset legend="Fichier" style="text-align: center;margin-top: 5%; margin-left: 15%;margin-right:15%;">
                                     <h:panelGrid id="iii" columns="2" cellpadding="6" >
 
                                     </h:panelGrid>
                                 </p:fieldset>
                             </b:panelGrid>
                             <center>
-                                <p:commandButton actionListener="#{courrierProduitController.create()}" value="#{bundle.Save}" update=":CourrierProduitCreateForm,:growl"/>
-                                <p:commandButton value="#{bundle.Cancel}"  actionListener="#{courrierProduitController.refreshCreate()}" update=":CourrierProduitCreateForm" />
+                                <p:commandButton actionListener="#{courrierProduitController.create()}" value="#{bundle.Save}" update=":CourrierCreateForm,:growl"/>
+                                <p:commandButton value="#{bundle.Cancel}"  actionListener="#{courrierProduitController.refreshCreate()}" update=":CourrierCreateForm" />
                             </center>
                         </h:panelGroup>
                     </h:form>
-                </div>s
+                </div>
             </b:panel>
+
+
+            <ui:include src="../finalite/Create.xhtml"/>
+                        <ui:include src="../destinataireExpediteur/Create.xhtml"/>
+                        <ui:include src="../classe/Create.xhtml"/>
+                        <ui:include src="../sousClasse/Create.xhtml"/>
         </ui:define>
 
     </ui:composition>

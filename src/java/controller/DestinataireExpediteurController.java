@@ -86,7 +86,7 @@ public class DestinataireExpediteurController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(getSelected());
                 } else {
                     getFacade().remove(selected);
                 }

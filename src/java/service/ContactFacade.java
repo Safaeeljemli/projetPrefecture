@@ -6,6 +6,7 @@
 package service;
 
 import bean.Contact;
+import bean.Employee;
 import bean.Formation;
 import bean.FormationItem;
 import controller.util.DateUtil;
@@ -88,6 +89,25 @@ public class ContactFacade extends AbstractFacade<Contact> {
 return 1;
         
      }
+      
+   public int employeeContact(Employee employee){
+       int res=0;
+        Contact contact=new Contact();
+        if(employee.getMail()!=null){
+            if(employee.getNom()!=null){
+                if(employee.getPrenom()!=null){
+                    contact.setNom(employee.getNom());
+                    contact.setPrenom(employee.getPrenom());
+                    contact.setMail(employee.getMail());
+                    create(contact);
+                    res= 1;
+                }
+                res= -1;
+            }
+            res= -2;
+        }
+        return res;
+    }
     }
     
 

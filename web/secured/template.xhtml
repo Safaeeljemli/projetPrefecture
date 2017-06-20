@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:p="http://primefaces.org/ui">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
@@ -15,9 +14,15 @@
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>       
         <h:outputScript library="js" name="jsfcrud.js"/>
-        
+
     </h:head>
 
+    <!--    <style >
+            body {
+                background-color:#ccccff;
+               
+            }
+            </style>-->
     <h:body>
 
         <p:growl id="growl" life="3000" />
@@ -28,7 +33,7 @@
                     <h:graphicImage class="imagelink" id="imag1" value="/resources/images/marrakechSafi.png"  style="width:100%;height:70px" ></h:graphicImage>
                     <p:menubar>
                         <p:menuitem value="#{bundle.Home}" outcome="/secured/home/accueil.xhtml" icon="ui-icon-home"/>
-                        
+
                         <p:submenu icon="ui-icon-mail-open" label="Gestion Courrier Arrivee" rendered="#{userController.canAccesseCourrier()}">
                             <p:menuitem icon="ui-icon-search" value="Recherche" outcome="/secured/courrierArrivee/List.xhtml" />
                             <p:menuitem icon="fa-save" value="créer" outcome="/secured/courrierArrivee/CreateCourrierArrivee.xhtml" />
@@ -39,7 +44,7 @@
                             <p:menuitem  value="créer" outcome="/secured/courrierProduit/CreateCourrierProduit.xhtml" />
                         </p:submenu>
                         <p:submenu icon="fa fa-cog" label="Paramétrage">
-                            
+
                             <p:menuitem value="Classe" outcome="/secured/classe/List.xhtml" />
                             <p:submenu  label="Courrier Arrivée" rendered="#{userController.canAccesseCourrier()}" >
                                 <p:menuitem value="Expediteur" outcome="/secured/destinataireExpediteur/List.xhtml" />
@@ -49,7 +54,7 @@
                                 <p:menuitem value="JournalUser" outcome="/secured/journal/List.xhtml" />
                                 <p:menuitem value="HistoryUser" outcome="/secured/history/List.xhtml" />
                             </p:submenu>
-                            
+
                             <p:submenu  label="Courrier Produit" rendered="#{userController.canAccesseCourrier()}">
                                 <p:menuitem value="Destinataire" outcome="/secured/destinataireExpediteur/List.xhtml" />
                                 <p:menuitem value="Finalité" outcome="/secured/finalite/List.xhtml" />
@@ -62,8 +67,8 @@
                         <p:menuitem icon="fa fa-user-plus" value="Gestion Formation" outcome="/secured/formation/List.xhtml"   rendered="#{userController.canAccesseFormation()}"/>
                         <p:menuitem icon="fa fa-user" value="Gestion Employée" outcome="/secured/employee/List.xhtml"  rendered="#{userController.canAccesseEmployee()}"/>
                         <p:menuitem icon="fa fa-user" style="position: absolute;right: 80px;margin: 4px 4px 4px " outcome="/secured/user/Profil.xhtml" title="Profile"  value="#{userController.connectedUser.login}"   />
-                        
-                        
+
+
                         <p:menuitem   icon="fa fa-user" style="position: absolute;right: 20px;margin: 4px 4px 4px "   value="Logout" action="#{userController.seDeConnnecter()}" />
                     </p:menubar>
 
@@ -73,9 +78,10 @@
             <p:layoutUnit position="south" size="35">
                 <ui:insert name="footer"/>
                 <h:form>
-                <p:outputLabel value="E-Mail : wilaya.marrakech.asfi@gmail.com" style="color: #5F9EA0"/>
-                <p:commandLink   value="Contactez-nous" actionListener="#{userController.prepareCreate}"  style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 "  ></p:commandLink>
-                <!--<p:outputLabel style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 " value="Contactez-nous"  />-->
+                    <p:outputLabel value="E-Mail : wilaya.marrakech.asfi@gmail.com" style="color: #5F9EA0"/>
+                        <p:outputLabel style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0">Copyright &copy; PFE FSTG SIR 2016-2017</p:outputLabel>
+                    <!--<p:commandLink   value="Contactez-nous" actionListener="{userController.prepareCreate}"  style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 "  ></p:commandLink>-->
+                    <!--<p:outputLabel style="position: absolute;right: 20px;margin: 4px 4px 4px;color: #5F9EA0 " value="Contactez-nous"  />-->
                 </h:form>
             </p:layoutUnit>
 

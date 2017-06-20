@@ -27,9 +27,10 @@ public class Formateur implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nom;
-    private int Tel;
+    private String Tel;
     private String mail;
     private String cin;
+    private int type;//1-externe 2-interne
     @ManyToOne
     private Employee employee;
 @OneToMany(mappedBy = "formateur")
@@ -71,11 +72,11 @@ public class Formateur implements Serializable {
         this.nom = nom;
     }
 
-    public int getTel() {
+    public String getTel() {
         return Tel;
     }
 
-    public void setTel(int Tel) {
+    public void setTel(String Tel) {
         this.Tel = Tel;
     }
 
@@ -89,6 +90,14 @@ public class Formateur implements Serializable {
 
     public String getCin() {
         return cin;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setCin(String cin) {

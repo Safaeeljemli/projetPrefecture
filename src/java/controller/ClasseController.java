@@ -104,8 +104,8 @@ public class ClasseController implements Serializable {
         thisClasse=classe;
         try {
             System.out.println("ssclass");
-            classe.setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
-            if(classe.getSousClasses()!=null){
+            setSousClasses(sousClasseFacade.findSousClasseByClasse(classe));
+            if(getSousClasses()!=null){
                 System.out.println(" sous class :!!!null");
             }
         } catch (Exception e) {
@@ -135,6 +135,16 @@ public class ClasseController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
+    
+     public void createSousClasse() {
+                System.out.println(""+sousClasseToCreate.getNom());
+        sousClasseFacade.create(sousClasseToCreate);
+        System.out.println("tache"+sousClasseToCreate.getNom());
+        sousClasses.add(sousClasseFacade.clone(sousClasseToCreate));
+        JsfUtil.addSuccessMessage("Tache creé");
+        sousClasseToCreate = new SousClasse();
+    }
+    
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ClasseUpdated"));
@@ -160,7 +170,7 @@ public class ClasseController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(getSelected());
                 } else {
                     getFacade().remove(selected);
                 }

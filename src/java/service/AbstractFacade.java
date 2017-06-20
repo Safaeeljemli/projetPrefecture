@@ -5,7 +5,10 @@
  */
 package service;
 
+import bean.History;
+import bean.Journal;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 
 /**
@@ -14,6 +17,9 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
 
+    @EJB
+    private JournalFacade journalFacade;
+    
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -29,8 +35,22 @@ public abstract class AbstractFacade<T> {
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }
+     public void savedEdite(T entity) {
+        journalFacade.createJournal(entity, 2);
+        edit(entity);
+
+    }
+//     public void remove(T entity) {
+//        if (!(entity instanceof Journal) && !(entity instanceof History)) {
+//            journalFacade.createJournal(entity, 1);
+//        }
+//        getEntityManager().remove(getEntityManager().merge(entity));
+//    }
 
     public void remove(T entity) {
+        if (!(entity instanceof Journal) && !(entity instanceof History)) {
+            journalFacade.createJournal(entity, 1);
+        }
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 

@@ -20,10 +20,8 @@
                                            var="chefDepItem"
                                            itemValue="#{chefDepItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateDepartementLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{departementController.selected.id}" title="#{bundle.CreateDepartementTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{departementController.create}" value="#{bundle.Save}" update="display,:DepartementListForm:datalist,:growl" oncomplete="handleSubmit(args,'DepartementCreateDialog');"/>
+                    <p:commandButton actionListener="#{departementController.create}" value="#{bundle.Save}" update=":StagiaireCreateForm" oncomplete="handleSubmit(args,'DepartementCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DepartementCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

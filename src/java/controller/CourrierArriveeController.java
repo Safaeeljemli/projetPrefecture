@@ -68,15 +68,15 @@ public class CourrierArriveeController implements Serializable {
     private boolean motsCleCheck = true;
     private boolean objetCheck = true;
     private boolean modeTraitementCheck = true;
-    private boolean n_DRHMGCheck = true;
-    private boolean n_enCheck = true;
-    private boolean n_BOW_TRANS_RLANcheck = true;
+    private boolean n_DRHMGCheck = false;
+    private boolean n_enCheck = false;
+    private boolean n_BOW_TRANS_RLANcheck = false;
     private boolean codeA_Vcheck = true;
     private boolean dateEnregcheck = true;
-    private boolean dateBOW_TRANS_RLANcheck = true;
-    private boolean sousClasseCheck = true;
+    private boolean dateBOW_TRANS_RLANcheck = false;
+    private boolean sousClasseCheck = false;
     private boolean optionCheck = true;
-    private boolean testCheck = true;
+//    private boolean testCheck = true;
 
     
     private int i = 0;
@@ -123,13 +123,7 @@ public class CourrierArriveeController implements Serializable {
         this.myDataList = myDataList;
     }
 
-    public boolean isTestCheck() {
-        return testCheck;
-    }
-
-    public void setTestCheck(boolean testCheck) {
-        this.testCheck = testCheck;
-    }
+   
 
     public Long getN_DRHMG() {
         return n_DRHMG;
@@ -525,7 +519,7 @@ public class CourrierArriveeController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(getSelected());
                 } else {
                     getFacade().remove(selected);
                 }

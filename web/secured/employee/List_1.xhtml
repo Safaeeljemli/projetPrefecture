@@ -4,96 +4,85 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="../template.xhtml">
 
 
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListEmployeeTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ListTacheTitle}"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
-                <h:form id="EmployeeListForm">
-                    <p:panel header="#{bundle.ListEmployeeTitle}">
-                        <p:dataTable id="datalist" value="#{employeeController.items}" var="item"
-                            selectionMode="single" selection="#{employeeController.selected}"
-                            paginator="true"
-                            rowKey="#{item.id}"
-                            rows="10"
-                            rowsPerPageTemplate="10,20,30,40,50"
-                            >
+            <div class="col-lg-2" style="background:lightgoldenrodyellow">
+                <p:fieldset style="margin-left: -15px;height:500px" >
+                    <b:listLinks class="center-block" style="margin-top: 100px;background:lightgoldenrodyellow">
+                        <b:navCommandLink value="Employé taches" />
+                        <b:navCommandLink value="Taches en cours"   />
+                        <b:navCommandLink value="Taches en retard"  />
+                    </b:listLinks>
+                </p:fieldset>
+            </div>
 
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                            <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+            <div class="col-lg-10" >
+                <div Class="ui-grid ui-grid-responsive" >
+                    <div Class="ui-grid-row" >
+                        <div Class="ui-grid-col-10 center-block">
+                            <p:fieldset legend="Taches Employé:" style="background: lightyellow; margin-top: 2%" class="center-block"   >
+                                <h:form id="TacheListForm">
+                                    <p:panel header="#{bundle.ListTacheTitle}">
+                                        <center>
+                                            <p:panelGrid columns="4">
+            
+                                                <p:column styleClass="text-font">
+                                                    <p:outputLabel value="CIN" for="employee" />
+                                                </p:column>
+                                                <p:column styleClass="text-font">
+                                                    <p:inputText id="employee"   value="#{employeeController.cin}" />
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_nom}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.nom}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_numPoste}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.numPoste}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_prenom}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.prenom}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_cin}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.cin}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_typeEmployee}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.typeEmployee}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_mail}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.mail}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_numTel}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.numTel}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_departement}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.departement}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListEmployeeTitle_id}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.id}"/>
-                            </p:column>
-                            <f:facet name="footer">
-                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{employeeController.prepareCreate}" update=":EmployeeCreateForm" oncomplete="PF('EmployeeCreateDialog').show()"/>
-                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":EmployeeViewForm" oncomplete="PF('EmployeeViewDialog').show()" disabled="#{empty employeeController.selected}"/>
-                                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EmployeeEditForm" oncomplete="PF('EmployeeEditDialog').show()" disabled="#{empty employeeController.selected}"/>
-                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{employeeController.destroy}" update=":growl,datalist" disabled="#{empty employeeController.selected}"/>
-                            </f:facet>
-                        </p:dataTable>
-                    </p:panel>
-                </h:form>
+                                                </p:column>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
+
+                                                <b:commandButton value="Rechecher"  icon="glyphicon glyphicon-search"  actionListener="#{employeeController.findEmployeeByCin()}" update=":TacheListForm:datalist"/>
+                                            </p:panelGrid>
+                                        </center>
+                                        <b:dataTable ajax="true" page-length="5" page-length-menu="[5,10,15]"  searching="false" id="datalist" value="#{employeeController.taches}" var="item" >
+
+                                           
+                                            <b:dataTableColumn class="colData">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListTacheTitle_nom}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.nom}"/>
+                                            </b:dataTableColumn>
+                                            <b:dataTableColumn class="colData">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListTacheTitle_avancement}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.avancement=='1'?'retard':'2'?'En Cours':'Terminé'}"/>
+                                            </b:dataTableColumn>
+                                            <b:dataTableColumn class="colData">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListTacheTitle_importance}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.importance=='1'?'important':'2'?'Tres important':' important'}"/>
+                                            </b:dataTableColumn>
+                                            <b:dataTableColumn class="colData">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Option"/>
+                                                </f:facet>
+                                                <p:commandButton id="viewButton"   icon="ui-icon-search" />
+                                                <p:commandButton id="editButton"   icon="ui-icon-pencil"   />
+                                            </b:dataTableColumn>
+                                        </b:dataTable>
+                                    </p:panel>
+                                </h:form>
+                            </p:fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </ui:define>
     </ui:composition>
 

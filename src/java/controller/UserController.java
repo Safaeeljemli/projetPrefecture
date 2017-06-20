@@ -62,7 +62,7 @@ public class UserController implements Serializable {
     }
 
     //CONNEXION
-    public void connecte() {
+    public void connecte() throws IOException {
         int res = ejbFacade.seConnnecter(getSelected());
         switch (res) {
             case (-5):
@@ -72,6 +72,7 @@ public class UserController implements Serializable {
                 JsfUtil.addErrorMessage("Login n'existe pas");
                 break;
             case (-1):
+                SessionUtil.redirectNoXhtml("/Project/faces/secured/home/accueil.xhtml");
                 JsfUtil.addErrorMessage("User deja connecter veuiller vous deconnecter des autre device ou notifier votre admin ");
                 break;
             case (-2):
@@ -278,7 +279,7 @@ public class UserController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(selected);
                 } else {
                     getFacade().remove(selected);
                 }

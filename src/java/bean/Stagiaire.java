@@ -29,7 +29,7 @@ public class Stagiaire implements Serializable {
     private String prenom;
     private String cin;
     private String mail;
-    private Long numTel;
+    private String numTel;
     private int genre;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebut;
@@ -95,11 +95,11 @@ public class Stagiaire implements Serializable {
         this.mail = mail;
     }
 
-    public Long getNumTel() {
+    public String getNumTel() {
         return numTel;
     }
 
-    public void setNumTel(Long numTel) {
+    public void setNumTel(String numTel) {
         this.numTel = numTel;
     }
 

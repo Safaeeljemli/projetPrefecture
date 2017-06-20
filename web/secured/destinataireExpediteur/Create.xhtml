@@ -15,7 +15,7 @@
                         <p:outputLabel value="#{bundle.CreateDestinataireExpediteurLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{destinataireExpediteurController.selected.nom}" title="#{bundle.CreateDestinataireExpediteurTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{destinataireExpediteurController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'DestinataireExpediteurCreateDialog');"/>
+                    <p:commandButton actionListener="#{destinataireExpediteurController.create}" value="#{bundle.Save}" update=":CourrierCreateForm" oncomplete="handleSubmit(args,'DestinataireExpediteurCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DestinataireExpediteurCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

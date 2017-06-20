@@ -89,7 +89,7 @@ public class DomaineController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().savedEdite(selected);
                 } else {
                     getFacade().remove(selected);
                 }
